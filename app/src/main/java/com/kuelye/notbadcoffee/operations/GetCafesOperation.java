@@ -1,4 +1,4 @@
-package com.kuelye.components.concurrent;
+package com.kuelye.notbadcoffee.operations;
 
 /*
  * Not Bad Coffee for Android. 
@@ -17,20 +17,22 @@ package com.kuelye.components.concurrent;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
-import static android.os.Process.setThreadPriority;
+import android.util.Log;
 
-class Thread extends java.lang.Thread {
+import com.kuelye.components.concurrent.AbstractOperation;
+import com.kuelye.components.utils.NetworkUtils;
 
-  public Thread(Runnable r) {
-    super(r);
-  }
+import static com.kuelye.notbadcoffee.ProjectConfig.CAFES_REQUEST;
+
+public class GetCafesOperation extends AbstractOperation<Void> {
 
   @Override
-  public void run() {
-    setThreadPriority(THREAD_PRIORITY_BACKGROUND);
-
-    super.run();
+  public void doCall() {
+    try {
+      Log.w("GUB", "# " + NetworkUtils.getResponse(CAFES_REQUEST));
+    } catch (Exception e){
+      Log.e("GUB", "E ", e);
+    }
   }
 
 }

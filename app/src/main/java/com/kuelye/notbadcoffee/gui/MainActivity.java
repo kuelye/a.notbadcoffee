@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee;
+package com.kuelye.notbadcoffee.gui;
 
 /*
  * Not Bad Coffee for Android.
@@ -23,9 +23,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.kuelye.components.concurrent.AbstractOperation;
-import com.kuelye.components.utils.NetworkUtils;
-
-import static com.kuelye.notbadcoffee.ProjectConfig.CAFES_REQUEST;
+import com.kuelye.notbadcoffee.R;
+import com.kuelye.notbadcoffee.operations.GetCafesOperation;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -35,20 +34,13 @@ public class MainActivity extends AppCompatActivity {
 
     setContentView(R.layout.main_activity);
 
-    (new AbstractOperation<Void>() {
-
-      @Override
-      public Void call() throws Exception {
-        try {
-          Log.w("GUB", "# " + NetworkUtils.getResponse(CAFES_REQUEST));
-        } catch (Exception e){
-          Log.e("GUB", "E ", e);
-        }
-
-        return null;
-      }
-
-    }).execute();
+    (new GetCafesOperation())
+        .addListener(new AbstractOperation.Listener<Void>() {
+          @Override
+          public void onComplete(Void result) {
+            Log.w("GUB", "onComplete");
+          }
+        }).execute();
   }
 
 }

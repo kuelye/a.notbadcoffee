@@ -17,11 +17,30 @@ package com.kuelye.components.concurrent;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import static android.os.Process.THREAD_PRIORITY_BACKGROUND;
+import static android.os.Process.setThreadPriority;
+
 class ThreadFactory implements java.util.concurrent.ThreadFactory {
 
   @Override
   public Thread newThread(Runnable r) {
     return new Thread(r);
+  }
+
+  /* ============================ INNER ============================= */
+
+  private class Thread extends java.lang.Thread {
+
+    public Thread(Runnable r) {
+      super(r);
+    }
+
+    @Override
+    public void run() {
+      setThreadPriority(THREAD_PRIORITY_BACKGROUND);
+
+      super.run();
+    }
 
   }
 

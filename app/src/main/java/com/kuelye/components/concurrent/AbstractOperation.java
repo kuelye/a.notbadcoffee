@@ -17,13 +17,61 @@ package com.kuelye.components.concurrent;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 public abstract class AbstractOperation<R> implements Callable<R> {
 
+  @Nullable private R mResult;
+
+  @NonNull private final List<Listener<R>> mListeners = new CopyOnWriteArrayList<>();
+
+  public abstract void doCall();
+
   public Future<R> execute() {
     return ThreadPoolExecutor.getInstance().submit(this);
+  }
+
+  @Override
+  public final R call() {
+    try {
+      doCall();
+
+      return getResult();
+    } finally {
+      onComplete();
+    }
+  }
+
+  public AbstractOperation<R> addListener(
+      @NonNull final Listener<R> listener) {
+    mListeners.add(listener);
+
+    return this;
+  }
+
+  public R getResult() {
+    return mResult;
+  }
+
+  /* =========================== HIDDEN ============================= */
+
+  private void onComplete() {
+    for (Listener<R> listener : mListeners) {
+      listener.onComplete(mResult);
+    }
+  }
+
+  /* =========================== INNER ============================== */
+
+  public interface Listener<R> {
+    void onComplete(R result);
   }
 
 }
