@@ -1,0 +1,28 @@
+{
+  "meta": {
+    "code": 200
+  },
+  "cafes": [
+    {
+      "name": "DoubleB",
+      "places": [
+        {
+          "address": "Кронверкский пр., 65",
+          "metro": "м. Горьковская",
+          "location": {
+            "latitude": 59.95359,
+            "longitude": 30.306154
+          }
+        },
+        {
+          "address": "ул. Миллионная, 18",
+          "metro": "м. Адмиралтейская",
+          "location": {
+            "latitude": 59.942762,
+            "longitude": 30.322492
+          }
+        }
+      ]
+    }
+  ]
+}
