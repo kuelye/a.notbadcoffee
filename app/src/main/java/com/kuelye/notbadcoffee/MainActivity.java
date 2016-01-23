@@ -17,16 +17,13 @@ package com.kuelye.notbadcoffee;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.kuelye.components.concurrent.AbstractOperation;
 import com.kuelye.components.utils.NetworkUtils;
-
-import java.io.File;
 
 import static com.kuelye.notbadcoffee.ProjectConfig.CAFES_REQUEST;
 
@@ -38,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
 
     setContentView(R.layout.main_activity);
 
-    Log.d("GUB", Uri.parse("file:///android_asset/data.json").toString());
-    (new AsyncTask<Void, Void, Void>() {
+    (new AbstractOperation<Void>() {
+
       @Override
-      protected Void doInBackground(Void... params) {
+      public Void call() throws Exception {
         try {
           Log.w("GUB", "# " + NetworkUtils.getResponse(CAFES_REQUEST));
         } catch (Exception e){
@@ -50,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         return null;
       }
+
     }).execute();
   }
 
