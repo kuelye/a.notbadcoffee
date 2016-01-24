@@ -27,21 +27,27 @@ import static com.kuelye.components.utils.IOUtils.readFullyAndCloseSilently;
 
 public final class NetworkUtils {
 
-  private static final String RESPONSE_ENCODING_DEFAULT = "UTF-8";
+  private static final String RESPONSE_ENCODING_DEFAULT = StringUtils.ENCODING_DEFAULT;
 
-  public static String getResponse(
+  @NonNull public static String getResponse(
       @NonNull final String request)
       throws IOException {
     return getResponse(request, RESPONSE_ENCODING_DEFAULT);
   }
 
-  public static String getResponse(
+  @NonNull public static String getResponse(
       @NonNull final String request
       , @NonNull final String responseEncoding)
       throws IOException {
-    final URL url = new URL(request);
-    final InputStream in = url.openConnection().getInputStream();
+    final InputStream in = getResponseInputStream(request);
     return readFullyAndCloseSilently(in, responseEncoding);
+  }
+
+  @NonNull public static InputStream getResponseInputStream(
+      @NonNull final String request)
+      throws IOException {
+    final URL url = new URL(request);
+    return url.openConnection().getInputStream();
   }
 
 }

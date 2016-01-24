@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee;
+package com.kuelye.notbadcoffee.model;
 
 /*
  * Not Bad Coffee for Android. 
@@ -17,8 +17,30 @@ package com.kuelye.notbadcoffee;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-public final class ProjectConfig {
+public class Location {
 
-  public static final String GET_CAFES_REQUEST = "http://kuelye.github.io/cafes.json";
+  private double mLatitude;
+  private double mLongitude;
+
+  public Location(double latitude, double longitude) {
+    mLatitude = latitude;
+    mLongitude = longitude;
+  }
+
+  public double getLatitude() {
+    return mLatitude;
+  }
+
+  public double getLongitude() {
+    return mLongitude;
+  }
+
+  @Override
+  public String toString() {
+    return "Location{" +
+        "mLatitude=" + mLatitude +
+        ", mLongitude=" + mLongitude +
+        '}';
+  }
 
 }

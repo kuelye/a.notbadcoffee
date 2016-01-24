@@ -20,19 +20,37 @@ package com.kuelye.notbadcoffee.operations;
 import android.util.Log;
 
 import com.kuelye.components.concurrent.AbstractOperation;
-import com.kuelye.components.utils.NetworkUtils;
+import com.kuelye.notbadcoffee.model.Cafe;
+import com.kuelye.notbadcoffee.readers.json.CafeJsonParser;
 
-import static com.kuelye.notbadcoffee.ProjectConfig.CAFES_REQUEST;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-public class GetCafesOperation extends AbstractOperation<Void> {
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.kuelye.components.utils.NetworkUtils.getResponse;
+import static com.kuelye.notbadcoffee.ProjectConfig.GET_CAFES_REQUEST;
+
+public class GetCafesOperation extends AbstractOperation<List<Cafe>> {
+
+  private static final String CAFES_KEY_NAME = "cafes";
 
   @Override
-  public void doCall() {
-    try {
-      Log.w("GUB", "# " + NetworkUtils.getResponse(CAFES_REQUEST));
-    } catch (Exception e){
-      Log.e("GUB", "E ", e);
+  public void doCall() throws Exception {
+    final String response = getResponse(GET_CAFES_REQUEST);
+    final JSONObject responseJsonObject = new JSONObject(response);
+
+    final JSONArray cafesJsonObject = responseJsonObject.getJSONArray(CAFES_KEY_NAME);
+    final CafeJsonParser cafeJsonParser = new CafeJsonParser();
+    final List<Cafe> cafes = new ArrayList<>();
+    for (int i = 0; i < cafesJsonObject.length(); i++) {
+      final JSONObject cafeJsonObject = cafesJsonObject.getJSONObject(i);
+      final Cafe cafe = cafeJsonParser.parse(cafeJsonObject);
+      cafes.add(cafe);
     }
+
+    setResult(cafes);
   }
 
 }

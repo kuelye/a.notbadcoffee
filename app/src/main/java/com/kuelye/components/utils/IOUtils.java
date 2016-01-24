@@ -29,7 +29,7 @@ public final class IOUtils {
 
   private static final int BUFFER_SIZE = 1024;
 
-  public static String readFullyAndCloseSilently(
+  @NonNull public static String readFullyAndCloseSilently(
       @NonNull final InputStream in
       , @NonNull final String encoding)
       throws IOException {

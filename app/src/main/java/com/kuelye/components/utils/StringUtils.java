@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee;
+package com.kuelye.components.utils;
 
 /*
  * Not Bad Coffee for Android. 
@@ -17,8 +17,8 @@ package com.kuelye.notbadcoffee;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-public final class ProjectConfig {
+public final class StringUtils {
 
-  public static final String GET_CAFES_REQUEST = "http://kuelye.github.io/cafes.json";
+  public static final String ENCODING_DEFAULT = "UTF-8";
 
 }

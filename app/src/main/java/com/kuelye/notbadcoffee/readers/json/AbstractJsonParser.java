@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee;
+package com.kuelye.notbadcoffee.readers.json;
 
 /*
  * Not Bad Coffee for Android. 
@@ -17,8 +17,16 @@ package com.kuelye.notbadcoffee;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-public final class ProjectConfig {
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-  public static final String GET_CAFES_REQUEST = "http://kuelye.github.io/cafes.json";
+import com.kuelye.notbadcoffee.readers.AbstractParser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public abstract class AbstractJsonParser<R> extends AbstractParser<JSONObject, R> {
+
+  @Nullable public abstract R parse(@NonNull JSONObject jsonObject) throws JSONException;
 
 }

@@ -19,12 +19,12 @@ package com.kuelye.components.concurrent;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 
 public abstract class AbstractOperation<R> implements Callable<R> {
 
@@ -32,7 +32,7 @@ public abstract class AbstractOperation<R> implements Callable<R> {
 
   @NonNull private final List<Listener<R>> mListeners = new CopyOnWriteArrayList<>();
 
-  public abstract void doCall();
+  public abstract void doCall() throws Exception;
 
   public Future<R> execute() {
     return ThreadPoolExecutor.getInstance().submit(this);
@@ -42,11 +42,13 @@ public abstract class AbstractOperation<R> implements Callable<R> {
   public final R call() {
     try {
       doCall();
-
-      return getResult();
+    } catch (Exception e) {
+      Log.d("GUB", "& ", e); // TODO
     } finally {
       onComplete();
     }
+
+    return getResult();
   }
 
   public AbstractOperation<R> addListener(
@@ -56,7 +58,11 @@ public abstract class AbstractOperation<R> implements Callable<R> {
     return this;
   }
 
-  public R getResult() {
+  protected void setResult(@Nullable R result) {
+    mResult = result;
+  }
+
+  @Nullable public R getResult() {
     return mResult;
   }
 

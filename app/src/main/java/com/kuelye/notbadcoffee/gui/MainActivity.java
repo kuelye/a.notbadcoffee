@@ -24,7 +24,10 @@ import android.util.Log;
 
 import com.kuelye.components.concurrent.AbstractOperation;
 import com.kuelye.notbadcoffee.R;
+import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.operations.GetCafesOperation;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,11 +37,11 @@ public class MainActivity extends AppCompatActivity {
 
     setContentView(R.layout.main_activity);
 
-    (new GetCafesOperation())
-        .addListener(new AbstractOperation.Listener<Void>() {
+    new GetCafesOperation()
+        .addListener(new AbstractOperation.Listener<List<Cafe>>() {
           @Override
-          public void onComplete(Void result) {
-            Log.w("GUB", "onComplete");
+          public void onComplete(List<Cafe> result) {
+            Log.w("GUB", "onComplete: " + result);
           }
         }).execute();
   }
