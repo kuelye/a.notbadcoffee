@@ -12,7 +12,7 @@
 
 
         <activity
-            android:name=".gui.MainActivity"
+            android:name=".gui.activities.MainActivity"
             >
 
             <intent-filter>

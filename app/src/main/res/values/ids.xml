@@ -5,4 +5,12 @@
 
     <item name="toolbar" type="id" />
 
+    <!-- main_activity -->
+
+    <item name="cafes_fragment" type="id" />
+
+    <!-- cafe_row -->
+
+    <item name="cafe_row_name_textview" type="id" />
+
 </resources>

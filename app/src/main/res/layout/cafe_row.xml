@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/single_line_block_height_dense"
+        android:paddingLeft="@dimen/padding_half_standard"
+        android:paddingRight="@dimen/padding_half_standard"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@id/cafe_row_name_textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/padding_half_standard"
+            android:paddingRight="@dimen/padding_half_standard"
+            android:textAppearance="@style/TextAppearance.AppTheme.Title"
+            tools:text="Central"
+            />
+    </LinearLayout>
+
+</LinearLayout>

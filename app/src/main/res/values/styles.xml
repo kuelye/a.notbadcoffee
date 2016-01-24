@@ -6,4 +6,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="TextAppearance.AppTheme.Title" parent="TextAppearance.AppCompat.Title">
+        <!-- stub -->
+    </style>
+
 </resources>

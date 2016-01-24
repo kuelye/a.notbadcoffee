@@ -1,7 +1,7 @@
-package com.kuelye.notbadcoffee.gui;
+package com.kuelye.notbadcoffee.gui.fragments;
 
 /*
- * Not Bad Coffee for Android.
+ * Not Bad Coffee for Android. 
  * Copyright (C) 2016 Alexey Leshchuk.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -17,31 +17,57 @@ package com.kuelye.notbadcoffee.gui;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v4.app.ListFragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.kuelye.components.concurrent.AbstractOperation;
 import com.kuelye.notbadcoffee.R;
+import com.kuelye.notbadcoffee.gui.adapters.CafesAdapter;
 import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.operations.GetCafesOperation;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class CafesFragment extends ListFragment {
+
+  private CafesAdapter mCafesAdapter;
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    setContentView(R.layout.main_activity);
+    mCafesAdapter = new CafesAdapter(getContext());
+    setListAdapter(mCafesAdapter);
+  }
 
+  @SuppressLint("InflateParams")
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    return inflater.inflate(R.layout.cafes_fragment, null);
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+
+    update();
+  }
+
+  /* =========================== HIDDEN ============================= */
+
+  private void update() {
     new GetCafesOperation()
         .addListener(new AbstractOperation.Listener<List<Cafe>>() {
           @Override
           public void onComplete(List<Cafe> result) {
-            Log.w("GUB", "onComplete: " + result);
+            mCafesAdapter.clear();
+            mCafesAdapter.addAll(result);
           }
         }).execute();
   }
