@@ -19,8 +19,9 @@ package com.kuelye.notbadcoffee.gui.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ListFragment;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,23 +34,25 @@ import com.kuelye.notbadcoffee.operations.GetCafesOperation;
 
 import java.util.List;
 
-public class CafesFragment extends ListFragment {
+public class CafesFragment extends Fragment {
 
+  private RecyclerView mRecyclerView;
+  private LinearLayoutManager mLayoutManager;
   private CafesAdapter mCafesAdapter;
-
-  @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-
-    mCafesAdapter = new CafesAdapter(getContext());
-    setListAdapter(mCafesAdapter);
-  }
 
   @SuppressLint("InflateParams")
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.cafes_fragment, null);
+    final View view = inflater.inflate(R.layout.cafes_fragment, null);
+
+    mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+    mLayoutManager = new LinearLayoutManager(getContext());
+    mRecyclerView.setLayoutManager(mLayoutManager);
+    mCafesAdapter = new CafesAdapter();
+    mRecyclerView.setAdapter(mCafesAdapter);
+
+    return view;
   }
 
   @Override
@@ -66,8 +69,7 @@ public class CafesFragment extends ListFragment {
         .addListener(new AbstractOperation.Listener<List<Cafe>>() {
           @Override
           public void onComplete(List<Cafe> result) {
-            mCafesAdapter.clear();
-            mCafesAdapter.addAll(result);
+            mCafesAdapter.set(result);
           }
         }).execute();
   }

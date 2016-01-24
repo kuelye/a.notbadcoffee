@@ -17,49 +17,62 @@ package com.kuelye.notbadcoffee.gui.adapters;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.annotation.SuppressLint;
-import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.model.Cafe;
 
-public class CafesAdapter extends ArrayAdapter<Cafe> {
+import java.util.ArrayList;
+import java.util.List;
 
-  public CafesAdapter(Context context) {
-    super(context, R.layout.cafe_row);
+public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.ViewHolder> {
+
+  private final Object mLock = new Object();
+  private List<Cafe> mCafes = new ArrayList<>();
+
+  @Override
+  public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    final View view = LayoutInflater.from(parent.getContext())
+        .inflate(R.layout.cafe_row, parent, false);
+
+    return new ViewHolder(view);
   }
 
-  @SuppressLint("InflateParams")
   @Override
-  public View getView(int position, View convertView, ViewGroup parent) {
-    if (convertView == null) {
-      final LayoutInflater mLayoutInflater
-          = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-      convertView = mLayoutInflater.inflate(R.layout.cafe_row, null);
+  public void onBindViewHolder(ViewHolder holder, int position) {
+    final Cafe cafe = mCafes.get(position);
+    holder.nameTextView.setText(cafe.getName());
+  }
 
-      final CafeViewHolder cafeViewHolder = new CafeViewHolder();
-      cafeViewHolder.nameTextView
-          = (TextView) convertView.findViewById(R.id.cafe_row_name_textview);
-      convertView.setTag(cafeViewHolder);
+  @Override
+  public int getItemCount() {
+    return mCafes.size();
+  }
+
+  public void set(@NonNull List<Cafe> cafes) {
+    synchronized (mLock) {
+      mCafes = cafes;
     }
 
-    final Cafe cafe = getItem(position);
-    final CafeViewHolder cafeViewHolder = (CafeViewHolder) convertView.getTag();
-    cafeViewHolder.nameTextView.setText(cafe.getName());
-
-    return convertView;
+    notifyDataSetChanged();
   }
 
   /* =========================== INNER ============================== */
 
-  private static class CafeViewHolder {
+  static class ViewHolder extends RecyclerView.ViewHolder {
 
     public TextView nameTextView;
+
+    public ViewHolder(View view) {
+      super(view);
+
+      nameTextView = (TextView) view.findViewById(R.id.cafe_row_name_textview);
+    }
 
   }
 
