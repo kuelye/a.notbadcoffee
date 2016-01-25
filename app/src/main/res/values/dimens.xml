@@ -4,8 +4,12 @@
     <!-- COMMON -->
 
     <dimen name="padding_standard">16dp</dimen>
-    <dimen name="padding_half_standard">8dp</dimen>
+    <dimen name="padding_standard_three_quarters">12dp</dimen>
+    <dimen name="padding_standard_half">8dp</dimen>
+    <dimen name="padding_standard_quarter">4dp</dimen>
 
-    <dimen name="single_line_block_height_dense">48dp</dimen>
+    <dimen name="clickable_min_size">48dp</dimen>
+    <dimen name="avatar_size">40dp</dimen>
+    <dimen name="border_width">1dp</dimen>
 
 </resources>

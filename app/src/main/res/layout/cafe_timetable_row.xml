@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    >
+
+    <TextView
+        android:id="@id/cafe_timetable_row_day_textview"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/padding_standard"
+        android:ellipsize="end"
+        android:singleLine="true"
+        tools:text="Будни" />
+
+    <TextView
+        android:id="@id/cafe_timetable_row_time_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="9:00 - 23:00" />
+</LinearLayout>

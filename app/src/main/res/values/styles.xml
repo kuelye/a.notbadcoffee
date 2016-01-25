@@ -6,8 +6,21 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="TextAppearance.AppTheme.Title" parent="TextAppearance.AppCompat.Title">
+    <style name="AppTheme.ImageView">
         <!-- stub -->
+    </style>
+
+    <style name="AppTheme.ImageView.Icon" parent="AppTheme.ImageView">
+        <item name="android:alpha">0.54</item>
+    </style>
+
+    <style name="AppTheme.ImageView.ClickableIcon" parent="AppTheme.ImageView.Icon">
+        <item name="android:padding">@dimen/padding_standard_three_quarters</item>
+    </style>
+
+    <style name="AppTheme.ImageView.Avatar" parent="AppTheme.ImageView">
+        <item name="android:layout_width">@dimen/avatar_size</item>
+        <item name="android:layout_height">@dimen/avatar_size</item>
     </style>
 
 </resources>

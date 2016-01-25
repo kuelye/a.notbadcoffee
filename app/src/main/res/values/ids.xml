@@ -12,6 +12,33 @@
 
     <!-- cafe_row -->
 
+    <item name="cafe_row_photo_imageview" type="id" />
     <item name="cafe_row_name_textview" type="id" />
+    <item name="cafe_row_location_layout" type="id" />
+    <item name="cafe_row_location_address_textview" type="id" />
+    <item name="cafe_row_location_metro_textview" type="id" />
+    <item name="cafe_row_location_distance_textview" type="id" />
+    <item name="cafe_row_additional_info_header_layout" type="id" />
+    <item name="cafe_row_additional_info_layout" type="id" />
+    <item name="cafe_row_additional_info_open_until_textview" type="id" />
+    <item name="cafe_row_additional_info_menu_listview" type="id" />
+    <item name="cafe_row_additional_info_timetable_listview" type="id" />
+    <item name="cafe_row_additional_info_persons_listview" type="id" />
+    <item name="cafe_row_additional_info_roaster_textview" type="id" />
+
+    <!-- cafe_menu_row -->
+
+    <item name="cafe_menu_row_item_textview" type="id" />
+    <item name="cafe_menu_row_cost_textview" type="id" />
+
+    <!-- cafe_timetable_row -->
+
+    <item name="cafe_timetable_row_day_textview" type="id" />
+    <item name="cafe_timetable_row_time_textview" type="id" />
+
+    <!-- cafe_person_row -->
+
+    <item name="cafe_person_row_avatar_imageview" type="id" />
+    <item name="cafe_person_row_name_textview" type="id" />
 
 </resources>
