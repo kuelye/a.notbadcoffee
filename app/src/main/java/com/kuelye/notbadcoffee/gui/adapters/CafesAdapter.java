@@ -18,15 +18,12 @@ package com.kuelye.notbadcoffee.gui.adapters;
  */
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +34,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.kuelye.components.utils.AndroidUtils.getActionBarHeight;
+import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 
 public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.ViewHolder> {
 
@@ -88,6 +88,26 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.ViewHolder> 
   }
 
   /* =========================== INNER ============================== */
+
+  public static class HeaderDecoration extends RecyclerView.ItemDecoration {
+
+    private final int mHeight;
+
+    public HeaderDecoration(@NonNull Context context) {
+      mHeight = getStatusBarHeight(context) + getActionBarHeight(context);
+    }
+
+    @Override
+    public void getItemOffsets(Rect outRect, View view
+        , RecyclerView parent, RecyclerView.State state) {
+      if (parent.getChildAdapterPosition(view) == 0) {
+        outRect.top = mHeight;
+      } else {
+        outRect.setEmpty();
+      }
+    }
+
+  }
 
   static class ViewHolder extends RecyclerView.ViewHolder {
 

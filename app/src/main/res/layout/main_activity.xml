@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
 
+    <FrameLayout
+        android:id="@id/cafes_fragment"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true" />
+
+    <FrameLayout
+        android:id="@id/stub_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimaryA80" />
+
     <android.support.v7.widget.Toolbar
         android:id="@id/toolbar"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:background="?attr/colorPrimary"
+        android:background="@color/colorPrimaryA80"
+        android:layout_below="@id/stub_view"
         android:minHeight="?attr/actionBarSize" />
-
-    <FrameLayout
-        android:id="@id/cafes_fragment"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent" />
-</LinearLayout>
+</RelativeLayout>

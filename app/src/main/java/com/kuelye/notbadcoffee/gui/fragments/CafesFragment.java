@@ -50,6 +50,7 @@ public class CafesFragment extends Fragment {
     mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
     mLayoutManager = new LinearLayoutManager(getContext());
     mRecyclerView.setLayoutManager(mLayoutManager);
+    mRecyclerView.addItemDecoration(new CafesAdapter.HeaderDecoration(getActivity()));
     mCafesAdapter = new CafesAdapter(getActivity());
     mRecyclerView.setAdapter(mCafesAdapter);
 
