@@ -17,6 +17,7 @@ package com.kuelye.components.concurrent;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -69,8 +70,18 @@ public abstract class AbstractOperation<R> implements Callable<R> {
   /* =========================== HIDDEN ============================= */
 
   private void onComplete() {
-    for (Listener<R> listener : mListeners) {
-      listener.onComplete(mResult);
+    for (final Listener<R> listener : mListeners) {
+      final Handler mainThreadHandler = ThreadPoolExecutor.getMainThreadHandler();
+      if (mainThreadHandler != null) {
+        mainThreadHandler.post(new Runnable() {
+          @Override
+          public void run() {
+            listener.onComplete(mResult);
+          }
+        });
+      } else {
+        // TODO throw error
+      }
     }
   }
 

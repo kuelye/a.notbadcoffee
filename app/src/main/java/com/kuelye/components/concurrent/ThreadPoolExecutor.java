@@ -17,6 +17,11 @@ package com.kuelye.components.concurrent;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.os.Handler;
+import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -25,6 +30,8 @@ class ThreadPoolExecutor extends java.util.concurrent.ThreadPoolExecutor {
   private static final int POOL_SIZE_DEFAULT = 3;
   private static final long KEEP_ALIVE_TIME_MS_DEFAULT = 0;
 
+  @Nullable private Handler mMainThreadHandler;
+
   private static class ThreadPoolExecutorHolder {
     static final ThreadPoolExecutor INSTANCE = new ThreadPoolExecutor();
   }
@@ -32,10 +39,17 @@ class ThreadPoolExecutor extends java.util.concurrent.ThreadPoolExecutor {
   private ThreadPoolExecutor() {
     super(POOL_SIZE_DEFAULT, POOL_SIZE_DEFAULT, KEEP_ALIVE_TIME_MS_DEFAULT
         , TimeUnit.MILLISECONDS, new PriorityBlockingQueue<Runnable>(), new ThreadFactory());
+
+    mMainThreadHandler = new Handler(Looper.getMainLooper());
   }
 
   public static ThreadPoolExecutor getInstance() {
     return ThreadPoolExecutorHolder.INSTANCE;
   }
+
+  @Nullable public static Handler getMainThreadHandler() {
+    return getInstance().mMainThreadHandler;
+  }
+
 
 }
