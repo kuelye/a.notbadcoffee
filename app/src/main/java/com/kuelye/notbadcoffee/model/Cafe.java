@@ -18,6 +18,7 @@ package com.kuelye.notbadcoffee.model;
  */
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.List;
 

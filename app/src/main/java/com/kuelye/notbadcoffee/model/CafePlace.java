@@ -18,14 +18,17 @@ package com.kuelye.notbadcoffee.model;
  */
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 public class CafePlace {
 
   @NonNull private final String mAddress;
   @NonNull private final String mMetro;
   @NonNull private final Location mLocation;
+  @Nullable private final String mPhoto;
 
   private CafePlace(Builder builder) {
+    mPhoto = builder.mPhoto;
     mAddress = builder.mAddress;
     mMetro = builder.mMetro;
     mLocation = builder.mLocation;
@@ -43,12 +46,17 @@ public class CafePlace {
     return mLocation;
   }
 
+  @Nullable public String getPhoto() {
+    return mPhoto;
+  }
+
   @Override
   public String toString() {
     return "CafePlace{" +
         "mAddress='" + mAddress + '\'' +
         ", mMetro='" + mMetro + '\'' +
         ", mLocation=" + mLocation +
+        ", mPhoto='" + mPhoto + '\'' +
         '}';
   }
 
@@ -59,11 +67,18 @@ public class CafePlace {
     @NonNull private final String mAddress;
     @NonNull private final String mMetro;
     @NonNull private final Location mLocation;
+    @Nullable private String mPhoto;
 
     public Builder(@NonNull String address, @NonNull String metro, @NonNull Location location) {
       mAddress = address;
       mMetro = metro;
       mLocation = location;
+    }
+
+    public Builder setPhoto(@Nullable String photo) {
+      mPhoto = photo;
+
+      return this;
     }
 
     public CafePlace build() {

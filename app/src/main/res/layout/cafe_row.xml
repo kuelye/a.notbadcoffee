@@ -27,6 +27,7 @@
 
                 <ImageView
                     android:id="@id/cafe_row_photo_imageview"
+                    android:maxWidth="720dp"
                     app:layout_widthPercent="100%"
                     app:layout_aspectRatio="178%"
                     tools:background="#cccccc" />
@@ -38,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/cafe_row_photo_layout"
                 android:padding="@dimen/padding_standard"
-                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title.Inverse"
                 tools:text="Централь" />
         </RelativeLayout>
 
@@ -119,7 +120,7 @@
                 android:layout_marginRight="@dimen/padding_standard_quarter"
                 android:layout_alignParentRight="true"
                 android:src="@drawable/ic_expand_less_black_24dp"
-                style="@style/AppTheme.ImageView.Icon" />
+                style="@style/AppTheme.ImageView.ClickableIcon" />
         </RelativeLayout>
 
         <LinearLayout

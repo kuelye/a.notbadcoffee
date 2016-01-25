@@ -31,6 +31,7 @@ public class CafePlaceJsonParser extends AbstractJsonParser<CafePlace> {
   private static final String ADDRESS_KEY_NAME = "address";
   private static final String METRO_KEY_NAME = "metro";
   private static final String LOCATION_KEY_NAME = "location";
+  private static final String PHOTO_KEY_NAME="photo";
 
   @Override
   @Nullable public CafePlace parse(@NonNull JSONObject cafePlaceJsonObject)
@@ -39,8 +40,13 @@ public class CafePlaceJsonParser extends AbstractJsonParser<CafePlace> {
     final String metro = cafePlaceJsonObject.getString(METRO_KEY_NAME);
     final JSONObject locationJsonObject = cafePlaceJsonObject.getJSONObject(LOCATION_KEY_NAME);
     final Location location = new LocationJsonParser().parse(locationJsonObject);
+    final String photo
+        = cafePlaceJsonObject.has(PHOTO_KEY_NAME)
+        ? cafePlaceJsonObject.getString(PHOTO_KEY_NAME)
+        : null;
 
-    return new CafePlace.Builder(address, metro, location).build();
+    return new CafePlace.Builder(address, metro, location)
+        .setPhoto(photo).build();
   }
 
 }
