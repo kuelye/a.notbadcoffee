@@ -17,11 +17,9 @@ package com.kuelye.notbadcoffee.operations;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.util.Log;
-
 import com.kuelye.components.concurrent.AbstractOperation;
 import com.kuelye.notbadcoffee.model.Cafe;
-import com.kuelye.notbadcoffee.readers.json.CafeJsonParser;
+import com.kuelye.notbadcoffee.parsers.json.CafeJsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee.readers.json;
+package com.kuelye.notbadcoffee.parsers;
 
 /*
  * Not Bad Coffee for Android. 
@@ -17,26 +17,12 @@ package com.kuelye.notbadcoffee.readers.json;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.kuelye.notbadcoffee.model.Location;
+public class UnsupportedParseValue extends RuntimeException {
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-public class LocationJsonParser extends AbstractJsonParser<Location> {
-
-  private static final String LATITUDE_KEY_NAME = "latitude";
-  private static final String LONGITUDE_KEY_NAME = "longitude";
-
-  @Override
-  @Nullable public Location parse(@NonNull JSONObject locationJsonObject)
-      throws JSONException {
-    final double latitude = locationJsonObject.getDouble(LATITUDE_KEY_NAME);
-    final double longitude = locationJsonObject.getDouble(LONGITUDE_KEY_NAME);
-
-    return new Location(latitude, longitude);
+  public UnsupportedParseValue(@Nullable Object value) {
+    super("Value '" + (value == null ? "null" : value.toString()) + "' isn't supported.");
   }
 
 }

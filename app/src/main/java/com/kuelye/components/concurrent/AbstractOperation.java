@@ -88,7 +88,9 @@ public abstract class AbstractOperation<R> implements Callable<R> {
   /* =========================== INNER ============================== */
 
   public interface Listener<R> {
-    void onComplete(R result);
+
+    void onComplete(@Nullable R result);
+
   }
 
 }

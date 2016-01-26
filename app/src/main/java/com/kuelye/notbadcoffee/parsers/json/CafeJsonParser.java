@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee.readers.json;
+package com.kuelye.notbadcoffee.parsers.json;
 
 /*
  * Not Bad Coffee for Android. 
@@ -18,38 +18,40 @@ package com.kuelye.notbadcoffee.readers.json;
  */
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.util.Log;
 
 import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.model.CafePlace;
+import com.kuelye.notbadcoffee.model.CafePlaces;
+import com.kuelye.notbadcoffee.model.CafeTimetable;
+import com.kuelye.notbadcoffee.model.CafeTimetableRow;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CafeJsonParser extends AbstractJsonParser<Cafe> {
+public class CafeJsonParser extends AbstractJsonObjectParser<Cafe> {
 
   private static final String NAME_KEY_NAME = "name";
   private static final String PLACES_KEY_NAME = "places";
+  private static final String TIMETABLE_KEY_NAME = "timetable";
 
   @Override
-  @Nullable public Cafe parse(@NonNull JSONObject cafeJsonObject)
-      throws JSONException {
+  @NonNull public Cafe parse(@NonNull JSONObject cafeJsonObject)
+      throws Exception {
     final String name = cafeJsonObject.getString(NAME_KEY_NAME);
-    final JSONArray cafePlacesJsonArray = cafeJsonObject.getJSONArray(PLACES_KEY_NAME);
-    final CafePlaceJsonParser cafePlaceJsonParser = new CafePlaceJsonParser();
-    final List<CafePlace> cafePlaces = new ArrayList<>();
-    for (int i = 0; i < cafePlacesJsonArray.length(); ++i) {
-      final JSONObject cafePlaceJsonObject = cafePlacesJsonArray.getJSONObject(i);
-      final CafePlace cafePlace = cafePlaceJsonParser.parse(cafePlaceJsonObject);
-      cafePlaces.add(cafePlace);
-    }
+    final CafePlaces places = new CafePlacesJsonParser()
+        .parse(cafeJsonObject.getJSONArray(PLACES_KEY_NAME));
+    final CafeTimetable timetable
+        = cafeJsonObject.has(TIMETABLE_KEY_NAME)
+        ? new CafeTimetableJsonParser()
+            .parse(cafeJsonObject.getJSONArray(TIMETABLE_KEY_NAME))
+        : null;
 
-    return new Cafe.Builder(name, cafePlaces).build();
+    return new Cafe.Builder(name, places)
+        .setTimetable(timetable)
+        .build();
   }
 
 }

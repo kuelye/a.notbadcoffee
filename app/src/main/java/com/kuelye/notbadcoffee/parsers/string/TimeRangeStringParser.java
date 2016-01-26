@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee.readers.json;
+package com.kuelye.notbadcoffee.parsers.string;
 
 /*
  * Not Bad Coffee for Android. 
@@ -20,13 +20,22 @@ package com.kuelye.notbadcoffee.readers.json;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.kuelye.notbadcoffee.readers.AbstractParser;
+import com.kuelye.notbadcoffee.model.TimeRange;
+import com.kuelye.notbadcoffee.parsers.UnsupportedParseValue;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import static com.kuelye.notbadcoffee.model.TimeRange.SEPARATOR;
 
-public abstract class AbstractJsonParser<R> extends AbstractParser<JSONObject, R> {
+public class TimeRangeStringParser extends AbstractStringParser<TimeRange> {
 
-  @Nullable public abstract R parse(@NonNull JSONObject jsonObject) throws JSONException;
+  @Override
+  @NonNull public TimeRange parse(@NonNull String timeRangeAsString) throws Exception {
+    final String[] parts = timeRangeAsString.split(SEPARATOR);
+
+    if (parts.length != 2) {
+      throw new UnsupportedParseValue(timeRangeAsString);
+    } else {
+      return new TimeRange(parts[0].trim(), parts[1].trim());
+    }
+  }
 
 }

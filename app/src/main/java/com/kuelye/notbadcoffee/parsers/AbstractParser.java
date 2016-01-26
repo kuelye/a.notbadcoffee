@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee.readers;
+package com.kuelye.notbadcoffee.parsers;
 
 /*
  * Not Bad Coffee for Android. 
@@ -18,10 +18,9 @@ package com.kuelye.notbadcoffee.readers;
  */
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 public abstract class AbstractParser<V, R> {
 
-  @Nullable public abstract R parse(@NonNull V value) throws Exception;
+  @NonNull public abstract R parse(@NonNull V value) throws Exception;
 
 }

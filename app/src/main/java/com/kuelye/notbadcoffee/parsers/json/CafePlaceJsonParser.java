@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee.readers.json;
+package com.kuelye.notbadcoffee.parsers.json;
 
 /*
  * Not Bad Coffee for Android. 
@@ -18,7 +18,6 @@ package com.kuelye.notbadcoffee.readers.json;
  */
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.kuelye.notbadcoffee.model.CafePlace;
 import com.kuelye.notbadcoffee.model.Location;
@@ -26,7 +25,7 @@ import com.kuelye.notbadcoffee.model.Location;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CafePlaceJsonParser extends AbstractJsonParser<CafePlace> {
+public class CafePlaceJsonParser extends AbstractJsonObjectParser<CafePlace> {
 
   private static final String ADDRESS_KEY_NAME = "address";
   private static final String METRO_KEY_NAME = "metro";
@@ -34,7 +33,7 @@ public class CafePlaceJsonParser extends AbstractJsonParser<CafePlace> {
   private static final String PHOTO_KEY_NAME="photo";
 
   @Override
-  @Nullable public CafePlace parse(@NonNull JSONObject cafePlaceJsonObject)
+  @NonNull public CafePlace parse(@NonNull JSONObject cafePlaceJsonObject)
       throws JSONException {
     final String address = cafePlaceJsonObject.getString(ADDRESS_KEY_NAME);
     final String metro = cafePlaceJsonObject.getString(METRO_KEY_NAME);

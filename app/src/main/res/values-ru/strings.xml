@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cafe_row_timetable_weekend">Выходные</string>
+    <string name="cafe_row_timetable_weekdays">Будни</string>
+    <string name="application_name">Not Bad Coffee</string>
+</resources>

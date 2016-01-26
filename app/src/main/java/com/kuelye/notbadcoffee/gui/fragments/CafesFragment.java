@@ -19,6 +19,7 @@ package com.kuelye.notbadcoffee.gui.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -70,9 +71,11 @@ public class CafesFragment extends Fragment {
     new GetCafesOperation()
         .addListener(new AbstractOperation.Listener<List<Cafe>>() {
           @Override
-          public void onComplete(List<Cafe> result) {
+          public void onComplete(@Nullable List<Cafe> result) {
             Log.d("GUB", "#" + result);
-            mCafesAdapter.set(result);
+            if (result != null) {
+              mCafesAdapter.set(result);
+            }
           }
         }).execute();
   }
