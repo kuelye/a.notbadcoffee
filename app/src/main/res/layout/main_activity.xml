@@ -20,6 +20,7 @@
         android:background="@color/colorPrimaryA80" />
 
     <android.support.v7.widget.Toolbar
+        style="@style/AppTheme.Toolbar"
         android:id="@id/toolbar"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"

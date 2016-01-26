@@ -5,6 +5,15 @@
         <item name="windowActionBarOverlay">false</item>
     </style>
 
+    <style name="AppTheme.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="titleTextAppearance">@style/TextAppearance.Widget.AppTheme.Toolbar.Title</item>
+    </style>
+
+    <style name="TextAppearance.Widget.AppTheme.Toolbar.Title"
+           parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+    </style>
+
     <style name="AppTheme.ImageView">
         <!-- stub -->
     </style>
