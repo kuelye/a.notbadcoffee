@@ -28,12 +28,12 @@ import java.util.Calendar;
 import static java.lang.String.format;
 import static java.util.Calendar.DAY_OF_WEEK;
 
-public class CafeTimetable extends ArrayList<CafeTimetableRow> {
+public class Timetable extends ArrayList<TimetableRow> {
 
   // TODO 12h (am/pm) format support
   @NonNull public String getOpenUntilDisplayString(@NonNull Context context) {
     final int day = Calendar.getInstance().get(DAY_OF_WEEK);
-    for (CafeTimetableRow timetableRow : this) {
+    for (TimetableRow timetableRow : this) {
       if (timetableRow.getDayRange().isIncludeDay(day)) {
         final String openUntilTemplate = context.getString(R.string.cafe_row_open_until_template);
         String timeTo = timetableRow.getTimeRange().getTimeTo();

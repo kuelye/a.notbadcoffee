@@ -26,27 +26,28 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.kuelye.notbadcoffee.R;
-import com.kuelye.notbadcoffee.model.CafeTimetableRow;
+import com.kuelye.notbadcoffee.model.MenuRow;
+import com.kuelye.notbadcoffee.model.TimetableRow;
 
-public class CafeTimetableAdapter extends ArrayAdapter<CafeTimetableRow> {
+public class MenuAdapter extends ArrayAdapter<MenuRow> {
 
-  public CafeTimetableAdapter(@NonNull Context context) {
-    super(context, R.layout.cafe_timetable_row);
+  public MenuAdapter(@NonNull Context context) {
+    super(context, R.layout.cafe_menu_row);
   }
 
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
     if (convertView == null) {
       convertView = LayoutInflater.from(getContext())
-          .inflate(R.layout.cafe_timetable_row, parent, false);
+          .inflate(R.layout.cafe_menu_row, parent, false);
       final RowViewHolder rowViewHolder = new RowViewHolder(convertView);
       convertView.setTag(rowViewHolder);
     }
 
     final RowViewHolder holder = (RowViewHolder) convertView.getTag();
-    final CafeTimetableRow timetableRow = getItem(position);
-    holder.dayRangeTextView.setText(timetableRow.getDayRange().getDisplayString(getContext()));
-    holder.timeRangeTextView.setText(timetableRow.getTimeRange().getDisplayString());
+    final MenuRow menuRow = getItem(position);
+    holder.itemTextView.setText(menuRow.getItem());
+    holder.costTextView.setText(menuRow.getCost());
 
     return convertView;
   }
@@ -55,12 +56,12 @@ public class CafeTimetableAdapter extends ArrayAdapter<CafeTimetableRow> {
 
   static class RowViewHolder {
 
-    @NonNull public final TextView dayRangeTextView;
-    @NonNull public final TextView timeRangeTextView;
+    @NonNull public final TextView itemTextView;
+    @NonNull public final TextView costTextView;
 
     public RowViewHolder(@NonNull View rowView) {
-      dayRangeTextView = (TextView) rowView.findViewById(R.id.cafe_timetable_row_day_textview);
-      timeRangeTextView = (TextView) rowView.findViewById(R.id.cafe_timetable_row_time_range_textview);
+      itemTextView = (TextView) rowView.findViewById(R.id.cafe_menu_row_item_textview);
+      costTextView = (TextView) rowView.findViewById(R.id.cafe_menu_row_cost_textview);
     }
 
   }

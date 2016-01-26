@@ -17,32 +17,10 @@ package com.kuelye.notbadcoffee.model;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.support.annotation.NonNull;
+import java.util.ArrayList;
 
-public class CafeTimetableRow {
+public class Menu extends ArrayList<MenuRow> {
 
-  @NonNull private final DayRange mDayRange;
-  @NonNull private final TimeRange mTimeRange;
-
-  public CafeTimetableRow(@NonNull DayRange dayRange, @NonNull TimeRange timeRange) {
-    mDayRange = dayRange;
-    mTimeRange = timeRange;
-  }
-
-  @NonNull public DayRange getDayRange() {
-    return mDayRange;
-  }
-
-  @NonNull public TimeRange getTimeRange() {
-    return mTimeRange;
-  }
-
-  @Override
-  public String toString() {
-    return "CafeTimetableRow{" +
-        "mDayRange=" + mDayRange +
-        ", mTimeRange=" + mTimeRange +
-        '}';
-  }
+  // stub
 
 }

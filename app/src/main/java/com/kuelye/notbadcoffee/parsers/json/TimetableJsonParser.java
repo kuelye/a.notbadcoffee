@@ -19,21 +19,21 @@ package com.kuelye.notbadcoffee.parsers.json;
 
 import android.support.annotation.NonNull;
 
-import com.kuelye.notbadcoffee.model.CafeTimetable;
-import com.kuelye.notbadcoffee.model.CafeTimetableRow;
+import com.kuelye.notbadcoffee.model.Timetable;
+import com.kuelye.notbadcoffee.model.TimetableRow;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class CafeTimetableJsonParser extends AbstractJsonArrayParser<CafeTimetable> {
+public class TimetableJsonParser extends AbstractJsonArrayParser<Timetable> {
 
   @Override
-  @NonNull public CafeTimetable parse(@NonNull JSONArray cafeTimetableJsonArray) throws Exception {
-    final CafeTimetableRowJsonParser timetableRowJsonParser = new CafeTimetableRowJsonParser();
-    final CafeTimetable timetable = new CafeTimetable();
-    for (int i = 0; i < cafeTimetableJsonArray.length(); ++i) {
-      final JSONObject timetableRowJsonObject = cafeTimetableJsonArray.getJSONObject(i);
-      final CafeTimetableRow timetableRow = timetableRowJsonParser.parse(timetableRowJsonObject);
+  @NonNull public Timetable parse(@NonNull JSONArray timetableJsonArray) throws Exception {
+    final TimetableRowJsonParser timetableRowJsonParser = new TimetableRowJsonParser();
+    final Timetable timetable = new Timetable();
+    for (int i = 0; i < timetableJsonArray.length(); ++i) {
+      final JSONObject timetableRowJsonObject = timetableJsonArray.getJSONObject(i);
+      final TimetableRow timetableRow = timetableRowJsonParser.parse(timetableRowJsonObject);
       timetable.add(timetableRow);
     }
 

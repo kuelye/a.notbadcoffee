@@ -21,18 +21,16 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.model.Cafe;
-import com.kuelye.notbadcoffee.model.CafePlace;
+import com.kuelye.notbadcoffee.model.Place;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -43,7 +41,7 @@ import static android.view.View.VISIBLE;
 import static com.kuelye.components.utils.AndroidUtils.getActionBarHeight;
 import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 
-public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.ViewHolder> {
+public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolder> {
 
   private Context mContext;
 
@@ -55,28 +53,28 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.ViewHolder> 
   }
 
   @Override
-  public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+  public RowViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
     final View view = LayoutInflater.from(parent.getContext())
         .inflate(R.layout.cafe_row, parent, false);
 
-    return new ViewHolder(view, mContext);
+    return new RowViewHolder(view, mContext);
   }
 
   @Override
-  public void onBindViewHolder(final ViewHolder holder, int position) {
+  public void onBindViewHolder(final RowViewHolder holder, int position) {
     final Cafe cafe = mCafes.get(position);
-    final CafePlace cafePlace = cafe.getPlaces().get(0);
+    final Place place = cafe.getPlaces().get(0);
 
     holder.nameTextView.setText(cafe.getName());
-    final String photo = cafePlace.getPhoto();
+    final String photo = place.getPhoto();
     if (photo != null) {
       Picasso.with(mContext)
           .load(photo)
           .fit()
           .into(holder.photoImageView);
     }
-    holder.locationAddressTextView.setText(cafePlace.getAddress());
-    holder.locationMetroTextView.setText(cafePlace.getMetro());
+    holder.locationAddressTextView.setText(place.getAddress());
+    holder.locationMetroTextView.setText(place.getMetro());
     if (cafe.getTimetable() == null) {
       holder.timetableLayout.setVisibility(GONE);
       holder.openUntilTextView.setText(null);
@@ -85,6 +83,13 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.ViewHolder> 
       holder.timetableAdapter.addAll(cafe.getTimetable());
       holder.timetableLayout.setVisibility(VISIBLE);
       holder.openUntilTextView.setText(cafe.getTimetable().getOpenUntilDisplayString(mContext));
+    }
+    if (cafe.getMenu() == null) {
+      holder.menuLayout.setVisibility(GONE);
+    } else {
+      holder.menuAdapter.clear();
+      holder.menuAdapter.addAll(cafe.getMenu());
+      holder.menuLayout.setVisibility(VISIBLE);
     }
     holder.infoHeaderLayout.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -135,22 +140,24 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.ViewHolder> 
 
   }
 
-  static class ViewHolder extends RecyclerView.ViewHolder {
+  static class RowViewHolder extends RecyclerView.ViewHolder {
 
-    public TextView nameTextView;
-    public ImageView photoImageView;
-    public TextView locationAddressTextView;
-    public TextView locationMetroTextView;
-    public TextView locationDistanceTextView;
-    public ViewGroup infoLayout;
-    public ViewGroup infoHeaderLayout;
-    public TextView openUntilTextView;
-    public ImageView infoHeaderIconImageView;
-    public ViewGroup timetableLayout;
+    public final TextView nameTextView;
+    public final ImageView photoImageView;
+    public final TextView locationAddressTextView;
+    public final TextView locationMetroTextView;
+    public final TextView locationDistanceTextView;
+    public final ViewGroup infoLayout;
+    public final ViewGroup infoHeaderLayout;
+    public final TextView openUntilTextView;
+    public final ImageView infoHeaderIconImageView;
+    public final ViewGroup timetableLayout;
+    public final ViewGroup menuLayout;
 
-    public CafeTimetableAdapter timetableAdapter;
+    public final TimetableAdapter timetableAdapter;
+    public final MenuAdapter menuAdapter;
 
-    public ViewHolder(@NonNull View view, @NonNull Context context) {
+    public RowViewHolder(@NonNull View view, @NonNull Context context) {
       super(view);
 
       nameTextView = (TextView) view.findViewById(R.id.cafe_row_name_textview);
@@ -165,8 +172,13 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.ViewHolder> 
       timetableLayout = (ViewGroup) view.findViewById(R.id.cafe_row_timetable_layout);
       final ListView timetableListView
           = (ListView) view.findViewById(R.id.cafe_row_timetable_listview);
-      timetableAdapter = new CafeTimetableAdapter(context);
+      timetableAdapter = new TimetableAdapter(context);
       timetableListView.setAdapter(timetableAdapter);
+      menuLayout = (ViewGroup) view.findViewById(R.id.cafe_row_menu_layout);
+      final ListView menuListView
+          = (ListView) view.findViewById(R.id.cafe_row_menu_listview);
+      menuAdapter = new MenuAdapter(context);
+      menuListView.setAdapter(menuAdapter);
     }
 
   }

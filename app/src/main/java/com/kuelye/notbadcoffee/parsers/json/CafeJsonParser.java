@@ -20,37 +20,39 @@ package com.kuelye.notbadcoffee.parsers.json;
 import android.support.annotation.NonNull;
 
 import com.kuelye.notbadcoffee.model.Cafe;
-import com.kuelye.notbadcoffee.model.CafePlace;
-import com.kuelye.notbadcoffee.model.CafePlaces;
-import com.kuelye.notbadcoffee.model.CafeTimetable;
-import com.kuelye.notbadcoffee.model.CafeTimetableRow;
+import com.kuelye.notbadcoffee.model.Menu;
+import com.kuelye.notbadcoffee.model.Places;
+import com.kuelye.notbadcoffee.model.Timetable;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class CafeJsonParser extends AbstractJsonObjectParser<Cafe> {
 
   private static final String NAME_KEY_NAME = "name";
   private static final String PLACES_KEY_NAME = "places";
   private static final String TIMETABLE_KEY_NAME = "timetable";
+  private static final String MENU_KEY_NAME = "menu";
 
   @Override
   @NonNull public Cafe parse(@NonNull JSONObject cafeJsonObject)
       throws Exception {
     final String name = cafeJsonObject.getString(NAME_KEY_NAME);
-    final CafePlaces places = new CafePlacesJsonParser()
+    final Places places = new PlacesJsonParser()
         .parse(cafeJsonObject.getJSONArray(PLACES_KEY_NAME));
-    final CafeTimetable timetable
+    final Timetable timetable
         = cafeJsonObject.has(TIMETABLE_KEY_NAME)
-        ? new CafeTimetableJsonParser()
+        ? new TimetableJsonParser()
             .parse(cafeJsonObject.getJSONArray(TIMETABLE_KEY_NAME))
+        : null;
+    final Menu menu
+        = cafeJsonObject.has(MENU_KEY_NAME)
+        ? new MenuJsonParser()
+            .parse(cafeJsonObject.getJSONArray(MENU_KEY_NAME))
         : null;
 
     return new Cafe.Builder(name, places)
         .setTimetable(timetable)
+        .setMenu(menu)
         .build();
   }
 

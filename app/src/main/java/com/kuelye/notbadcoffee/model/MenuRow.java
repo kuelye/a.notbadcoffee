@@ -17,10 +17,32 @@ package com.kuelye.notbadcoffee.model;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import java.util.ArrayList;
+import android.support.annotation.NonNull;
 
-public class CafePlaces extends ArrayList<CafePlace> {
+public class MenuRow {
 
-  // stub
+  @NonNull private final String mItem;
+  @NonNull private final String mCost;
+
+  public MenuRow(@NonNull String item, @NonNull String cost) {
+    mItem = item;
+    mCost = cost;
+  }
+
+  @NonNull public String getItem() {
+    return mItem;
+  }
+
+  @NonNull public String getCost() {
+    return mCost;
+  }
+
+  @Override
+  public String toString() {
+    return "MenuRow{" +
+        "mItem='" + mItem + '\'' +
+        ", mCost='" + mCost + '\'' +
+        '}';
+  }
 
 }

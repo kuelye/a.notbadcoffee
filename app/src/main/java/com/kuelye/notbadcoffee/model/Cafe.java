@@ -20,30 +20,34 @@ package com.kuelye.notbadcoffee.model;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import java.util.List;
-
 public class Cafe {
 
   @NonNull private final String mName;
-  @NonNull private final CafePlaces mPlaces;
-  @Nullable private final CafeTimetable mTimetable;
+  @NonNull private final Places mPlaces;
+  @Nullable private final Timetable mTimetable;
+  @Nullable private final Menu mMenu;
 
   private Cafe(Builder builder) {
     mName = builder.mName;
     mPlaces = builder.mPlaces;
     mTimetable = builder.mTimetable;
+    mMenu = builder.mMenu;
   }
 
   @NonNull public String getName() {
     return mName;
   }
 
-  @NonNull public CafePlaces getPlaces() {
+  @NonNull public Places getPlaces() {
     return mPlaces;
   }
 
-  @Nullable public CafeTimetable getTimetable() {
+  @Nullable public Timetable getTimetable() {
     return mTimetable;
+  }
+
+  @Nullable public Menu getMenu() {
+    return mMenu;
   }
 
   @Override
@@ -52,6 +56,7 @@ public class Cafe {
         "mName='" + mName + '\'' +
         ", mPlaces=" + mPlaces +
         ", mTimetable=" + mTimetable +
+        ", mMenu=" + mMenu +
         '}';
   }
 
@@ -60,16 +65,23 @@ public class Cafe {
   public static class Builder {
 
     @NonNull private final String mName;
-    @NonNull private final CafePlaces mPlaces;
-    @Nullable private CafeTimetable mTimetable;
+    @NonNull private final Places mPlaces;
+    @Nullable private Timetable mTimetable;
+    @Nullable private Menu mMenu;
 
-    public Builder(@NonNull String name, @NonNull CafePlaces places) {
+    public Builder(@NonNull String name, @NonNull Places places) {
       mName = name;
       mPlaces = places;
     }
 
-    @NonNull public Builder setTimetable(@Nullable CafeTimetable timetable) {
+    @NonNull public Builder setTimetable(@Nullable Timetable timetable) {
       mTimetable = timetable;
+
+      return this;
+    }
+
+    @NonNull public Builder setMenu(@Nullable Menu menu) {
+      mMenu = menu;
 
       return this;
     }

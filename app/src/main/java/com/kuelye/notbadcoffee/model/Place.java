@@ -20,14 +20,14 @@ package com.kuelye.notbadcoffee.model;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-public class CafePlace {
+public class Place {
 
   @NonNull private final String mAddress;
   @NonNull private final String mMetro;
   @NonNull private final Location mLocation;
   @Nullable private final String mPhoto;
 
-  private CafePlace(Builder builder) {
+  private Place(Builder builder) {
     mPhoto = builder.mPhoto;
     mAddress = builder.mAddress;
     mMetro = builder.mMetro;
@@ -52,7 +52,7 @@ public class CafePlace {
 
   @Override
   public String toString() {
-    return "CafePlace{" +
+    return "Place{" +
         "mAddress='" + mAddress + '\'' +
         ", mMetro='" + mMetro + '\'' +
         ", mLocation=" + mLocation +
@@ -81,8 +81,8 @@ public class CafePlace {
       return this;
     }
 
-    public CafePlace build() {
-      return new CafePlace(this);
+    public Place build() {
+      return new Place(this);
     }
 
   }

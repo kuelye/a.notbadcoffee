@@ -19,7 +19,8 @@ package com.kuelye.notbadcoffee.parsers.json;
 
 import android.support.annotation.NonNull;
 
-import com.kuelye.notbadcoffee.model.CafeTimetableRow;
+import com.kuelye.notbadcoffee.model.MenuRow;
+import com.kuelye.notbadcoffee.model.TimetableRow;
 import com.kuelye.notbadcoffee.model.DayRange;
 import com.kuelye.notbadcoffee.model.TimeRange;
 import com.kuelye.notbadcoffee.parsers.string.DayRangeStringParser;
@@ -27,20 +28,18 @@ import com.kuelye.notbadcoffee.parsers.string.TimeRangeStringParser;
 
 import org.json.JSONObject;
 
-public class CafeTimetableRowJsonParser extends AbstractJsonObjectParser<CafeTimetableRow> {
+public class MenuRowJsonParser extends AbstractJsonObjectParser<MenuRow> {
 
-  private static final String DAY_RANGE_KEY_NAME = "dayRange";
-  private static final String TIME_RANGE_KEY_NAME = "timeRange";
+  private static final String ITEM_KEY_NAME = "item";
+  private static final String COST_KEY_NAME = "cost";
 
   @Override
-  @NonNull public CafeTimetableRow parse(@NonNull JSONObject cafeTimetableRowJsonObject)
+  @NonNull public MenuRow parse(@NonNull JSONObject menuRowJsonObject)
       throws Exception {
-    final String dayRangeAsString = cafeTimetableRowJsonObject.getString(DAY_RANGE_KEY_NAME);
-    final DayRange dayRange = new DayRangeStringParser().parse(dayRangeAsString);
-    final String timeRangeAsString = cafeTimetableRowJsonObject.getString(TIME_RANGE_KEY_NAME);
-    final TimeRange timeRange = new TimeRangeStringParser().parse(timeRangeAsString);
+    final String item = menuRowJsonObject.getString(ITEM_KEY_NAME);
+    final String cost = menuRowJsonObject.getString(COST_KEY_NAME);
 
-    return new CafeTimetableRow(dayRange, timeRange);
+    return new MenuRow(item, cost);
   }
 
 }

@@ -19,25 +19,25 @@ package com.kuelye.notbadcoffee.parsers.json;
 
 import android.support.annotation.NonNull;
 
-import com.kuelye.notbadcoffee.model.CafePlace;
-import com.kuelye.notbadcoffee.model.CafePlaces;
+import com.kuelye.notbadcoffee.model.Menu;
+import com.kuelye.notbadcoffee.model.MenuRow;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class CafePlacesJsonParser extends AbstractJsonArrayParser<CafePlaces> {
+public class MenuJsonParser extends AbstractJsonArrayParser<Menu> {
 
   @Override
-  @NonNull public CafePlaces parse(@NonNull JSONArray cafePlacesJsonArray) throws Exception {
-    final CafePlaceJsonParser placeJsonParser = new CafePlaceJsonParser();
-    final CafePlaces places = new CafePlaces();
-    for (int i = 0; i < cafePlacesJsonArray.length(); ++i) {
-      final JSONObject placeJsonObject = cafePlacesJsonArray.getJSONObject(i);
-      final CafePlace place = placeJsonParser.parse(placeJsonObject);
-      places.add(place);
+  @NonNull public Menu parse(@NonNull JSONArray menuJsonArray) throws Exception {
+    final MenuRowJsonParser menuRowJsonParser = new MenuRowJsonParser();
+    final Menu menu = new Menu();
+    for (int i = 0; i < menuJsonArray.length(); ++i) {
+      final JSONObject menuRowJsonObject = menuJsonArray.getJSONObject(i);
+      final MenuRow menuRow = menuRowJsonParser.parse(menuRowJsonObject);
+      menu.add(menuRow);
     }
 
-    return places;
+    return menu;
   }
 
 }

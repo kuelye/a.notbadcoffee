@@ -19,13 +19,13 @@ package com.kuelye.notbadcoffee.parsers.json;
 
 import android.support.annotation.NonNull;
 
-import com.kuelye.notbadcoffee.model.CafePlace;
+import com.kuelye.notbadcoffee.model.Place;
 import com.kuelye.notbadcoffee.model.Location;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class CafePlaceJsonParser extends AbstractJsonObjectParser<CafePlace> {
+public class PlaceJsonParser extends AbstractJsonObjectParser<Place> {
 
   private static final String ADDRESS_KEY_NAME = "address";
   private static final String METRO_KEY_NAME = "metro";
@@ -33,18 +33,18 @@ public class CafePlaceJsonParser extends AbstractJsonObjectParser<CafePlace> {
   private static final String PHOTO_KEY_NAME="photo";
 
   @Override
-  @NonNull public CafePlace parse(@NonNull JSONObject cafePlaceJsonObject)
+  @NonNull public Place parse(@NonNull JSONObject placeJsonObject)
       throws JSONException {
-    final String address = cafePlaceJsonObject.getString(ADDRESS_KEY_NAME);
-    final String metro = cafePlaceJsonObject.getString(METRO_KEY_NAME);
-    final JSONObject locationJsonObject = cafePlaceJsonObject.getJSONObject(LOCATION_KEY_NAME);
+    final String address = placeJsonObject.getString(ADDRESS_KEY_NAME);
+    final String metro = placeJsonObject.getString(METRO_KEY_NAME);
+    final JSONObject locationJsonObject = placeJsonObject.getJSONObject(LOCATION_KEY_NAME);
     final Location location = new LocationJsonParser().parse(locationJsonObject);
     final String photo
-        = cafePlaceJsonObject.has(PHOTO_KEY_NAME)
-        ? cafePlaceJsonObject.getString(PHOTO_KEY_NAME)
+        = placeJsonObject.has(PHOTO_KEY_NAME)
+        ? placeJsonObject.getString(PHOTO_KEY_NAME)
         : null;
 
-    return new CafePlace.Builder(address, metro, location)
+    return new Place.Builder(address, metro, location)
         .setPhoto(photo).build();
   }
 
