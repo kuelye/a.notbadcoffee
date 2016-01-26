@@ -22,6 +22,7 @@
     <item name="cafe_row_info_header_layout" type="id" />
     <item name="cafe_row_info_layout" type="id" />
     <item name="cafe_row_open_until_textview" type="id" />
+    <item name="cafe_row_info_header_icon_imageview" type="id" />
     <item name="cafe_row_menu_layout" type="id" />
     <item name="cafe_row_menu_listview" type="id" />
     <item name="cafe_row_timetable_layout" type="id" />

@@ -21,6 +21,7 @@ import android.support.annotation.NonNull;
 
 public class TimeRange {
 
+  public static final String MIDNIGHT_TIME = "24:00";
   public static final String SEPARATOR = " - ";
 
   @NonNull private final String mTimeFrom;

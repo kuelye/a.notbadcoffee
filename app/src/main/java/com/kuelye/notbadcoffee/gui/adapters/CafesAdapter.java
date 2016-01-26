@@ -63,7 +63,7 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.ViewHolder> 
   }
 
   @Override
-  public void onBindViewHolder(ViewHolder holder, int position) {
+  public void onBindViewHolder(final ViewHolder holder, int position) {
     final Cafe cafe = mCafes.get(position);
     final CafePlace cafePlace = cafe.getPlaces().get(0);
 
@@ -79,11 +79,25 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.ViewHolder> 
     holder.locationMetroTextView.setText(cafePlace.getMetro());
     if (cafe.getTimetable() == null) {
       holder.timetableLayout.setVisibility(GONE);
+      holder.openUntilTextView.setText(null);
     } else {
       holder.timetableAdapter.clear();
       holder.timetableAdapter.addAll(cafe.getTimetable());
       holder.timetableLayout.setVisibility(VISIBLE);
+      holder.openUntilTextView.setText(cafe.getTimetable().getOpenUntilDisplayString(mContext));
     }
+    holder.infoHeaderLayout.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        if (holder.infoLayout.getVisibility() == View.GONE) {
+          holder.infoLayout.setVisibility(View.VISIBLE);
+          holder.infoHeaderIconImageView.setImageResource(R.drawable.ic_expand_less_black_24dp);
+        } else {
+          holder.infoLayout.setVisibility(View.GONE);
+          holder.infoHeaderIconImageView.setImageResource(R.drawable.ic_expand_more_black_24dp);
+        }
+      }
+    });
   }
 
   @Override
@@ -128,7 +142,11 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.ViewHolder> 
     public TextView locationAddressTextView;
     public TextView locationMetroTextView;
     public TextView locationDistanceTextView;
-    public LinearLayout timetableLayout;
+    public ViewGroup infoLayout;
+    public ViewGroup infoHeaderLayout;
+    public TextView openUntilTextView;
+    public ImageView infoHeaderIconImageView;
+    public ViewGroup timetableLayout;
 
     public CafeTimetableAdapter timetableAdapter;
 
@@ -140,7 +158,11 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.ViewHolder> 
       locationAddressTextView = (TextView) view.findViewById(R.id.cafe_row_location_address_textview);
       locationMetroTextView = (TextView) view.findViewById(R.id.cafe_row_location_metro_textview);
       locationDistanceTextView = (TextView) view.findViewById(R.id.cafe_row_location_distance_textview);
-      timetableLayout = (LinearLayout) view.findViewById(R.id.cafe_row_timetable_layout);
+      infoLayout = (ViewGroup) view.findViewById(R.id.cafe_row_info_layout);
+      infoHeaderLayout = (ViewGroup) view.findViewById(R.id.cafe_row_info_header_layout);
+      openUntilTextView = (TextView) view.findViewById(R.id.cafe_row_open_until_textview);
+      infoHeaderIconImageView = (ImageView) view.findViewById(R.id.cafe_row_info_header_icon_imageview);
+      timetableLayout = (ViewGroup) view.findViewById(R.id.cafe_row_timetable_layout);
       final ListView timetableListView
           = (ListView) view.findViewById(R.id.cafe_row_timetable_listview);
       timetableAdapter = new CafeTimetableAdapter(context);

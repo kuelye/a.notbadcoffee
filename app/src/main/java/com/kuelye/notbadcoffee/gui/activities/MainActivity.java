@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.kuelye.notbadcoffee.R;
@@ -47,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
       // (it height didn't included, so it is considered as 0dp)
       final View stubView = findViewById(R.id.stub_view);
       stubView.setPadding(0, getStatusBarHeight(this), 0, 0);
+
+      final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+      toolbar.setTitle(R.string.application_name);
     }
   }
 

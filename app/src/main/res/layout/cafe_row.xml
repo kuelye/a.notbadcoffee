@@ -103,6 +103,7 @@
 
         <RelativeLayout
             android:id="@id/cafe_row_info_header_layout"
+            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/clickable_min_size"
@@ -117,12 +118,13 @@
                 tools:text="Открыто до полуночи" />
 
             <ImageView
+                android:id="@id/cafe_row_info_header_icon_imageview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/padding_standard_quarter"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_expand_less_black_24dp"
+                android:src="@drawable/ic_expand_more_black_24dp"
                 style="@style/AppTheme.ImageView.ClickableIcon"
                 tools:ignore="RtlHardcoded"/>
         </RelativeLayout>
@@ -132,6 +134,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:visibility="gone"
             >
 
             <LinearLayout

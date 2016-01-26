@@ -3,4 +3,7 @@
     <string name="cafe_row_timetable_weekend">Выходные</string>
     <string name="cafe_row_timetable_weekdays">Будни</string>
     <string name="application_name">Not Bad Coffee</string>
+    <string name="cafe_row_closed">Закрыто</string>
+    <string name="cafe_row_open_until_template">Открыто до</string>
+    <string name="cafe_row_midnight">полуночи</string>
 </resources>

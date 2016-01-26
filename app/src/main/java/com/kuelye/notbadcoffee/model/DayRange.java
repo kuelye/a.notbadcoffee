@@ -22,6 +22,8 @@ import android.support.annotation.NonNull;
 
 import com.kuelye.notbadcoffee.R;
 
+import java.util.Calendar;
+
 public class DayRange {
 
   public static final int SUNDAY     = 0x1000000;
@@ -50,6 +52,39 @@ public class DayRange {
       default:
         return "";
     }
+  }
+
+  /**
+   * @param day As described in Calendar.
+   * @see Calendar
+   */
+  public boolean isIncludeDay(int day) {
+    int dayMask = 0;
+    switch (day) {
+      case Calendar.SUNDAY:
+        dayMask = SUNDAY;
+        break;
+      case Calendar.MONDAY:
+        dayMask = MONDAY;
+        break;
+      case Calendar.TUESDAY:
+        dayMask = TUESDAY;
+        break;
+      case Calendar.WEDNESDAY:
+        dayMask = WEDNESDAY;
+        break;
+      case Calendar.THURSDAY:
+        dayMask = THURSDAY;
+        break;
+      case Calendar.FRIDAY:
+        dayMask = FRIDAY;
+        break;
+      case Calendar.SATURDAY:
+        dayMask = SATURDAY;
+        break;
+    }
+
+    return (dayMask & mMask) == 0;
   }
 
   @Override
