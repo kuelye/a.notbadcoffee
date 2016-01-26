@@ -48,7 +48,7 @@ public class CafesFragment extends Fragment {
       Bundle savedInstanceState) {
     final View view = inflater.inflate(R.layout.cafes_fragment, null);
 
-    mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+    mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
     mLayoutManager = new LinearLayoutManager(getContext());
     mRecyclerView.setLayoutManager(mLayoutManager);
     mRecyclerView.addItemDecoration(new CafesAdapter.HeaderDecoration(getActivity()));

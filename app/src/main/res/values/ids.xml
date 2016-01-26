@@ -5,7 +5,9 @@
 
     <item name="stub_view" type="id" />
     <item name="toolbar" type="id" />
-    <item name="recycler_view" type="id" />
+    <item name="recyclerview" type="id" />
+    <item name="viewpager" type="id" />
+    <item name="mapview" type="id" />
 
     <!-- main_activity -->
 
