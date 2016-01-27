@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         case 0:
           return new CafesFragment();
         case 1:
-          return new SupportMapFragment();
+          return new MapFragment();
         default:
           return null;
       }

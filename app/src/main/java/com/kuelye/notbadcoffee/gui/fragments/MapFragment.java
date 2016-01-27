@@ -18,6 +18,7 @@ package com.kuelye.notbadcoffee.gui.fragments;
  */
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,19 +31,46 @@ import com.kuelye.notbadcoffee.R;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
+  private MapView mMapView;
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+  }
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    final View view = inflater.inflate(R.layout.map_fragment, null);
+    final View view = inflater.inflate(R.layout.map_fragment, container, false);
 
-    final MapView mapView = (MapView) view.findViewById(R.id.mapview);
-    mapView.getMapAsync(this);
+    mMapView = (MapView) view.findViewById(R.id.mapview);
+    mMapView.onCreate(savedInstanceState);
+    mMapView.getMapAsync(this);
 
     return view;
   }
 
+  public void onResume() {
+    super.onResume();
+    mMapView.onResume();
+  }
+
+  public void onPause() {
+    mMapView.onPause();
+    super.onPause();
+  }
+
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    mMapView.onSaveInstanceState(outState);
+  }
+  public void onLowMemory() {
+    mMapView.onLowMemory();
+    super.onLowMemory();
+  }
+
   @Override
   public void onMapReady(GoogleMap googleMap) {
-    // stub
+    googleMap.setMyLocationEnabled(true);
   }
 
 }
