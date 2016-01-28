@@ -19,12 +19,11 @@ package com.kuelye.notbadcoffee.operations;
 
 import com.kuelye.components.concurrent.AbstractOperation;
 import com.kuelye.notbadcoffee.model.Cafe;
-import com.kuelye.notbadcoffee.parsers.json.CafeJsonParser;
+import com.kuelye.notbadcoffee.parsers.json.CafesJsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.kuelye.components.utils.NetworkUtils.getResponse;
@@ -38,15 +37,8 @@ public class GetCafesOperation extends AbstractOperation<List<Cafe>> {
   public void doCall() throws Exception {
     final String response = getResponse(GET_CAFES_REQUEST);
     final JSONObject responseJsonObject = new JSONObject(response);
-
-    final JSONArray cafesJsonObject = responseJsonObject.getJSONArray(CAFES_KEY_NAME);
-    final CafeJsonParser cafeJsonParser = new CafeJsonParser();
-    final List<Cafe> cafes = new ArrayList<>();
-    for (int i = 0; i < cafesJsonObject.length(); i++) {
-      final JSONObject cafeJsonObject = cafesJsonObject.getJSONObject(i);
-      final Cafe cafe = cafeJsonParser.parse(cafeJsonObject);
-      cafes.add(cafe);
-    }
+    final JSONArray cafesJsonArray = responseJsonObject.getJSONArray(CAFES_KEY_NAME);
+    final List<Cafe> cafes = new CafesJsonParser().parse(cafesJsonArray);
 
     setResult(cafes);
   }

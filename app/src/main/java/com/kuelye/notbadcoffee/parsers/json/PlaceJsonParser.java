@@ -27,6 +27,7 @@ import org.json.JSONObject;
 
 public class PlaceJsonParser extends AbstractJsonObjectParser<Place> {
 
+  private static final String ID_KEY_NAME = "id";
   private static final String ADDRESS_KEY_NAME = "address";
   private static final String METRO_KEY_NAME = "metro";
   private static final String LOCATION_KEY_NAME = "location";
@@ -35,6 +36,7 @@ public class PlaceJsonParser extends AbstractJsonObjectParser<Place> {
   @Override
   @NonNull public Place parse(@NonNull JSONObject placeJsonObject)
       throws JSONException {
+    final int id = placeJsonObject.getInt(ID_KEY_NAME);
     final String address = placeJsonObject.getString(ADDRESS_KEY_NAME);
     final String metro = placeJsonObject.getString(METRO_KEY_NAME);
     final JSONObject locationJsonObject = placeJsonObject.getJSONObject(LOCATION_KEY_NAME);
@@ -44,7 +46,7 @@ public class PlaceJsonParser extends AbstractJsonObjectParser<Place> {
         ? placeJsonObject.getString(PHOTO_KEY_NAME)
         : null;
 
-    return new Place.Builder(address, metro, location)
+    return new Place.Builder(id, address, metro, location)
         .setPhoto(photo).build();
   }
 

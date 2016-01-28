@@ -22,16 +22,22 @@ import android.support.annotation.Nullable;
 
 public class Place {
 
+  private final int mId;
   @NonNull private final String mAddress;
   @NonNull private final String mMetro;
   @NonNull private final Location mLocation;
   @Nullable private final String mPhoto;
 
   private Place(Builder builder) {
+    mId = builder.mId;
     mPhoto = builder.mPhoto;
     mAddress = builder.mAddress;
     mMetro = builder.mMetro;
     mLocation = builder.mLocation;
+  }
+
+  public int getId() {
+    return mId;
   }
 
   @NonNull public String getAddress() {
@@ -53,7 +59,8 @@ public class Place {
   @Override
   public String toString() {
     return "Place{" +
-        "mAddress='" + mAddress + '\'' +
+        "mId=" + mId +
+        ", mAddress='" + mAddress + '\'' +
         ", mMetro='" + mMetro + '\'' +
         ", mLocation=" + mLocation +
         ", mPhoto='" + mPhoto + '\'' +
@@ -64,12 +71,14 @@ public class Place {
 
   public static class Builder {
 
+    private final int mId;
     @NonNull private final String mAddress;
     @NonNull private final String mMetro;
     @NonNull private final Location mLocation;
     @Nullable private String mPhoto;
 
-    public Builder(@NonNull String address, @NonNull String metro, @NonNull Location location) {
+    public Builder(int id, @NonNull String address, @NonNull String metro, @NonNull Location location) {
+      mId = id;
       mAddress = address;
       mMetro = metro;
       mLocation = location;
