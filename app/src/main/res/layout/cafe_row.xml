@@ -22,7 +22,8 @@
             >
 
             <android.support.percent.PercentFrameLayout
-                android:id="@+id/cafe_row_photo_layout"
+                android:id="@id/cafe_row_photo_layout"
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
@@ -53,9 +54,11 @@
 
             <LinearLayout
                 android:id="@id/cafe_row_location_layout"
+                android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:paddingTop="@dimen/padding_standard_half"
                 >
 
                 <ImageView
@@ -101,154 +104,156 @@
                     tools:text="666 м"
                     tools:ignore="RtlHardcoded" />
             </LinearLayout>
-        </LinearLayout>
 
-        <RelativeLayout
-            android:id="@id/cafe_row_info_header_layout"
-            android:clickable="true"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="@dimen/clickable_min_size"
-            >
-
-            <TextView
-                android:id="@id/cafe_row_open_until_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                tools:text="Открыто до полуночи" />
-
-            <ImageView
-                android:id="@id/cafe_row_info_header_icon_imageview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/padding_standard_quarter"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:src="@drawable/ic_expand_more_black_24dp"
-                style="@style/AppTheme.ImageView.ClickableIcon"
-                tools:ignore="RtlHardcoded"/>
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@id/cafe_row_info_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone"
-            >
-
-            <LinearLayout
-                android:id="@id/cafe_row_menu_layout"
+            <RelativeLayout
+                android:id="@id/cafe_row_info_header_layout"
+                android:background="?android:attr/selectableItemBackground"
+                android:clickable="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:minHeight="@dimen/clickable_min_size"
                 >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_standard_quarter"
-                    android:layout_marginRight="@dimen/padding_standard_quarter"
-                    android:src="@drawable/ic_attach_money_black_24dp"
-                    style="@style/AppTheme.ImageView.ClickableIcon" />
-
-                <ListView
-                    android:id="@id/cafe_row_menu_listview"
-                    android:divider="@null"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/padding_standard"
-                    android:layout_marginRight="@dimen/padding_standard"
-                    android:paddingTop="@dimen/padding_standard_half"
-                    android:paddingBottom="@dimen/padding_standard_half"
-                    tools:listitem="@layout/cafe_menu_row" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@id/cafe_row_timetable_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_standard_quarter"
-                    android:layout_marginRight="@dimen/padding_standard_quarter"
-                    android:src="@drawable/ic_access_time_black_24dp"
-                    style="@style/AppTheme.ImageView.ClickableIcon" />
-
-                <ListView
-                    android:id="@id/cafe_row_timetable_listview"
-                    android:divider="@null"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/padding_standard"
-                    android:layout_marginRight="@dimen/padding_standard"
-                    android:paddingTop="@dimen/padding_standard_half"
-                    android:paddingBottom="@dimen/padding_standard_half"
-                    tools:listitem="@layout/cafe_menu_row" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@id/cafe_row_persons_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_standard_quarter"
-                    android:layout_marginRight="@dimen/padding_standard_quarter"
-                    android:src="@drawable/ic_person_black_24dp"
-                    style="@style/AppTheme.ImageView.ClickableIcon" />
-
-                <ListView
-                    android:id="@id/cafe_row_persons_listview"
-                    android:divider="@null"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/padding_standard"
-                    android:layout_marginRight="@dimen/padding_standard"
-                    android:paddingTop="@dimen/padding_standard_half"
-                    android:paddingBottom="@dimen/padding_standard_half"
-                    tools:listitem="@layout/cafe_person_row" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@id/cafe_row_roaster_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/padding_standard_quarter"
-                    android:layout_marginRight="@dimen/padding_standard_quarter"
-                    android:src="@drawable/ic_whatshot_black_24dp"
-                    style="@style/AppTheme.ImageView.ClickableIcon" />
 
                 <TextView
-                    android:id="@id/cafe_row_roaster_textview"
+                    android:id="@id/cafe_row_open_until_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                    tools:text="Открыто до полуночи" />
+
+                <ImageView
+                    android:id="@id/cafe_row_info_header_icon_imageview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/padding_standard_quarter"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/ic_expand_more_black_24dp"
+                    style="@style/AppTheme.ImageView.ClickableIcon"
+                    tools:ignore="RtlHardcoded"/>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@id/cafe_row_info_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/padding_standard_half"
+                android:visibility="gone"
+                >
+
+                <LinearLayout
+                    android:id="@id/cafe_row_menu_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/padding_standard"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-                    tools:text="Ппппппппппппп"
-                    tools:ignore="RtlHardcoded"/>
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_standard_quarter"
+                        android:layout_marginRight="@dimen/padding_standard_quarter"
+                        android:src="@drawable/ic_attach_money_black_24dp"
+                        style="@style/AppTheme.ImageView.ClickableIcon" />
+
+                    <ListView
+                        android:id="@id/cafe_row_menu_listview"
+                        android:divider="@null"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/padding_standard"
+                        android:layout_marginRight="@dimen/padding_standard"
+                        android:paddingTop="@dimen/padding_standard_half"
+                        android:paddingBottom="@dimen/padding_standard_half"
+                        tools:listitem="@layout/cafe_menu_row" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@id/cafe_row_timetable_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_standard_quarter"
+                        android:layout_marginRight="@dimen/padding_standard_quarter"
+                        android:src="@drawable/ic_access_time_black_24dp"
+                        style="@style/AppTheme.ImageView.ClickableIcon" />
+
+                    <ListView
+                        android:id="@id/cafe_row_timetable_listview"
+                        android:divider="@null"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/padding_standard"
+                        android:layout_marginRight="@dimen/padding_standard"
+                        android:paddingTop="@dimen/padding_standard_half"
+                        android:paddingBottom="@dimen/padding_standard_half"
+                        tools:listitem="@layout/cafe_menu_row" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@id/cafe_row_persons_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_standard_quarter"
+                        android:layout_marginRight="@dimen/padding_standard_quarter"
+                        android:src="@drawable/ic_person_black_24dp"
+                        style="@style/AppTheme.ImageView.ClickableIcon" />
+
+                    <ListView
+                        android:id="@id/cafe_row_persons_listview"
+                        android:divider="@null"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/padding_standard"
+                        android:layout_marginRight="@dimen/padding_standard"
+                        android:paddingTop="@dimen/padding_standard_half"
+                        android:paddingBottom="@dimen/padding_standard_half"
+                        tools:listitem="@layout/cafe_person_row" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@id/cafe_row_roaster_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/padding_standard_quarter"
+                        android:layout_marginRight="@dimen/padding_standard_quarter"
+                        android:src="@drawable/ic_whatshot_black_24dp"
+                        style="@style/AppTheme.ImageView.ClickableIcon" />
+
+                    <TextView
+                        android:id="@id/cafe_row_roaster_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/padding_standard"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        tools:text="Ппппппппппппп"
+                        tools:ignore="RtlHardcoded"/>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

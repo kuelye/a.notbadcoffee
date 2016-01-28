@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/padding_standard_three_quarters"
         android:layout_marginRight="@dimen/padding_standard"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         tools:text="Иван Жмых" />
 
 </LinearLayout>

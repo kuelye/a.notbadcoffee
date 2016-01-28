@@ -15,6 +15,7 @@
 
     <!-- cafe_row -->
 
+    <item name="cafe_row_photo_layout" type="id" />
     <item name="cafe_row_photo_imageview" type="id" />
     <item name="cafe_row_name_textview" type="id" />
     <item name="cafe_row_location_layout" type="id" />

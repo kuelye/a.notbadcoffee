@@ -9,13 +9,15 @@
 
     <TextView
         android:id="@id/cafe_menu_row_item_textview"
+        android:ellipsize="end"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/padding_standard"
-        android:ellipsize="end"
         android:singleLine="true"
-        tools:text="Вьетнамский ледяной ледяной ледяной ледяной ледяной кофе" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        tools:text="Вьетнамский ледяной ледяной ледяной ледяной ледяной кофе"
+        tools:ignore="RtlHardcoded" />
 
     <TextView
         android:id="@id/cafe_menu_row_cost_textview"

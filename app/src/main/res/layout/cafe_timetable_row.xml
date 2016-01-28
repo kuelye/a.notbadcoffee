@@ -9,12 +9,14 @@
 
     <TextView
         android:id="@id/cafe_timetable_row_day_textview"
+        android:ellipsize="end"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:layout_marginRight="@dimen/padding_standard"
-        android:ellipsize="end"
         android:singleLine="true"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        tools:ignore="RtlHardcoded"
         tools:text="Будни" />
 
     <TextView
