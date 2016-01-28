@@ -22,6 +22,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
@@ -38,7 +39,7 @@ class ThreadPoolExecutor extends java.util.concurrent.ThreadPoolExecutor {
 
   private ThreadPoolExecutor() {
     super(POOL_SIZE_DEFAULT, POOL_SIZE_DEFAULT, KEEP_ALIVE_TIME_MS_DEFAULT
-        , TimeUnit.MILLISECONDS, new PriorityBlockingQueue<Runnable>(), new ThreadFactory());
+        , TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(), new ThreadFactory());
 
     mMainThreadHandler = new Handler(Looper.getMainLooper());
   }
