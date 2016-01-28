@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,6 +11,97 @@
     <com.google.android.gms.maps.MapView
         android:id="@id/mapview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true" />
 
-</LinearLayout>
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/padding_standard_half"
+        android:layout_alignParentBottom="true"
+        android:transitionName="@string/cafe_row_card_view_transition_name"
+        tools:ignore="UnusedAttribute"
+        tools:showIn="@layout/cafes_fragment"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <android.support.percent.PercentFrameLayout
+                android:id="@+id/cafe_row_photo_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+                <ImageView
+                    android:id="@id/cafe_row_photo_imageview"
+                    app:layout_widthPercent="100%"
+                    app:layout_aspectRatio="178%"
+                    tools:background="#cccccc"
+                    tools:ignore="UnusedAttribute"
+                    />
+            </android.support.percent.PercentFrameLayout>
+
+            <LinearLayout
+                android:id="@id/cafe_row_location_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/padding_standard_quarter"
+                    android:layout_marginRight="@dimen/padding_standard_quarter"
+                    android:src="@drawable/ic_place_black_24dp"
+                    style="@style/AppTheme.ImageView.ClickableIcon" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/padding_standard"
+                    android:orientation="vertical"
+                    tools:ignore="RtlHardcoded"
+                    >
+
+                    <TextView
+                        android:id="@id/cafe_row_location_address_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                        android:transitionName="@string/cafe_row_location_address_text_view_transition_name"
+                        tools:ignore="UnusedAttribute"
+                        tools:text="ул. Чарльза Дарвина, 42" />
+
+                    <TextView
+                        android:id="@id/cafe_row_location_metro_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                        android:transitionName="@string/cafe_row_location_metro_text_view_transition_name"
+                        tools:ignore="UnusedAttribute"
+                        tools:text="м. Невский Проспект" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@id/cafe_row_location_distance_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/padding_standard"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+                    tools:text="666 м"
+                    tools:ignore="RtlHardcoded" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>

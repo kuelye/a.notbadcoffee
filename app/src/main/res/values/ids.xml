@@ -9,9 +9,9 @@
     <item name="viewpager" type="id" />
     <item name="mapview" type="id" />
 
-    <!-- main_activity -->
+    <!-- toolbar_activity -->
 
-    <item name="cafes_fragment" type="id" />
+    <item name="fragment" type="id" />
 
     <!-- cafe_row -->
 

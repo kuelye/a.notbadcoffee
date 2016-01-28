@@ -43,13 +43,16 @@ import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 
 public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolder> {
 
-  private Context mContext;
+  @NonNull private final Context mContext;
+  @NonNull private final Callback mCallback;
+
 
   @NonNull private final Object mLock = new Object();
   @NonNull private List<Cafe> mCafes = new ArrayList<>();
 
-  public CafesAdapter(@NonNull Context context) {
+  public CafesAdapter(@NonNull final Context context, @NonNull final Callback callback) {
     mContext = context;
+    mCallback = callback;
   }
 
   @Override
@@ -73,8 +76,7 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
           .fit()
           .into(holder.photoImageView);
     }
-    holder.locationAddressTextView.setText(place.getAddress());
-    holder.locationMetroTextView.setText(place.getMetro());
+    fillRowLocationLayout(holder, cafe);
     if (cafe.getTimetable() == null) {
       holder.timetableLayout.setVisibility(GONE);
       holder.openUntilTextView.setText(null);
@@ -118,7 +120,26 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
     notifyDataSetChanged();
   }
 
+  /* =========================== HIDDEN ============================= */
+
+  private void fillRowLocationLayout(@NonNull final RowViewHolder holder
+      , @NonNull final Cafe cafe) {
+    final Place place = cafe.getPlaces().get(0);
+    holder.locationLayout.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        mCallback.onLocationLayoutClicked(holder, cafe);
+      }
+    });
+    holder.locationAddressTextView.setText(place.getAddress());
+    holder.locationMetroTextView.setText(place.getMetro());
+  }
+
   /* =========================== INNER ============================== */
+
+  public interface Callback {
+    void onLocationLayoutClicked(@NonNull RowViewHolder cafeRowViewHolder, @NonNull Cafe cafe);
+  }
 
   public static class HeaderDecoration extends RecyclerView.ItemDecoration {
 
@@ -140,10 +161,12 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
 
   }
 
-  static class RowViewHolder extends RecyclerView.ViewHolder {
+  public static class RowViewHolder extends RecyclerView.ViewHolder {
 
+    public final View rootView;
     public final TextView nameTextView;
     public final ImageView photoImageView;
+    public final ViewGroup locationLayout;
     public final TextView locationAddressTextView;
     public final TextView locationMetroTextView;
     public final TextView locationDistanceTextView;
@@ -160,8 +183,10 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
     public RowViewHolder(@NonNull View view, @NonNull Context context) {
       super(view);
 
+      rootView = view;
       nameTextView = (TextView) view.findViewById(R.id.cafe_row_name_textview);
       photoImageView = (ImageView) view.findViewById(R.id.cafe_row_photo_imageview);
+      locationLayout = (ViewGroup) view.findViewById(R.id.cafe_row_location_layout);
       locationAddressTextView = (TextView) view.findViewById(R.id.cafe_row_location_address_textview);
       locationMetroTextView = (TextView) view.findViewById(R.id.cafe_row_location_metro_textview);
       locationDistanceTextView = (TextView) view.findViewById(R.id.cafe_row_location_distance_textview);

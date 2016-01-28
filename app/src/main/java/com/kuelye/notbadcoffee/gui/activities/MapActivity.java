@@ -1,7 +1,7 @@
 package com.kuelye.notbadcoffee.gui.activities;
 
 /*
- * Not Bad Coffee for Android.
+ * Not Bad Coffee for Android. 
  * Copyright (C) 2016 Alexey Leshchuk.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -22,16 +22,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.kuelye.notbadcoffee.R;
-import com.kuelye.notbadcoffee.gui.fragments.CafesFragment;
+import com.kuelye.notbadcoffee.gui.fragments.MapFragment;
 
-public class MainActivity extends AbstractToolbarActivity {
+public class MapActivity extends AbstractToolbarActivity {
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     if (savedInstanceState == null) {
-      final Fragment fragment = new CafesFragment();
+      final Fragment fragment = new MapFragment();
       getSupportFragmentManager()
           .beginTransaction()
           .add(R.id.fragment, fragment)

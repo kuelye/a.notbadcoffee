@@ -4,6 +4,14 @@
 
     <string name="application_name">Not Bad Coffee</string>
 
+    <!-- TRANSITION NAMES -->
+
+    <string name="cafe_row_card_view_transition_name" translatable="false">cafe_row_card_view</string>
+    <string name="cafe_row_photo_image_view_transition_name" translatable="false">cafe_row_photo_image_view</string>
+    <string name="cafe_row_location_address_text_view_transition_name" translatable="false">cafe_row_location_address_text_view</string>
+    <string name="cafe_row_location_metro_text_view_transition_name" translatable="false">cafe_row_location_metro_text_view</string>
+    <string name="cafe_row_location_distance_text_view_transition_name" translatable="false">cafe_row_location_distance_text_view</string>
+
     <!-- cafe_row -->
 
     <string name="cafe_row_open_until_template">Open until %s</string>

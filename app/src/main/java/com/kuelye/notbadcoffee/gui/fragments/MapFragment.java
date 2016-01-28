@@ -17,21 +17,30 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.kuelye.notbadcoffee.R;
+import com.squareup.picasso.Picasso;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
+  public static final String CAFE_PHOTO_EXTRA = "CAFE_PHOTO";
+  public static final String CAFE_PLACE_ADDRESS_EXTRA = "CAFE_LOCATION_ADDRESS";
+  public static final String CAFE_PLACE_METRO_EXTRA = "CAFE_LOCATION_METRO";
+
   private MapView mMapView;
+
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +54,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     mMapView = (MapView) view.findViewById(R.id.mapview);
     mMapView.onCreate(savedInstanceState);
     mMapView.getMapAsync(this);
+
+    final Intent intent = getActivity().getIntent();
+    final ImageView photoImageView = (ImageView) view.findViewById(R.id.cafe_row_photo_imageview);
+    Picasso.with(getActivity())
+        .load(intent.getStringExtra(CAFE_PHOTO_EXTRA))
+        .fit()
+        .into(photoImageView);
+    final TextView addressTextView = (TextView) view.findViewById(R.id.cafe_row_location_address_textview);
+    addressTextView.setText(intent.getStringExtra(CAFE_PLACE_ADDRESS_EXTRA));
+    final TextView metroTextView = (TextView) view.findViewById(R.id.cafe_row_location_metro_textview);
+    metroTextView.setText(intent.getStringExtra(CAFE_PLACE_METRO_EXTRA));
 
     return view;
   }
