@@ -17,5 +17,28 @@ package com.kuelye.notbadcoffee;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
+import com.kuelye.notbadcoffee.model.Cafes;
+import com.squareup.otto.Bus;
+
 public class Application extends android.app.Application {
+
+  @NonNull private static final Bus sBus = new Bus();
+
+  @Nullable private static Cafes sCafes;
+
+  @NonNull public static Bus getBus() {
+    return sBus;
+  }
+
+  @Nullable public static Cafes getCafes() {
+    return sCafes;
+  }
+
+  public static void setCafes(@Nullable Cafes cafes) {
+    sCafes = cafes;
+  }
+
 }

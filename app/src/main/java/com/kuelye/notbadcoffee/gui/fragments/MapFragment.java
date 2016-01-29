@@ -31,16 +31,30 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.kuelye.notbadcoffee.R;
+import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
+import com.kuelye.notbadcoffee.logic.tasks.GetCafesAsyncTask;
+import com.kuelye.notbadcoffee.model.Cafe;
+import com.kuelye.notbadcoffee.model.Place;
+import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
+
+import static com.kuelye.notbadcoffee.Application.getBus;
 
 public class MapFragment extends Fragment implements OnMapReadyCallback {
 
-  public static final String CAFE_PHOTO_EXTRA = "CAFE_PHOTO";
-  public static final String CAFE_PLACE_ADDRESS_EXTRA = "CAFE_LOCATION_ADDRESS";
-  public static final String CAFE_PLACE_METRO_EXTRA = "CAFE_LOCATION_METRO";
+  public static final String CAFE_PLACE_ID_EXTRA = "CAFE_PLACE_ID";
 
   private MapView mMapView;
 
+  public static MapFragment newInstance(int cafePlaceId) {
+    final MapFragment mapFragment = new MapFragment();
+
+    final Bundle arguments = new Bundle();
+    arguments.putInt(CAFE_PLACE_ID_EXTRA, cafePlaceId);
+    mapFragment.setArguments(arguments);
+
+    return mapFragment;
+  }
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,15 +70,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     mMapView.getMapAsync(this);
 
     final Intent intent = getActivity().getIntent();
-    final ImageView photoImageView = (ImageView) view.findViewById(R.id.cafe_row_photo_imageview);
-    Picasso.with(getActivity())
-        .load(intent.getStringExtra(CAFE_PHOTO_EXTRA))
-        .fit()
-        .into(photoImageView);
-    final TextView addressTextView = (TextView) view.findViewById(R.id.cafe_row_location_address_textview);
-    addressTextView.setText(intent.getStringExtra(CAFE_PLACE_ADDRESS_EXTRA));
-    final TextView metroTextView = (TextView) view.findViewById(R.id.cafe_row_location_metro_textview);
-    metroTextView.setText(intent.getStringExtra(CAFE_PLACE_METRO_EXTRA));
+
 
     return view;
   }
@@ -72,11 +78,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
   public void onResume() {
     super.onResume();
     mMapView.onResume();
+
+    getBus().register(this);
+    update();
   }
 
   public void onPause() {
     mMapView.onPause();
     super.onPause();
+
+    getBus().unregister(this);
   }
 
   public void onSaveInstanceState(Bundle outState) {
@@ -91,6 +102,31 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
   @Override
   public void onMapReady(GoogleMap googleMap) {
     googleMap.setMyLocationEnabled(true);
+  }
+
+  @Subscribe
+  public void onGetCafeEvent(GetCafeAsyncTask.Event getCafeEvent) {
+    final Cafe cafe = getCafeEvent.getCafe();
+    final View view = getView();
+    if (cafe != null && view != null) {
+      final Place place = cafe.getPlace();
+
+      final ImageView photoImageView = (ImageView) view.findViewById(R.id.cafe_row_photo_imageview);
+      Picasso.with(getActivity())
+          .load(place.getPhoto())
+          .fit()
+          .into(photoImageView);
+      final TextView addressTextView = (TextView) view.findViewById(R.id.cafe_row_location_address_textview);
+      addressTextView.setText(place.getAddress());
+      final TextView metroTextView = (TextView) view.findViewById(R.id.cafe_row_location_metro_textview);
+      metroTextView.setText(place.getMetro());
+    }
+  }
+
+  /* =========================== HIDDEN ============================= */
+
+  private void update() {
+    new GetCafeAsyncTask().execute(getActivity().getIntent().getIntExtra(CAFE_PLACE_ID_EXTRA, -1));
   }
 
 }

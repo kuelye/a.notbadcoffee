@@ -38,6 +38,10 @@ public class Cafe {
     return mName;
   }
 
+  @NonNull public Place getPlace() {
+    return mPlaces.get(0);
+  }
+
   @NonNull public Places getPlaces() {
     return mPlaces;
   }

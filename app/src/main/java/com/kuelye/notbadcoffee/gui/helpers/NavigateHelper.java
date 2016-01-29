@@ -29,7 +29,6 @@ import android.view.View;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.activities.MapActivity;
 import com.kuelye.notbadcoffee.gui.adapters.CafesAdapter;
-import com.kuelye.notbadcoffee.gui.fragments.MapFragment;
 import com.kuelye.notbadcoffee.model.Cafe;
 
 import java.util.ArrayList;
@@ -37,9 +36,7 @@ import java.util.List;
 
 import static android.support.v4.app.ActivityOptionsCompat.makeSceneTransitionAnimation;
 import static android.support.v4.view.ViewCompat.setTransitionName;
-import static com.kuelye.notbadcoffee.gui.fragments.MapFragment.CAFE_PHOTO_EXTRA;
-import static com.kuelye.notbadcoffee.gui.fragments.MapFragment.CAFE_PLACE_ADDRESS_EXTRA;
-import static com.kuelye.notbadcoffee.gui.fragments.MapFragment.CAFE_PLACE_METRO_EXTRA;
+import static com.kuelye.notbadcoffee.gui.fragments.MapFragment.CAFE_PLACE_ID_EXTRA;
 
 public final class NavigateHelper {
 
@@ -56,9 +53,7 @@ public final class NavigateHelper {
             , R.string.cafe_row_location_metro_text_view_transition_name));
     final Intent intent = new Intent(sourceActivity, MapActivity.class);
 
-    intent.putExtra(CAFE_PHOTO_EXTRA, cafe.getPlaces().get(0).getPhoto());
-    intent.putExtra(CAFE_PLACE_ADDRESS_EXTRA, cafe.getPlaces().get(0).getAddress());
-    intent.putExtra(CAFE_PLACE_METRO_EXTRA, cafe.getPlaces().get(0).getMetro());
+    intent.putExtra(CAFE_PLACE_ID_EXTRA, cafe.getPlace().getId());
 
     ActivityCompat.startActivity(sourceActivity, intent, options.toBundle());
   }

@@ -17,20 +17,30 @@ package com.kuelye.notbadcoffee.logic.operations;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import com.kuelye.notbadcoffee.Application;
+import com.kuelye.notbadcoffee.logic.parsers.json.CafesJsonParser;
 import com.kuelye.notbadcoffee.model.Cafes;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.concurrent.Callable;
 
-import static com.kuelye.notbadcoffee.Application.getCafes;
+import static com.kuelye.components.utils.NetworkUtils.getResponse;
+import static com.kuelye.notbadcoffee.ProjectConfig.GET_CAFES_REQUEST;
 
-public class GetCafesOperation implements Callable<Cafes> {
+public class UpdateCafesOperation implements Callable<Cafes> {
+
+  private static final String CAFES_KEY_NAME = "cafes";
 
   @Override
   public Cafes call() throws Exception {
-    Cafes cafes = getCafes();
-    if (cafes == null) {
-      cafes = new UpdateCafesOperation().call();
-    }
+    final String response = getResponse(GET_CAFES_REQUEST);
+    final JSONObject responseJsonObject = new JSONObject(response);
+    final JSONArray cafesJsonArray = responseJsonObject.getJSONArray(CAFES_KEY_NAME);
+    final Cafes cafes = new CafesJsonParser().parse(cafesJsonArray);
+
+    Application.setCafes(cafes);
 
     return cafes;
   }

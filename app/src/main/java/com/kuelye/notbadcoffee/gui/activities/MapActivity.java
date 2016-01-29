@@ -31,7 +31,8 @@ public class MapActivity extends AbstractToolbarActivity {
     super.onCreate(savedInstanceState);
 
     if (savedInstanceState == null) {
-      final Fragment fragment = new MapFragment();
+      final int cafePlaceId = getIntent().getIntExtra(MapFragment.CAFE_PLACE_ID_EXTRA, -1);
+      final Fragment fragment = MapFragment.newInstance(cafePlaceId);
       getSupportFragmentManager()
           .beginTransaction()
           .add(R.id.fragment, fragment)

@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee.model;
+package com.kuelye.notbadcoffee.logic.operations;
 
 /*
  * Not Bad Coffee for Android. 
@@ -17,20 +17,29 @@ package com.kuelye.notbadcoffee.model;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import java.util.ArrayList;
+import com.kuelye.notbadcoffee.model.Cafe;
+import com.kuelye.notbadcoffee.model.Cafes;
 
-public class Cafes extends ArrayList<Cafe> {
+import java.util.concurrent.Callable;
 
-  public Cafe byPlaceId(int placeId) {
-    for (Cafe cafe : this) {
-      for (Place place : cafe.getPlaces()) {
-        if (place.getId() == placeId) {
-          return cafe;
-        }
-      }
+import static com.kuelye.notbadcoffee.Application.getCafes;
+
+public class GetCafeOperation implements Callable<Cafe> {
+
+  private final int mPlaceId;
+
+  public GetCafeOperation(int placeId) {
+    mPlaceId = placeId;
+  }
+
+  @Override
+  public Cafe call() throws Exception {
+    Cafes cafes = getCafes();
+    if (cafes == null) {
+      cafes = new UpdateCafesOperation().call();
     }
 
-    return null;
+    return cafes.byPlaceId(mPlaceId);
   }
 
 }
