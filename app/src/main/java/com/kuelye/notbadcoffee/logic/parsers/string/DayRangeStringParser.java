@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee.parsers.string;
+package com.kuelye.notbadcoffee.logic.parsers.string;
 
 /*
  * Not Bad Coffee for Android. 
@@ -20,7 +20,7 @@ package com.kuelye.notbadcoffee.parsers.string;
 import android.support.annotation.NonNull;
 
 import com.kuelye.notbadcoffee.model.DayRange;
-import com.kuelye.notbadcoffee.parsers.UnsupportedParseValue;
+import com.kuelye.notbadcoffee.logic.parsers.UnsupportedParseValue;
 
 import static com.kuelye.notbadcoffee.model.DayRange.WEEKDAYS;
 import static com.kuelye.notbadcoffee.model.DayRange.WEEKEND;

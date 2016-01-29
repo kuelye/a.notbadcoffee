@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee.parsers.json;
+package com.kuelye.notbadcoffee.logic.parsers.string;
 
 /*
  * Not Bad Coffee for Android. 
@@ -19,25 +19,22 @@ package com.kuelye.notbadcoffee.parsers.json;
 
 import android.support.annotation.NonNull;
 
-import com.kuelye.notbadcoffee.model.Menu;
-import com.kuelye.notbadcoffee.model.MenuRow;
+import com.kuelye.notbadcoffee.model.TimeRange;
+import com.kuelye.notbadcoffee.logic.parsers.UnsupportedParseValue;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import static com.kuelye.notbadcoffee.model.TimeRange.SEPARATOR;
 
-public class MenuJsonParser extends AbstractJsonArrayParser<Menu> {
+public class TimeRangeStringParser extends AbstractStringParser<TimeRange> {
 
   @Override
-  @NonNull public Menu parse(@NonNull JSONArray menuJsonArray) throws Exception {
-    final MenuRowJsonParser menuRowJsonParser = new MenuRowJsonParser();
-    final Menu menu = new Menu();
-    for (int i = 0; i < menuJsonArray.length(); ++i) {
-      final JSONObject menuRowJsonObject = menuJsonArray.getJSONObject(i);
-      final MenuRow menuRow = menuRowJsonParser.parse(menuRowJsonObject);
-      menu.add(menuRow);
-    }
+  @NonNull public TimeRange parse(@NonNull String timeRangeAsString) throws Exception {
+    final String[] parts = timeRangeAsString.split(SEPARATOR);
 
-    return menu;
+    if (parts.length != 2) {
+      throw new UnsupportedParseValue(timeRangeAsString);
+    } else {
+      return new TimeRange(parts[0].trim(), parts[1].trim());
+    }
   }
 
 }

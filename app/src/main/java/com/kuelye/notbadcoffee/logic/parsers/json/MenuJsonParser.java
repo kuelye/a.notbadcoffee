@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee.parsers.json;
+package com.kuelye.notbadcoffee.logic.parsers.json;
 
 /*
  * Not Bad Coffee for Android. 
@@ -19,25 +19,25 @@ package com.kuelye.notbadcoffee.parsers.json;
 
 import android.support.annotation.NonNull;
 
-import com.kuelye.notbadcoffee.model.Timetable;
-import com.kuelye.notbadcoffee.model.TimetableRow;
+import com.kuelye.notbadcoffee.model.Menu;
+import com.kuelye.notbadcoffee.model.MenuRow;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class TimetableJsonParser extends AbstractJsonArrayParser<Timetable> {
+public class MenuJsonParser extends AbstractJsonArrayParser<Menu> {
 
   @Override
-  @NonNull public Timetable parse(@NonNull JSONArray timetableJsonArray) throws Exception {
-    final TimetableRowJsonParser timetableRowJsonParser = new TimetableRowJsonParser();
-    final Timetable timetable = new Timetable();
-    for (int i = 0; i < timetableJsonArray.length(); ++i) {
-      final JSONObject timetableRowJsonObject = timetableJsonArray.getJSONObject(i);
-      final TimetableRow timetableRow = timetableRowJsonParser.parse(timetableRowJsonObject);
-      timetable.add(timetableRow);
+  @NonNull public Menu parse(@NonNull JSONArray menuJsonArray) throws Exception {
+    final MenuRowJsonParser menuRowJsonParser = new MenuRowJsonParser();
+    final Menu menu = new Menu();
+    for (int i = 0; i < menuJsonArray.length(); ++i) {
+      final JSONObject menuRowJsonObject = menuJsonArray.getJSONObject(i);
+      final MenuRow menuRow = menuRowJsonParser.parse(menuRowJsonObject);
+      menu.add(menuRow);
     }
 
-    return timetable;
+    return menu;
   }
 
 }

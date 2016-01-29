@@ -32,7 +32,7 @@ import com.kuelye.components.concurrent.AbstractOperation;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.adapters.CafesAdapter;
 import com.kuelye.notbadcoffee.model.Cafe;
-import com.kuelye.notbadcoffee.operations.GetCafesOperation;
+import com.kuelye.notbadcoffee.logic.operations.GetCafesOperation;
 
 import java.util.List;
 

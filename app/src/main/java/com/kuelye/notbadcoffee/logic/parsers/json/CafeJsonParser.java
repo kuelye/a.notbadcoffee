@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee.parsers.json;
+package com.kuelye.notbadcoffee.logic.parsers.json;
 
 /*
  * Not Bad Coffee for Android. 

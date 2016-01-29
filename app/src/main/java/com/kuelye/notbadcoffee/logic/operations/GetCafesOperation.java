@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee.operations;
+package com.kuelye.notbadcoffee.logic.operations;
 
 /*
  * Not Bad Coffee for Android. 
@@ -19,7 +19,7 @@ package com.kuelye.notbadcoffee.operations;
 
 import com.kuelye.components.concurrent.AbstractOperation;
 import com.kuelye.notbadcoffee.model.Cafe;
-import com.kuelye.notbadcoffee.parsers.json.CafesJsonParser;
+import com.kuelye.notbadcoffee.logic.parsers.json.CafesJsonParser;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

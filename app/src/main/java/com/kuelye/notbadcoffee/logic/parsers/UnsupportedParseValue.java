@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee.parsers.string;
+package com.kuelye.notbadcoffee.logic.parsers;
 
 /*
  * Not Bad Coffee for Android. 
@@ -17,25 +17,12 @@ package com.kuelye.notbadcoffee.parsers.string;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.kuelye.notbadcoffee.model.TimeRange;
-import com.kuelye.notbadcoffee.parsers.UnsupportedParseValue;
+public class UnsupportedParseValue extends RuntimeException {
 
-import static com.kuelye.notbadcoffee.model.TimeRange.SEPARATOR;
-
-public class TimeRangeStringParser extends AbstractStringParser<TimeRange> {
-
-  @Override
-  @NonNull public TimeRange parse(@NonNull String timeRangeAsString) throws Exception {
-    final String[] parts = timeRangeAsString.split(SEPARATOR);
-
-    if (parts.length != 2) {
-      throw new UnsupportedParseValue(timeRangeAsString);
-    } else {
-      return new TimeRange(parts[0].trim(), parts[1].trim());
-    }
+  public UnsupportedParseValue(@Nullable Object value) {
+    super("Value '" + (value == null ? "null" : value.toString()) + "' isn't supported.");
   }
 
 }

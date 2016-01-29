@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee.parsers;
+package com.kuelye.notbadcoffee.logic.parsers.json;
 
 /*
  * Not Bad Coffee for Android. 
@@ -17,12 +17,24 @@ package com.kuelye.notbadcoffee.parsers;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
-public class UnsupportedParseValue extends RuntimeException {
+import com.kuelye.notbadcoffee.model.MenuRow;
 
-  public UnsupportedParseValue(@Nullable Object value) {
-    super("Value '" + (value == null ? "null" : value.toString()) + "' isn't supported.");
+import org.json.JSONObject;
+
+public class MenuRowJsonParser extends AbstractJsonObjectParser<MenuRow> {
+
+  private static final String ITEM_KEY_NAME = "item";
+  private static final String COST_KEY_NAME = "cost";
+
+  @Override
+  @NonNull public MenuRow parse(@NonNull JSONObject menuRowJsonObject)
+      throws Exception {
+    final String item = menuRowJsonObject.getString(ITEM_KEY_NAME);
+    final String cost = menuRowJsonObject.getString(COST_KEY_NAME);
+
+    return new MenuRow(item, cost);
   }
 
 }

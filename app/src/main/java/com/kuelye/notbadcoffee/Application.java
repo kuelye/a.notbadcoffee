@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee.parsers.json;
+package com.kuelye.notbadcoffee;
 
 /*
  * Not Bad Coffee for Android. 
@@ -17,12 +17,5 @@ package com.kuelye.notbadcoffee.parsers.json;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import com.kuelye.notbadcoffee.parsers.AbstractParser;
-
-import org.json.JSONArray;
-
-abstract class AbstractJsonArrayParser<R> extends AbstractParser<JSONArray, R> {
-
-  // stub
-
+public class Application extends android.app.Application {
 }

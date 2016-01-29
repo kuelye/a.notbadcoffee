@@ -1,4 +1,4 @@
-package com.kuelye.notbadcoffee.parsers;
+package com.kuelye.notbadcoffee.logic.parsers.json;
 
 /*
  * Not Bad Coffee for Android. 
@@ -19,8 +19,25 @@ package com.kuelye.notbadcoffee.parsers;
 
 import android.support.annotation.NonNull;
 
-public abstract class AbstractParser<V, R> {
+import com.kuelye.notbadcoffee.model.Cafe;
+import com.kuelye.notbadcoffee.model.Cafes;
 
-  @NonNull public abstract R parse(@NonNull V value) throws Exception;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+public class CafesJsonParser extends AbstractJsonArrayParser<Cafes> {
+
+  @Override
+  @NonNull public Cafes parse(@NonNull JSONArray cafesJsonArray) throws Exception {
+    final CafeJsonParser cafeJsonParser = new CafeJsonParser();
+    final Cafes cafes = new Cafes();
+    for (int i = 0; i < cafesJsonArray.length(); ++i) {
+      final JSONObject cafeJsonObject = cafesJsonArray.getJSONObject(i);
+      final Cafe cafe = cafeJsonParser.parse(cafeJsonObject);
+      cafes.add(cafe);
+    }
+
+    return cafes;
+  }
 
 }
