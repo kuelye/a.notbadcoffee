@@ -19,21 +19,19 @@ package com.kuelye.notbadcoffee.gui.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 import com.kuelye.notbadcoffee.R;
-import com.kuelye.notbadcoffee.gui.fragments.CafesFragment;
-import com.kuelye.notbadcoffee.gui.fragments.MapFragment;
 
 import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
+import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.setTransitionName;
 
-abstract class AbstractToolbarActivity extends AppCompatActivity {
+abstract class AbstractActivity extends AppCompatActivity {
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,8 +40,7 @@ abstract class AbstractToolbarActivity extends AppCompatActivity {
     setContentView(R.layout.toolbar_activity);
 
     if (savedInstanceState == null) {
-      // translucent status bar bug fix
-      // (it height didn't included, so it is considered as 0dp)
+      // translucent status bar bug fix (it height didn't included, so it is considered as 0dp)
       final View stubView = findViewById(R.id.stub_view);
       stubView.setPadding(0, getStatusBarHeight(this), 0, 0);
 

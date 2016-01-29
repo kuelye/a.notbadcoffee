@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -14,17 +15,21 @@
 
     <FrameLayout
         android:id="@id/stub_view"
+        android:background="@color/colorPrimaryA80"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:background="@color/colorPrimaryA80" />
+        android:transitionName="@string/stub_view_transition_name"
+        tools:ignore="UnusedAttribute" />
 
     <android.support.v7.widget.Toolbar
         style="@style/AppTheme.Toolbar"
         android:id="@id/toolbar"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
         android:background="@color/colorPrimaryA80"
         android:layout_below="@id/stub_view"
-        android:minHeight="?attr/actionBarSize" />
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:minHeight="?attr/actionBarSize"
+        android:transitionName="@string/toolbar_transition_name"
+        tools:ignore="UnusedAttribute" />
 </RelativeLayout>

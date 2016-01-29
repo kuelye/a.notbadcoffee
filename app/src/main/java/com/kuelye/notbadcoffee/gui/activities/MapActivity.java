@@ -24,7 +24,7 @@ import android.support.v4.app.Fragment;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.fragments.MapFragment;
 
-public class MapActivity extends AbstractToolbarActivity {
+public class MapActivity extends AbstractActivity {
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {

@@ -17,7 +17,6 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,15 +31,17 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
-import com.kuelye.notbadcoffee.logic.tasks.GetCafesAsyncTask;
 import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.model.Place;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static com.kuelye.notbadcoffee.Application.getBus;
+import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.setTransitionName;
 
-public class MapFragment extends Fragment implements OnMapReadyCallback {
+public class MapFragment extends AbstractFragment implements OnMapReadyCallback {
 
   public static final String CAFE_PLACE_ID_EXTRA = "CAFE_PLACE_ID";
 
@@ -69,12 +70,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     mMapView.onCreate(savedInstanceState);
     mMapView.getMapAsync(this);
 
-    final Intent intent = getActivity().getIntent();
-
-
     return view;
   }
 
+  @Override
   public void onResume() {
     super.onResume();
     mMapView.onResume();
@@ -83,6 +82,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     update();
   }
 
+  @Override
   public void onPause() {
     mMapView.onPause();
     super.onPause();
@@ -90,10 +90,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     getBus().unregister(this);
   }
 
+  @Override
   public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     mMapView.onSaveInstanceState(outState);
   }
+
+  @Override
   public void onLowMemory() {
     mMapView.onLowMemory();
     super.onLowMemory();
@@ -105,7 +108,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
   }
 
   @Subscribe
-  public void onGetCafeEvent(GetCafeAsyncTask.Event getCafeEvent) {
+  public void onGetCafeEventGotten(GetCafeAsyncTask.Event getCafeEvent) {
     final Cafe cafe = getCafeEvent.getCafe();
     final View view = getView();
     if (cafe != null && view != null) {

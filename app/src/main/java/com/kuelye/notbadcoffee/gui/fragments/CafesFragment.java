@@ -20,9 +20,13 @@ package com.kuelye.notbadcoffee.gui.fragments;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Slide;
+import android.transition.Transition;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +38,8 @@ import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.model.Cafes;
 import com.squareup.otto.Subscribe;
 
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static com.kuelye.notbadcoffee.Application.getBus;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchMapActivity;
 
@@ -42,6 +48,15 @@ public class CafesFragment extends Fragment implements CafesAdapter.Callback {
   private RecyclerView mRecyclerView;
   private LinearLayoutManager mLayoutManager;
   private CafesAdapter mCafesAdapter;
+
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    if (SDK_INT >= LOLLIPOP) {
+      final Transition exitTransition = new Slide(Gravity.LEFT);
+      getActivity().getWindow().setExitTransition(exitTransition);
+    }
+  }
 
   @SuppressLint("InflateParams")
   @Override
@@ -82,7 +97,7 @@ public class CafesFragment extends Fragment implements CafesAdapter.Callback {
   }
 
   @Subscribe
-  public void onGetCafesEvent(GetCafesAsyncTask.Event getCafesEvent) {
+  public void onGetCafesEventGotten(GetCafesAsyncTask.Event getCafesEvent) {
     final Cafes cafes = getCafesEvent.getCafes();
     if (cafes != null) {
       mCafesAdapter.set(cafes);
