@@ -131,14 +131,14 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
   private void fillRowLocationLayout(@NonNull final RowViewHolder holder
       , @NonNull final Cafe cafe) {
     final Place place = cafe.getPlaces().get(0);
-    holder.locationLayout.setOnClickListener(new View.OnClickListener() {
+    holder.placeLayout.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         mCallback.onLocationClicked(holder, cafe);
       }
     });
-    holder.locationAddressTextView.setText(place.getAddress());
-    holder.locationMetroTextView.setText(place.getMetro());
+    holder.placeAddressTextView.setText(place.getAddress());
+    holder.placeMetroTextView.setText(place.getMetro());
   }
 
   /* =========================== INNER ============================== */
@@ -174,10 +174,10 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
     public final TextView nameTextView;
     public final ViewGroup photoLayout;
     public final ImageView photoImageView;
-    public final ViewGroup locationLayout;
-    public final TextView locationAddressTextView;
-    public final TextView locationMetroTextView;
-    public final TextView locationDistanceTextView;
+    public final ViewGroup placeLayout;
+    public final TextView placeAddressTextView;
+    public final TextView placeMetroTextView;
+    public final TextView placeDistanceTextView;
     public final ViewGroup infoLayout;
     public final ViewGroup infoHeaderLayout;
     public final TextView openUntilTextView;
@@ -192,25 +192,25 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
       super(view);
 
       rootView = view;
-      nameTextView = (TextView) view.findViewById(R.id.cafe_row_name_textview);
-      photoLayout = (ViewGroup) view.findViewById(R.id.cafe_row_photo_layout);
-      photoImageView = (ImageView) view.findViewById(R.id.cafe_row_photo_imageview);
-      locationLayout = (ViewGroup) view.findViewById(R.id.cafe_row_location_layout);
-      locationAddressTextView = (TextView) view.findViewById(R.id.cafe_row_location_address_textview);
-      locationMetroTextView = (TextView) view.findViewById(R.id.cafe_row_location_metro_textview);
-      locationDistanceTextView = (TextView) view.findViewById(R.id.cafe_row_location_distance_textview);
-      infoLayout = (ViewGroup) view.findViewById(R.id.cafe_row_info_layout);
-      infoHeaderLayout = (ViewGroup) view.findViewById(R.id.cafe_row_info_header_layout);
-      openUntilTextView = (TextView) view.findViewById(R.id.cafe_row_open_until_textview);
-      infoHeaderIconImageView = (ImageView) view.findViewById(R.id.cafe_row_info_header_icon_imageview);
-      timetableLayout = (ViewGroup) view.findViewById(R.id.cafe_row_timetable_layout);
+      nameTextView = (TextView) view.findViewById(R.id.cafe_name_text_view);
+      photoLayout = (ViewGroup) view.findViewById(R.id.cafe_photo_layout);
+      photoImageView = (ImageView) view.findViewById(R.id.cafe_photo_image_view);
+      placeLayout = (ViewGroup) view.findViewById(R.id.cafe_place_layout);
+      placeAddressTextView = (TextView) view.findViewById(R.id.cafe_place_address_text_view);
+      placeMetroTextView = (TextView) view.findViewById(R.id.cafe_place_metro_text_view);
+      placeDistanceTextView = (TextView) view.findViewById(R.id.cafe_place_distance_text_view);
+      infoLayout = (ViewGroup) view.findViewById(R.id.cafe_info_layout);
+      infoHeaderLayout = (ViewGroup) view.findViewById(R.id.cafe_info_header_layout);
+      openUntilTextView = (TextView) view.findViewById(R.id.cafe_open_until_text_view);
+      infoHeaderIconImageView = (ImageView) view.findViewById(R.id.cafe_info_header_icon_image_view);
+      timetableLayout = (ViewGroup) view.findViewById(R.id.cafe_timetable_layout);
       final ListView timetableListView
-          = (ListView) view.findViewById(R.id.cafe_row_timetable_listview);
+          = (ListView) view.findViewById(R.id.cafe_timetable_list_view);
       timetableAdapter = new TimetableAdapter(context);
       timetableListView.setAdapter(timetableAdapter);
-      menuLayout = (ViewGroup) view.findViewById(R.id.cafe_row_menu_layout);
+      menuLayout = (ViewGroup) view.findViewById(R.id.cafe_menu_layout);
       final ListView menuListView
-          = (ListView) view.findViewById(R.id.cafe_row_menu_listview);
+          = (ListView) view.findViewById(R.id.cafe_menu_list_view);
       menuAdapter = new MenuAdapter(context);
       menuListView.setAdapter(menuAdapter);
     }

@@ -31,7 +31,6 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.activities.CafeActivity;
@@ -64,7 +63,7 @@ public final class NavigateHelper {
           , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar)
               , R.string.toolbar_transition_name)
           , new SharedElementHolder(cafeRowViewHolder.rootView
-              , R.string.cafe_row_card_view_transition_name))
+              , R.string.card_view_transition_name))
           .toBundle();
     }
 
@@ -87,7 +86,7 @@ public final class NavigateHelper {
           , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar)
               , R.string.toolbar_transition_name)
           , new SharedElementHolder(view
-              , R.string.cafe_row_photo_image_view_transition_name))
+              , R.string.cafe_photo_image_view_transition_name))
           .toBundle();
     }
 

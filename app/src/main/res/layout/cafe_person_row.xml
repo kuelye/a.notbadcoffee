@@ -10,7 +10,7 @@
     >
 
     <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@id/cafe_person_row_avatar_imageview"
+        android:id="@id/cafe_person_avatar_image_view"
         android:layout_marginLeft="@dimen/padding_standard_quarter"
         android:layout_marginRight="@dimen/padding_standard_quarter"
         android:layout_margin="@dimen/padding_standard_quarter"
@@ -22,7 +22,7 @@
         app:riv_oval="true" />
 
     <TextView
-        android:id="@id/cafe_person_row_name_textview"
+        android:id="@id/cafe_person_name_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/padding_standard_three_quarters"

@@ -35,17 +35,17 @@ public class Timetable extends ArrayList<TimetableRow> {
     final int day = Calendar.getInstance().get(DAY_OF_WEEK);
     for (TimetableRow timetableRow : this) {
       if (timetableRow.getDayRange().isIncludeDay(day)) {
-        final String openUntilTemplate = context.getString(R.string.cafe_row_open_until_template);
+        final String openUntilTemplate = context.getString(R.string.cafe_open_until_template);
         String timeTo = timetableRow.getTimeRange().getTimeTo();
         if (timeTo.equals(TimeRange.MIDNIGHT_TIME)) {
-          timeTo = context.getString(R.string.cafe_row_midnight);
+          timeTo = context.getString(R.string.cafe_time_midnight);
         }
 
         return format(openUntilTemplate, timeTo);
       }
     }
 
-    return context.getString(R.string.cafe_row_closed);
+    return context.getString(R.string.cafe_closed);
   }
 
 }

@@ -17,24 +17,19 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Fade;
-import android.transition.Slide;
 import android.transition.Transition;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.adapters.CafesAdapter;
-import com.kuelye.notbadcoffee.gui.helpers.NavigateHelper;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafesAsyncTask;
 import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.model.Cafes;
@@ -72,7 +67,7 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
       Bundle savedInstanceState) {
     final View view = super.onCreateView(inflater, container, savedInstanceState);
 
-    mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
+    mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
     mLayoutManager = new LinearLayoutManager(getContext());
     mRecyclerView.setLayoutManager(mLayoutManager);
     mRecyclerView.addItemDecoration(new CafesAdapter.HeaderDecoration(getActivity()));

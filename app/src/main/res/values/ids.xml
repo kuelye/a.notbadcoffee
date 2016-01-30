@@ -6,49 +6,45 @@
     <item name="stub_view" type="id" />
     <item name="toolbar" type="id" />
     <item name="toolbar_background" type="id" />
-    <item name="recyclerview" type="id" />
-    <item name="viewpager" type="id" />
-    <item name="mapview" type="id" />
-
-    <!-- base_activity -->
-
+    <item name="recycler_view" type="id" />
+    <item name="map_view" type="id" />
     <item name="fragment" type="id" />
 
-    <!-- cafe_row -->
+    <!-- CAFE -->
 
-    <item name="cafe_row_photo_layout" type="id" />
-    <item name="cafe_row_photo_imageview" type="id" />
-    <item name="cafe_row_name_textview" type="id" />
-    <item name="cafe_row_location_layout" type="id" />
-    <item name="cafe_row_location_address_textview" type="id" />
-    <item name="cafe_row_location_metro_textview" type="id" />
-    <item name="cafe_row_location_distance_textview" type="id" />
-    <item name="cafe_row_info_header_layout" type="id" />
-    <item name="cafe_row_info_layout" type="id" />
-    <item name="cafe_row_open_until_textview" type="id" />
-    <item name="cafe_row_info_header_icon_imageview" type="id" />
-    <item name="cafe_row_menu_layout" type="id" />
-    <item name="cafe_row_menu_listview" type="id" />
-    <item name="cafe_row_timetable_layout" type="id" />
-    <item name="cafe_row_timetable_listview" type="id" />
-    <item name="cafe_row_persons_layout" type="id" />
-    <item name="cafe_row_persons_listview" type="id" />
-    <item name="cafe_row_roaster_layout" type="id" />
-    <item name="cafe_row_roaster_textview" type="id" />
+    <item name="cafe_photo_layout" type="id" />
+    <item name="cafe_photo_image_view" type="id" />
+    <item name="cafe_name_text_view" type="id" />
+    <item name="cafe_place_layout" type="id" />
+    <item name="cafe_place_address_text_view" type="id" />
+    <item name="cafe_place_metro_text_view" type="id" />
+    <item name="cafe_place_distance_text_view" type="id" />
+    <item name="cafe_info_header_layout" type="id" />
+    <item name="cafe_info_layout" type="id" />
+    <item name="cafe_open_until_text_view" type="id" />
+    <item name="cafe_info_header_icon_image_view" type="id" />
+    <item name="cafe_menu_layout" type="id" />
+    <item name="cafe_menu_list_view" type="id" />
+    <item name="cafe_timetable_layout" type="id" />
+    <item name="cafe_timetable_list_view" type="id" />
+    <item name="cafe_persons_layout" type="id" />
+    <item name="cafe_persons_list_view" type="id" />
+    <item name="cafe_roaster_layout" type="id" />
+    <item name="cafe_roaster_text_view" type="id" />
 
     <!-- cafe_menu_row -->
 
-    <item name="cafe_menu_row_item_textview" type="id" />
-    <item name="cafe_menu_row_cost_textview" type="id" />
+    <item name="cafe_menu_item_text_view" type="id" />
+    <item name="cafe_menu_cost_text_view" type="id" />
 
     <!-- cafe_timetable_row -->
 
-    <item name="cafe_timetable_row_day_textview" type="id" />
-    <item name="cafe_timetable_row_time_range_textview" type="id" />
+    <item name="cafe_timetable_day_range_text_view" type="id" />
+    <item name="cafe_timetable_time_range_text_view" type="id" />
 
     <!-- cafe_person_row -->
 
-    <item name="cafe_person_row_avatar_imageview" type="id" />
-    <item name="cafe_person_row_name_textview" type="id" />
+    <item name="cafe_person_avatar_image_view" type="id" />
+    <item name="cafe_person_name_text_view" type="id" />
 
 </resources>

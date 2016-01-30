@@ -32,8 +32,6 @@ import com.kuelye.notbadcoffee.model.Place;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
-import static com.kuelye.components.utils.AndroidUtils.isLollipopOrUpward;
-
 public class CafeFragment extends AbstractCafeFragment {
 
   public static CafeFragment newInstance(int cafePlaceId) {
@@ -109,7 +107,7 @@ public class CafeFragment extends AbstractCafeFragment {
     if (cafe != null && view != null) {
       final Place place = cafe.getPlace();
 
-      final ImageView photoImageView = (ImageView) view.findViewById(R.id.cafe_row_photo_imageview);
+      final ImageView photoImageView = (ImageView) view.findViewById(R.id.cafe_photo_image_view);
       Picasso.with(getActivity())
           .load(place.getPhoto())
           .fit()

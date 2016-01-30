@@ -59,7 +59,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
     if (cafe != null && view != null) {
       final Place place = cafe.getPlace();
 
-      final ImageView photoImageView = (ImageView) view.findViewById(R.id.cafe_row_photo_imageview);
+      final ImageView photoImageView = (ImageView) view.findViewById(R.id.cafe_photo_image_view);
       Picasso.with(getActivity())
           .load(place.getPhoto())
           .fit()
@@ -67,12 +67,12 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
       photoImageView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          launchCafeActivity(getActivity(), view.findViewById(R.id.cafe_row_photo_layout), getCafePlaceId());
+          launchCafeActivity(getActivity(), view.findViewById(R.id.cafe_photo_layout), getCafePlaceId());
         }
       });
-      final TextView addressTextView = (TextView) view.findViewById(R.id.cafe_row_location_address_textview);
+      final TextView addressTextView = (TextView) view.findViewById(R.id.cafe_place_address_text_view);
       addressTextView.setText(place.getAddress());
-      final TextView metroTextView = (TextView) view.findViewById(R.id.cafe_row_location_metro_textview);
+      final TextView metroTextView = (TextView) view.findViewById(R.id.cafe_place_metro_text_view);
       metroTextView.setText(place.getMetro());
     }
   }

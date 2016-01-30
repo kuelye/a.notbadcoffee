@@ -27,7 +27,6 @@ import android.widget.TextView;
 
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.model.MenuRow;
-import com.kuelye.notbadcoffee.model.TimetableRow;
 
 public class MenuAdapter extends ArrayAdapter<MenuRow> {
 
@@ -60,8 +59,8 @@ public class MenuAdapter extends ArrayAdapter<MenuRow> {
     @NonNull public final TextView costTextView;
 
     public RowViewHolder(@NonNull View rowView) {
-      itemTextView = (TextView) rowView.findViewById(R.id.cafe_menu_row_item_textview);
-      costTextView = (TextView) rowView.findViewById(R.id.cafe_menu_row_cost_textview);
+      itemTextView = (TextView) rowView.findViewById(R.id.cafe_menu_item_text_view);
+      costTextView = (TextView) rowView.findViewById(R.id.cafe_menu_cost_text_view);
     }
 
   }

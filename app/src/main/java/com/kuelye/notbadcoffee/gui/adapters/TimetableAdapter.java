@@ -59,8 +59,8 @@ public class TimetableAdapter extends ArrayAdapter<TimetableRow> {
     @NonNull public final TextView timeRangeTextView;
 
     public RowViewHolder(@NonNull View rowView) {
-      dayRangeTextView = (TextView) rowView.findViewById(R.id.cafe_timetable_row_day_textview);
-      timeRangeTextView = (TextView) rowView.findViewById(R.id.cafe_timetable_row_time_range_textview);
+      dayRangeTextView = (TextView) rowView.findViewById(R.id.cafe_timetable_day_range_text_view);
+      timeRangeTextView = (TextView) rowView.findViewById(R.id.cafe_timetable_time_range_text_view);
     }
 
   }

@@ -8,18 +8,18 @@
 
     <string name="toolbar_transition_name" translatable="false">toolbar</string>
     <string name="toolbar_background_transition_name" translatable="false">toolbar_background</string>
-    <string name="cafe_row_card_view_transition_name" translatable="false">cafe_row_card_view</string>
-    <string name="cafe_row_photo_image_view_transition_name" translatable="false">cafe_row_photo_image_view</string>
-    <string name="cafe_row_location_address_text_view_transition_name" translatable="false">cafe_row_location_address_text_view</string>
-    <string name="cafe_row_location_metro_text_view_transition_name" translatable="false">cafe_row_location_metro_text_view</string>
-    <string name="cafe_row_location_distance_text_view_transition_name" translatable="false">cafe_row_location_distance_text_view</string>
+    <string name="card_view_transition_name" translatable="false">card_view</string>
+    <string name="cafe_photo_image_view_transition_name" translatable="false">cafe_photo_image_view</string>
+    <string name="cafe_place_address_text_view_transition_name" translatable="false">cafe_place_address_text_view</string>
+    <string name="cafe_place_metro_text_view_transition_name" translatable="false">cafe_place_metro_text_view</string>
+    <string name="cafe_place_distance_text_view_transition_name" translatable="false">cafe_place_distance_text_view</string>
 
-    <!-- cafe_row -->
+    <!-- CAFE -->
 
-    <string name="cafe_row_open_until_template">Open until %s</string>
-    <string name="cafe_row_midnight">midnight</string>
-    <string name="cafe_row_closed">Closed</string>
-    <string name="cafe_row_timetable_weekdays">Weekdays</string>
-    <string name="cafe_row_timetable_weekend">Weekend</string>
+    <string name="cafe_open_until_template">Open until %s</string>
+    <string name="cafe_time_midnight">midnight</string>
+    <string name="cafe_closed">Closed</string>
+    <string name="cafe_timetable_weekdays">Weekdays</string>
+    <string name="cafe_timetable_weekend">Weekend</string>
 
 </resources>

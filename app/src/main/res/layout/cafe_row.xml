@@ -21,14 +21,14 @@
             >
 
             <android.support.percent.PercentFrameLayout
-                android:id="@id/cafe_row_photo_layout"
+                android:id="@id/cafe_photo_layout"
                 android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 >
 
                 <ImageView
-                    android:id="@id/cafe_row_photo_imageview"
+                    android:id="@id/cafe_photo_image_view"
                     android:maxWidth="720dp"
                     app:layout_widthPercent="100%"
                     app:layout_aspectRatio="178%"
@@ -36,10 +36,10 @@
             </android.support.percent.PercentFrameLayout>
 
             <TextView
-                android:id="@id/cafe_row_name_textview"
+                android:id="@id/cafe_name_text_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/cafe_row_photo_layout"
+                android:layout_alignBottom="@id/cafe_photo_layout"
                 android:padding="@dimen/padding_standard"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title.Inverse"
                 tools:text="Централь" />
@@ -52,7 +52,7 @@
             >
 
             <LinearLayout
-                android:id="@id/cafe_row_location_layout"
+                android:id="@id/cafe_place_layout"
                 android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,14 +79,14 @@
                     >
 
                     <TextView
-                        android:id="@id/cafe_row_location_address_textview"
+                        android:id="@id/cafe_place_address_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
                         tools:text="ул. Чарльза Дарвина, 42" />
 
                     <TextView
-                        android:id="@id/cafe_row_location_metro_textview"
+                        android:id="@id/cafe_place_metro_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
@@ -94,7 +94,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@id/cafe_row_location_distance_textview"
+                    android:id="@id/cafe_place_distance_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -105,7 +105,7 @@
             </LinearLayout>
 
             <RelativeLayout
-                android:id="@id/cafe_row_info_header_layout"
+                android:id="@id/cafe_info_header_layout"
                 android:background="?android:attr/selectableItemBackground"
                 android:clickable="true"
                 android:layout_width="match_parent"
@@ -114,7 +114,7 @@
                 >
 
                 <TextView
-                    android:id="@id/cafe_row_open_until_textview"
+                    android:id="@id/cafe_open_until_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
@@ -122,7 +122,7 @@
                     tools:text="Открыто до полуночи" />
 
                 <ImageView
-                    android:id="@id/cafe_row_info_header_icon_imageview"
+                    android:id="@id/cafe_info_header_icon_image_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="@dimen/padding_standard_quarter"
@@ -134,7 +134,7 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:id="@id/cafe_row_info_layout"
+                android:id="@id/cafe_info_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -143,7 +143,7 @@
                 >
 
                 <LinearLayout
-                    android:id="@id/cafe_row_menu_layout"
+                    android:id="@id/cafe_menu_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -158,7 +158,7 @@
                         style="@style/AppTheme.ImageView.ClickableIcon" />
 
                     <ListView
-                        android:id="@id/cafe_row_menu_listview"
+                        android:id="@id/cafe_menu_list_view"
                         android:divider="@null"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -171,7 +171,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@id/cafe_row_timetable_layout"
+                    android:id="@id/cafe_timetable_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -186,7 +186,7 @@
                         style="@style/AppTheme.ImageView.ClickableIcon" />
 
                     <ListView
-                        android:id="@id/cafe_row_timetable_listview"
+                        android:id="@id/cafe_timetable_list_view"
                         android:divider="@null"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -199,7 +199,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@id/cafe_row_persons_layout"
+                    android:id="@id/cafe_persons_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -215,7 +215,7 @@
                         style="@style/AppTheme.ImageView.ClickableIcon" />
 
                     <ListView
-                        android:id="@id/cafe_row_persons_listview"
+                        android:id="@id/cafe_persons_list_view"
                         android:divider="@null"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -228,7 +228,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@id/cafe_row_roaster_layout"
+                    android:id="@id/cafe_roaster_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -245,7 +245,7 @@
                         style="@style/AppTheme.ImageView.ClickableIcon" />
 
                     <TextView
-                        android:id="@id/cafe_row_roaster_textview"
+                        android:id="@id/cafe_roaster_text_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="@dimen/padding_standard"

@@ -45,9 +45,9 @@ public class DayRange {
   @NonNull public String getDisplayString(@NonNull Context context) {
     switch (mMask) {
       case WEEKDAYS:
-        return context.getString(R.string.cafe_row_timetable_weekdays);
+        return context.getString(R.string.cafe_timetable_weekdays);
       case WEEKEND:
-        return context.getString(R.string.cafe_row_timetable_weekend);
+        return context.getString(R.string.cafe_timetable_weekend);
       // TODO 0x0100000, 0x0110100, ...
       default:
         return "";
