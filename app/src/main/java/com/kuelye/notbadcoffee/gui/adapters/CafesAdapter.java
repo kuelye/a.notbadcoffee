@@ -25,19 +25,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.model.Cafe;
+import com.kuelye.notbadcoffee.model.Menu;
+import com.kuelye.notbadcoffee.model.MenuRow;
 import com.kuelye.notbadcoffee.model.Place;
+import com.kuelye.notbadcoffee.model.Timetable;
+import com.kuelye.notbadcoffee.model.TimetableRow;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+import static android.view.View.inflate;
+import static butterknife.ButterKnife.bind;
 import static com.kuelye.components.utils.AndroidUtils.getActionBarHeight;
 import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 
@@ -60,7 +66,7 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
     final View view = LayoutInflater.from(parent.getContext())
         .inflate(R.layout.cafe_row, parent, false);
 
-    return new RowViewHolder(view, mContext);
+    return new RowViewHolder(view);
   }
 
   @Override
@@ -83,31 +89,22 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
       }
     });
     fillRowLocationLayout(holder, cafe);
+    fillMenuLayout(holder, cafe);
+    fillTimetableLayout(holder, cafe);
     if (cafe.getTimetable() == null) {
-      holder.timetableLayout.setVisibility(GONE);
       holder.openUntilTextView.setText(null);
     } else {
-      holder.timetableAdapter.clear();
-      holder.timetableAdapter.addAll(cafe.getTimetable());
-      holder.timetableLayout.setVisibility(VISIBLE);
       holder.openUntilTextView.setText(cafe.getTimetable().getOpenUntilDisplayString(mContext));
     }
-    if (cafe.getMenu() == null) {
-      holder.menuLayout.setVisibility(GONE);
-    } else {
-      holder.menuAdapter.clear();
-      holder.menuAdapter.addAll(cafe.getMenu());
-      holder.menuLayout.setVisibility(VISIBLE);
-    }
-    holder.infoHeaderLayout.setOnClickListener(new View.OnClickListener() {
+    holder.moreInfoHeaderLayout.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        if (holder.infoLayout.getVisibility() == View.GONE) {
-          holder.infoLayout.setVisibility(View.VISIBLE);
-          holder.infoHeaderIconImageView.setImageResource(R.drawable.ic_expand_less_black_24dp);
+        if (holder.moreInfoLayout.getVisibility() == View.GONE) {
+          holder.moreInfoLayout.setVisibility(View.VISIBLE);
+          holder.moreInfoHeaderIconImageView.setImageResource(R.drawable.ic_expand_less_black_24dp);
         } else {
-          holder.infoLayout.setVisibility(View.GONE);
-          holder.infoHeaderIconImageView.setImageResource(R.drawable.ic_expand_more_black_24dp);
+          holder.moreInfoLayout.setVisibility(View.GONE);
+          holder.moreInfoHeaderIconImageView.setImageResource(R.drawable.ic_expand_more_black_24dp);
         }
       }
     });
@@ -141,6 +138,45 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
     holder.placeMetroTextView.setText(place.getMetro());
   }
 
+  private void fillMenuLayout(@NonNull final RowViewHolder holder, @NonNull final Cafe cafe) {
+    final Menu menu = cafe.getMenu();
+    if (menu == null) {
+      holder.menuLayout.setVisibility(View.GONE);
+    } else {
+      for (MenuRow menuRow : menu) {
+        final View menuRowView = inflate(mContext, R.layout.cafe_menu_row, null);
+        ((TextView) menuRowView.findViewById(R.id.cafe_menu_item_text_view))
+            .setText(menuRow.getItem());
+        ((TextView) menuRowView.findViewById(R.id.cafe_menu_cost_text_view))
+            .setText(menuRow.getCost());
+
+        holder.menuContentLayout.addView(menuRowView);
+      }
+
+      holder.menuLayout.setVisibility(View.VISIBLE);
+    }
+  }
+
+  private void fillTimetableLayout(@NonNull final RowViewHolder holder, @NonNull final Cafe cafe) {
+    final Timetable timetable = cafe.getTimetable();
+    if (timetable == null) {
+      holder.timetableLayout.setVisibility(View.GONE);
+    } else {
+      for (TimetableRow timetableRow : timetable) {
+        final View timetableRowView = inflate(
+            mContext, R.layout.cafe_timetable_row, null);
+        ((TextView) timetableRowView.findViewById(R.id.cafe_timetable_day_range_text_view))
+            .setText(timetableRow.getDayRange().getDisplayString(mContext));
+        ((TextView) timetableRowView.findViewById(R.id.cafe_timetable_time_range_text_view))
+            .setText(timetableRow.getTimeRange().getDisplayString());
+
+        holder.timetableContentLayout.addView(timetableRowView);
+      }
+
+      holder.timetableLayout.setVisibility(View.VISIBLE);
+    }
+  }
+
   /* =========================== INNER ============================== */
 
   public interface Callback {
@@ -171,48 +207,26 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
   public static class RowViewHolder extends RecyclerView.ViewHolder {
 
     public final View rootView;
-    public final TextView nameTextView;
-    public final ViewGroup photoLayout;
-    public final ImageView photoImageView;
-    public final ViewGroup placeLayout;
-    public final TextView placeAddressTextView;
-    public final TextView placeMetroTextView;
-    public final TextView placeDistanceTextView;
-    public final ViewGroup infoLayout;
-    public final ViewGroup infoHeaderLayout;
-    public final TextView openUntilTextView;
-    public final ImageView infoHeaderIconImageView;
-    public final ViewGroup timetableLayout;
-    public final ViewGroup menuLayout;
+    @Bind(R.id.cafe_name_text_view) public TextView nameTextView;
+    @Bind(R.id.cafe_photo_image_view) public ImageView photoImageView;
+    @Bind(R.id.cafe_place_layout) public ViewGroup placeLayout;
+    @Bind(R.id.cafe_place_address_text_view) public TextView placeAddressTextView;
+    @Bind(R.id.cafe_place_metro_text_view) public TextView placeMetroTextView;
+    @Bind(R.id.cafe_place_distance_text_view) public TextView placeDistanceTextView;
+    @Bind(R.id.cafe_more_info_layout) public ViewGroup moreInfoLayout;
+    @Bind(R.id.cafe_more_info_header_layout) public ViewGroup moreInfoHeaderLayout;
+    @Bind(R.id.cafe_open_until_text_view) public TextView openUntilTextView;
+    @Bind(R.id.cafe_more_info_header_icon_image_view) public ImageView moreInfoHeaderIconImageView;
+    @Bind(R.id.cafe_timetable_layout) public ViewGroup timetableLayout;
+    @Bind(R.id.cafe_timetable_content_layout) public ViewGroup timetableContentLayout;
+    @Bind(R.id.cafe_menu_layout) public ViewGroup menuLayout;
+    @Bind(R.id.cafe_menu_content_layout) public ViewGroup menuContentLayout;
 
-    public final TimetableAdapter timetableAdapter;
-    public final MenuAdapter menuAdapter;
-
-    public RowViewHolder(@NonNull View view, @NonNull Context context) {
+    public RowViewHolder(@NonNull View view) {
       super(view);
 
       rootView = view;
-      nameTextView = (TextView) view.findViewById(R.id.cafe_name_text_view);
-      photoLayout = (ViewGroup) view.findViewById(R.id.cafe_photo_layout);
-      photoImageView = (ImageView) view.findViewById(R.id.cafe_photo_image_view);
-      placeLayout = (ViewGroup) view.findViewById(R.id.cafe_place_layout);
-      placeAddressTextView = (TextView) view.findViewById(R.id.cafe_place_address_text_view);
-      placeMetroTextView = (TextView) view.findViewById(R.id.cafe_place_metro_text_view);
-      placeDistanceTextView = (TextView) view.findViewById(R.id.cafe_place_distance_text_view);
-      infoLayout = (ViewGroup) view.findViewById(R.id.cafe_info_layout);
-      infoHeaderLayout = (ViewGroup) view.findViewById(R.id.cafe_info_header_layout);
-      openUntilTextView = (TextView) view.findViewById(R.id.cafe_open_until_text_view);
-      infoHeaderIconImageView = (ImageView) view.findViewById(R.id.cafe_info_header_icon_image_view);
-      timetableLayout = (ViewGroup) view.findViewById(R.id.cafe_timetable_layout);
-      final ListView timetableListView
-          = (ListView) view.findViewById(R.id.cafe_timetable_list_view);
-      timetableAdapter = new TimetableAdapter(context);
-      timetableListView.setAdapter(timetableAdapter);
-      menuLayout = (ViewGroup) view.findViewById(R.id.cafe_menu_layout);
-      final ListView menuListView
-          = (ListView) view.findViewById(R.id.cafe_menu_list_view);
-      menuAdapter = new MenuAdapter(context);
-      menuListView.setAdapter(menuAdapter);
+      bind(this, view);
     }
 
   }

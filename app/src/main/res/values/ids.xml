@@ -19,14 +19,14 @@
     <item name="cafe_place_address_text_view" type="id" />
     <item name="cafe_place_metro_text_view" type="id" />
     <item name="cafe_place_distance_text_view" type="id" />
-    <item name="cafe_info_header_layout" type="id" />
-    <item name="cafe_info_layout" type="id" />
+    <item name="cafe_more_info_header_layout" type="id" />
+    <item name="cafe_more_info_layout" type="id" />
     <item name="cafe_open_until_text_view" type="id" />
-    <item name="cafe_info_header_icon_image_view" type="id" />
+    <item name="cafe_more_info_header_icon_image_view" type="id" />
     <item name="cafe_menu_layout" type="id" />
-    <item name="cafe_menu_list_view" type="id" />
+    <item name="cafe_menu_content_layout" type="id" />
     <item name="cafe_timetable_layout" type="id" />
-    <item name="cafe_timetable_list_view" type="id" />
+    <item name="cafe_timetable_content_layout" type="id" />
     <item name="cafe_persons_layout" type="id" />
     <item name="cafe_persons_list_view" type="id" />
     <item name="cafe_roaster_layout" type="id" />
