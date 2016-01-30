@@ -25,12 +25,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.kuelye.components.utils.AndroidUtils;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
 import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.model.Place;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
+
+import static com.kuelye.components.utils.AndroidUtils.isLollipopOrUpward;
 
 public class CafeFragment extends AbstractCafeFragment {
 
@@ -42,6 +45,11 @@ public class CafeFragment extends AbstractCafeFragment {
     cafeFragment.setArguments(arguments);
 
     return cafeFragment;
+  }
+
+  @Override
+  @NonNull protected View inflateView(LayoutInflater inflater, @Nullable ViewGroup container) {
+    return inflater.inflate(R.layout.cafe_fragment, container, false);
   }
 
   @Override
@@ -64,8 +72,14 @@ public class CafeFragment extends AbstractCafeFragment {
   }
 
   @Override
-  @NonNull protected View inflateView(LayoutInflater inflater, @Nullable ViewGroup container) {
-    return inflater.inflate(R.layout.cafe_fragment, container, false);
+  protected void onBeforeViewShowed() {
+    super.onBeforeViewShowed();
+
+    final View view = getView();
+    if (view != null && isLollipopOrUpward()) {
+      final View photoView = view.findViewById(R.id.cafe_photo_image_view);
+      photoView.setTransitionName(getString(R.string.cafe_photo_image_view_transition_name));
+    }
   }
 
   @Override

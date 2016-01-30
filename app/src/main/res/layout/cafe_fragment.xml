@@ -45,7 +45,6 @@
 
                     <ImageView
                         android:id="@id/cafe_photo_image_view"
-                        android:transitionName="@string/cafe_photo_image_view_transition_name"
                         app:layout_widthPercent="100%"
                         app:layout_aspectRatio="178%"
                         tools:background="#cccccc"
