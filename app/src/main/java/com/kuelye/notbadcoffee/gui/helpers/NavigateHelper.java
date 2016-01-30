@@ -34,6 +34,7 @@ import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.activities.CafeActivity;
@@ -83,6 +84,7 @@ public final class NavigateHelper {
   public static void launchCafeActivity(
       @NonNull Activity activityFrom
       , @NonNull ImageView cafePhotoImageView
+      , @NonNull TextView cafeNameTextView
       , int cafePlaceId) {
     Bundle options = null;
     if (SDK_INT >= LOLLIPOP) {
@@ -93,7 +95,9 @@ public final class NavigateHelper {
           , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar)
               , R.string.toolbar_transition_name)
           , new SharedElementHolder(cafePhotoImageView
-              , R.string.cafe_photo_image_view_transition_name))
+              , R.string.cafe_photo_image_view_transition_name)
+          , new SharedElementHolder(cafeNameTextView
+              , R.string.cafe_name_text_view_transition_name))
           .toBundle();
     }
 

@@ -15,7 +15,14 @@
         android:layout_height="wrap_content"
         >
 
+        <include
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cafe_photo_and_map_layout"
+            layout="@layout/cafe_info_layout" />
+
         <android.support.percent.PercentFrameLayout
+            android:id="@id/cafe_photo_and_map_layout"
             android:background="?android:attr/selectableItemBackground"
             android:layout_alignParentTop="true"
             android:layout_width="match_parent"
@@ -35,22 +42,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
 
-                <android.support.percent.PercentFrameLayout
-                    android:id="@id/cafe_photo_layout"
-                    android:background="?android:attr/selectableItemBackground"
-                    android:layout_alignParentTop="true"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    >
-
-                    <ImageView
-                        android:id="@id/cafe_photo_image_view"
-                        app:layout_widthPercent="100%"
-                        app:layout_aspectRatio="178%"
-                        tools:background="#cccccc"
-                        tools:ignore="UnusedAttribute"
-                        />
-                </android.support.percent.PercentFrameLayout>
+                <include
+                    layout="@layout/cafe_photo_layout" />
             </RelativeLayout>
         </android.support.percent.PercentFrameLayout>
 

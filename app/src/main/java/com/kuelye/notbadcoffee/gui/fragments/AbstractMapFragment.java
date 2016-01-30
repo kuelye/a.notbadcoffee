@@ -19,18 +19,21 @@ package com.kuelye.notbadcoffee.gui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.kuelye.notbadcoffee.R;
 
 public abstract class AbstractMapFragment extends AbstractBaseFragment implements OnMapReadyCallback {
 
   protected MapView mMapView;
+  protected GoogleMap mGoogleMap; // TODO @Nullable
 
   @Override
   @NonNull public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,6 +72,7 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
 
   @Override
   public void onMapReady(GoogleMap googleMap) {
+    mGoogleMap = googleMap;
     googleMap.setMyLocationEnabled(true);
   }
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <android.support.percent.PercentFrameLayout
+        android:id="@id/cafe_photo_layout"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@id/cafe_photo_image_view"
+            android:maxWidth="720dp"
+            app:layout_widthPercent="100%"
+            app:layout_aspectRatio="178%"
+            tools:background="#cccccc" />
+    </android.support.percent.PercentFrameLayout>
+
+    <TextView
+        android:id="@id/cafe_name_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/cafe_photo_layout"
+        android:padding="@dimen/padding_standard"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title.Inverse"
+        tools:text="Централь" />
+</RelativeLayout>
