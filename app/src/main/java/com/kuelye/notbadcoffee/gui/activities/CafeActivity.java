@@ -17,6 +17,7 @@ package com.kuelye.notbadcoffee.gui.activities;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;

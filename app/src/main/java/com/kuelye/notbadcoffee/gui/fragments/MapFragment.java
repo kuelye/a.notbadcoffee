@@ -67,7 +67,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
       photoImageView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          launchCafeActivity(getActivity(), view.findViewById(R.id.cafe_photo_layout), getCafePlaceId());
+          launchCafeActivity(getActivity(), photoImageView, getCafePlaceId());
         }
       });
       final TextView addressTextView = (TextView) view.findViewById(R.id.cafe_place_address_text_view);

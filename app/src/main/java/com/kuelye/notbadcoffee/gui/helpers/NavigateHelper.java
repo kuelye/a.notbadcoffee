@@ -21,6 +21,8 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,6 +33,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.activities.CafeActivity;
@@ -46,9 +49,13 @@ import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.support.v4.app.ActivityOptionsCompat.makeSceneTransitionAnimation;
 import static android.view.Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME;
 import static android.view.Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME;
+import static com.kuelye.notbadcoffee.Application.putBitmapToCache;
 import static com.kuelye.notbadcoffee.gui.fragments.MapFragment.CAFE_PLACE_ID_EXTRA;
 
 public final class NavigateHelper {
+
+  // saving bitmap to the cache helps to avoid first transition blinking bug
+  public static final String TRANSITION_CACHED_BITMAP_KEY = "TRANSITION_BITMAP_CACHE";
 
   public static void launchMapActivity(
       @NonNull Activity activityFrom
@@ -75,7 +82,7 @@ public final class NavigateHelper {
 
   public static void launchCafeActivity(
       @NonNull Activity activityFrom
-      , @NonNull View view
+      , @NonNull ImageView cafePhotoImageView
       , int cafePlaceId) {
     Bundle options = null;
     if (SDK_INT >= LOLLIPOP) {
@@ -85,13 +92,15 @@ public final class NavigateHelper {
               , R.string.toolbar_background_transition_name)
           , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar)
               , R.string.toolbar_transition_name)
-          , new SharedElementHolder(view
+          , new SharedElementHolder(cafePhotoImageView
               , R.string.cafe_photo_image_view_transition_name))
           .toBundle();
     }
 
     final Intent intent = new Intent(activityFrom, CafeActivity.class);
     intent.putExtra(CAFE_PLACE_ID_EXTRA, cafePlaceId);
+    final Bitmap cafePhotoBitmap = ((BitmapDrawable) cafePhotoImageView.getDrawable()).getBitmap();
+    putBitmapToCache(TRANSITION_CACHED_BITMAP_KEY, cafePhotoBitmap);
 
     ActivityCompat.startActivity(activityFrom, intent, options);
   }

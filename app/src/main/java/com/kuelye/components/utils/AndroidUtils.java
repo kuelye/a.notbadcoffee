@@ -45,8 +45,4 @@ public final class AndroidUtils {
         , context.getResources().getDisplayMetrics());
   }
 
-  public static boolean isLollipopOrUpward() {
-    return SDK_INT >= LOLLIPOP;
-  }
-
 }

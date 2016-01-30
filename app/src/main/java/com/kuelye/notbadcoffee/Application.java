@@ -17,8 +17,10 @@ package com.kuelye.notbadcoffee;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.util.LruCache;
 
 import com.kuelye.notbadcoffee.model.Cafes;
 import com.squareup.otto.Bus;
@@ -26,11 +28,21 @@ import com.squareup.otto.Bus;
 public class Application extends android.app.Application {
 
   @NonNull private static final Bus sBus = new Bus();
+  private static LruCache<String, Bitmap> sBitmapCache
+      = new LruCache<>((int) (Runtime.getRuntime().maxMemory() / 1024) / 8);
 
   @Nullable private static Cafes sCafes;
 
   @NonNull public static Bus getBus() {
     return sBus;
+  }
+
+  public static void putBitmapToCache(@NonNull String key, @Nullable Bitmap bitmap) {
+    sBitmapCache.put(key, bitmap);
+  }
+
+  @Nullable public static Bitmap getBitmapFromCache(@NonNull String key) {
+    return sBitmapCache.get(key);
   }
 
   @Nullable public static Cafes getCafes() {

@@ -17,6 +17,8 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,15 +27,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.kuelye.components.utils.AndroidUtils;
+import com.kuelye.notbadcoffee.Application;
 import com.kuelye.notbadcoffee.R;
+import com.kuelye.notbadcoffee.gui.helpers.NavigateHelper;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
 import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.model.Place;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import static com.kuelye.components.utils.AndroidUtils.isLollipopOrUpward;
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static android.support.v4.app.ActivityCompat.postponeEnterTransition;
+import static android.support.v4.app.ActivityCompat.startPostponedEnterTransition;
+import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.TRANSITION_CACHED_BITMAP_KEY;
 
 public class CafeFragment extends AbstractCafeFragment {
 
@@ -50,6 +58,13 @@ public class CafeFragment extends AbstractCafeFragment {
   @Override
   @NonNull protected View inflateView(LayoutInflater inflater, @Nullable ViewGroup container) {
     return inflater.inflate(R.layout.cafe_fragment, container, false);
+  }
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    //postponeEnterTransition(getActivity());
   }
 
   @Override
@@ -76,7 +91,7 @@ public class CafeFragment extends AbstractCafeFragment {
     super.onBeforeViewShowed();
 
     final View view = getView();
-    if (view != null && isLollipopOrUpward()) {
+    if (view != null && SDK_INT >= LOLLIPOP) {
       final View photoView = view.findViewById(R.id.cafe_photo_image_view);
       photoView.setTransitionName(getString(R.string.cafe_photo_image_view_transition_name));
     }
@@ -122,10 +137,24 @@ public class CafeFragment extends AbstractCafeFragment {
       final Place place = cafe.getPlace();
 
       final ImageView photoImageView = (ImageView) view.findViewById(R.id.cafe_photo_image_view);
+      final Bitmap cachedPhotoBitmap = Application.getBitmapFromCache(TRANSITION_CACHED_BITMAP_KEY);
       Picasso.with(getActivity())
           .load(place.getPhoto())
+          .placeholder(new BitmapDrawable(getResources(), cachedPhotoBitmap))
           .fit()
-          .into(photoImageView);
+          .into(photoImageView, new Callback() {
+
+            @Override
+            public void onSuccess() {
+              //startPostponedEnterTransition(getActivity());
+            }
+
+            @Override
+            public void onError() {
+              //startPostponedEnterTransition(getActivity());
+            }
+
+          });
     }
   }
 

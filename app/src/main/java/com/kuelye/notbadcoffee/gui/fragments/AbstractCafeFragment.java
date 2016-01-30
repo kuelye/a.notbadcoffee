@@ -21,7 +21,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 
 import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
-import com.squareup.otto.Subscribe;
 
 import static com.kuelye.notbadcoffee.Application.getBus;
 
