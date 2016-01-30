@@ -5,11 +5,12 @@
 
     <item name="stub_view" type="id" />
     <item name="toolbar" type="id" />
+    <item name="toolbar_background" type="id" />
     <item name="recyclerview" type="id" />
     <item name="viewpager" type="id" />
     <item name="mapview" type="id" />
 
-    <!-- toolbar_activity -->
+    <!-- base_activity -->
 
     <item name="fragment" type="id" />
 

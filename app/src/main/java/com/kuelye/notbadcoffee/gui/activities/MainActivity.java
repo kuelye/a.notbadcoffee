@@ -24,7 +24,7 @@ import android.support.v4.app.Fragment;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.fragments.CafesFragment;
 
-public class MainActivity extends AbstractActivity {
+public class MainActivity extends AbstractBaseActivity {
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {

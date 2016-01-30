@@ -1,7 +1,7 @@
-package com.kuelye.notbadcoffee.gui.fragments;
+package com.kuelye.notbadcoffee.gui.activities;
 
 /*
- * Not Bad Coffee for Android. 
+ * Not Bad Coffee for Android.
  * Copyright (C) 2016 Alexey Leshchuk.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,33 +19,21 @@ package com.kuelye.notbadcoffee.gui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.kuelye.notbadcoffee.R;
 
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
-import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.setTransitionName;
+import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 
-public abstract class AbstractFragment extends Fragment {
-
-  private boolean onViewCreatedCalled = false;
+abstract class AbstractBaseActivity extends AppCompatActivity {
 
   @Override
-  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-    if (!onViewCreatedCalled) {
-      onViewCreatedCalled = true;
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-      onBeforeViewShowed();
-    }
-
-    super.onViewCreated(view, savedInstanceState);
-  }
-
-  protected void onBeforeViewShowed() {
-    // stub
+    setContentView(R.layout.base_activity);
   }
 
 }

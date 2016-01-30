@@ -34,6 +34,7 @@
             >
 
             <android.support.percent.PercentFrameLayout
+                android:id="@id/cafe_row_photo_layout"
                 android:background="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <android.support.percent.PercentFrameLayout
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_alignParentTop="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <RelativeLayout
+                app:layout_widthPercent="100%"
+                app:layout_aspectRatio="100%"
+                android:orientation="vertical"
+                >
+
+                <com.google.android.gms.maps.MapView
+                    android:id="@id/mapview"
+                    android:layout_below="@id/cafe_row_photo_layout"
+                    android:layout_alignParentBottom="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <android.support.percent.PercentFrameLayout
+                    android:id="@id/cafe_row_photo_layout"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_alignParentTop="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    >
+
+                    <ImageView
+                        android:id="@id/cafe_row_photo_imageview"
+                        android:transitionName="@string/cafe_row_photo_image_view_transition_name"
+                        app:layout_widthPercent="100%"
+                        app:layout_aspectRatio="178%"
+                        tools:background="#cccccc"
+                        tools:ignore="UnusedAttribute"
+                        />
+                </android.support.percent.PercentFrameLayout>
+            </RelativeLayout>
+        </android.support.percent.PercentFrameLayout>
+
+        <FrameLayout
+            android:id="@id/toolbar_background"
+            android:background="@color/colorPrimaryA80"
+            android:layout_alignBottom="@id/toolbar"
+            android:layout_alignTop="@id/stub_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:transitionName="@string/toolbar_background_transition_name"
+            tools:ignore="UnusedAttribute" />
+
+        <FrameLayout
+            android:id="@id/stub_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true" />
+
+        <android.support.v7.widget.Toolbar
+            style="@style/AppTheme.Toolbar"
+            android:id="@id/toolbar"
+            android:layout_below="@id/stub_view"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:minHeight="?attr/actionBarSize"
+            tools:ignore="UnusedAttribute" />
+    </RelativeLayout>
+</LinearLayout>

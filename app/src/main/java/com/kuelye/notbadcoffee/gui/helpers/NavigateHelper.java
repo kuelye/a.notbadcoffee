@@ -30,11 +30,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
+import android.widget.ImageView;
 
 import com.kuelye.notbadcoffee.R;
+import com.kuelye.notbadcoffee.gui.activities.CafeActivity;
 import com.kuelye.notbadcoffee.gui.activities.MapActivity;
 import com.kuelye.notbadcoffee.gui.adapters.CafesAdapter;
 import com.kuelye.notbadcoffee.model.Cafe;
@@ -59,21 +59,40 @@ public final class NavigateHelper {
     if (SDK_INT >= LOLLIPOP) {
       options = setTransitionNameAndGetOptions(activityFrom
           // share toolbar & stub view to avoid overlaying
-          , new SharedElementHolder(activityFrom.findViewById(R.id.stub_view)
-              , R.string.stub_view_transition_name)
+          , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar_background)
+              , R.string.toolbar_background_transition_name)
           , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar)
               , R.string.toolbar_transition_name)
           , new SharedElementHolder(cafeRowViewHolder.rootView
-              , R.string.cafe_row_card_view_transition_name)
-          , new SharedElementHolder(cafeRowViewHolder.locationAddressTextView
-              , R.string.cafe_row_location_address_text_view_transition_name)
-          , new SharedElementHolder(cafeRowViewHolder.locationMetroTextView
-              , R.string.cafe_row_location_metro_text_view_transition_name))
+              , R.string.cafe_row_card_view_transition_name))
           .toBundle();
     }
 
     final Intent intent = new Intent(activityFrom, MapActivity.class);
     intent.putExtra(CAFE_PLACE_ID_EXTRA, cafe.getPlace().getId());
+
+    ActivityCompat.startActivity(activityFrom, intent, options);
+  }
+
+  public static void launchCafeActivity(
+      @NonNull Activity activityFrom
+      , @NonNull View view
+      , int cafePlaceId) {
+    Bundle options = null;
+    if (SDK_INT >= LOLLIPOP) {
+      options = setTransitionNameAndGetOptions(activityFrom
+          // share toolbar & stub view to avoid overlaying
+          , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar_background)
+              , R.string.toolbar_background_transition_name)
+          , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar)
+              , R.string.toolbar_transition_name)
+          , new SharedElementHolder(view
+              , R.string.cafe_row_photo_image_view_transition_name))
+          .toBundle();
+    }
+
+    final Intent intent = new Intent(activityFrom, CafeActivity.class);
+    intent.putExtra(CAFE_PLACE_ID_EXTRA, cafePlaceId);
 
     ActivityCompat.startActivity(activityFrom, intent, options);
   }

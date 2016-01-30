@@ -76,6 +76,12 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
           .fit()
           .into(holder.photoImageView);
     }
+    holder.photoImageView.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        mCallback.onPhotoClicked(holder, cafe);
+      }
+    });
     fillRowLocationLayout(holder, cafe);
     if (cafe.getTimetable() == null) {
       holder.timetableLayout.setVisibility(GONE);
@@ -128,7 +134,7 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
     holder.locationLayout.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
-        mCallback.onLocationLayoutClicked(holder, cafe);
+        mCallback.onLocationClicked(holder, cafe);
       }
     });
     holder.locationAddressTextView.setText(place.getAddress());
@@ -138,7 +144,8 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
   /* =========================== INNER ============================== */
 
   public interface Callback {
-    void onLocationLayoutClicked(@NonNull RowViewHolder cafeRowViewHolder, @NonNull Cafe cafe);
+    void onLocationClicked(@NonNull RowViewHolder cafeRowViewHolder, @NonNull Cafe cafe);
+    void onPhotoClicked(@NonNull RowViewHolder cafeRowViewHolder, @NonNull Cafe cafe);
   }
 
   public static class HeaderDecoration extends RecyclerView.ItemDecoration {
@@ -165,6 +172,7 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
 
     public final View rootView;
     public final TextView nameTextView;
+    public final ViewGroup photoLayout;
     public final ImageView photoImageView;
     public final ViewGroup locationLayout;
     public final TextView locationAddressTextView;
@@ -185,6 +193,7 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
 
       rootView = view;
       nameTextView = (TextView) view.findViewById(R.id.cafe_row_name_textview);
+      photoLayout = (ViewGroup) view.findViewById(R.id.cafe_row_photo_layout);
       photoImageView = (ImageView) view.findViewById(R.id.cafe_row_photo_imageview);
       locationLayout = (ViewGroup) view.findViewById(R.id.cafe_row_location_layout);
       locationAddressTextView = (TextView) view.findViewById(R.id.cafe_row_location_address_textview);

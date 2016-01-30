@@ -2,30 +2,29 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     >
 
     <FrameLayout
-        android:id="@id/fragment"
-        android:layout_height="match_parent"
+        android:id="@id/toolbar_background"
+        android:background="@color/colorPrimaryA80"
+        android:layout_alignBottom="@id/toolbar"
+        android:layout_alignTop="@id/stub_view"
         android:layout_width="match_parent"
-        android:layout_alignParentTop="true" />
+        android:layout_height="match_parent"
+        android:transitionName="@string/toolbar_background_transition_name"
+        tools:ignore="UnusedAttribute" />
 
     <FrameLayout
         android:id="@id/stub_view"
-        android:background="@color/colorPrimaryA80"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:transitionName="@string/stub_view_transition_name"
-        tools:ignore="UnusedAttribute" />
+        android:layout_alignParentTop="true" />
 
     <android.support.v7.widget.Toolbar
         style="@style/AppTheme.Toolbar"
         android:id="@id/toolbar"
-        android:background="@color/colorPrimaryA80"
         android:layout_below="@id/stub_view"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"

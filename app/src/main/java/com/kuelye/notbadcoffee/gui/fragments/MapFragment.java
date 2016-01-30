@@ -18,16 +18,13 @@ package com.kuelye.notbadcoffee.gui.fragments;
  */
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
@@ -36,75 +33,23 @@ import com.kuelye.notbadcoffee.model.Place;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
-import static com.kuelye.notbadcoffee.Application.getBus;
-import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.setTransitionName;
+import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchCafeActivity;
 
-public class MapFragment extends AbstractFragment implements OnMapReadyCallback {
-
-  public static final String CAFE_PLACE_ID_EXTRA = "CAFE_PLACE_ID";
-
-  private MapView mMapView;
+public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallback {
 
   public static MapFragment newInstance(int cafePlaceId) {
     final MapFragment mapFragment = new MapFragment();
 
     final Bundle arguments = new Bundle();
-    arguments.putInt(CAFE_PLACE_ID_EXTRA, cafePlaceId);
+    putToBundle(arguments, cafePlaceId);
     mapFragment.setArguments(arguments);
 
     return mapFragment;
   }
 
   @Override
-  public void onCreate(@Nullable Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-  }
-
-  @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    final View view = inflater.inflate(R.layout.map_fragment, container, false);
-
-    mMapView = (MapView) view.findViewById(R.id.mapview);
-    mMapView.onCreate(savedInstanceState);
-    mMapView.getMapAsync(this);
-
-    return view;
-  }
-
-  @Override
-  public void onResume() {
-    super.onResume();
-    mMapView.onResume();
-
-    getBus().register(this);
-    update();
-  }
-
-  @Override
-  public void onPause() {
-    mMapView.onPause();
-    super.onPause();
-
-    getBus().unregister(this);
-  }
-
-  @Override
-  public void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
-    mMapView.onSaveInstanceState(outState);
-  }
-
-  @Override
-  public void onLowMemory() {
-    mMapView.onLowMemory();
-    super.onLowMemory();
-  }
-
-  @Override
-  public void onMapReady(GoogleMap googleMap) {
-    googleMap.setMyLocationEnabled(true);
+  @NonNull protected View inflateView(LayoutInflater inflater, ViewGroup container) {
+    return inflater.inflate(R.layout.map_fragment, container, false);
   }
 
   @Subscribe
@@ -119,17 +64,17 @@ public class MapFragment extends AbstractFragment implements OnMapReadyCallback 
           .load(place.getPhoto())
           .fit()
           .into(photoImageView);
+      photoImageView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          launchCafeActivity(getActivity(), view.findViewById(R.id.cafe_row_photo_layout), getCafePlaceId());
+        }
+      });
       final TextView addressTextView = (TextView) view.findViewById(R.id.cafe_row_location_address_textview);
       addressTextView.setText(place.getAddress());
       final TextView metroTextView = (TextView) view.findViewById(R.id.cafe_row_location_metro_textview);
       metroTextView.setText(place.getMetro());
     }
-  }
-
-  /* =========================== HIDDEN ============================= */
-
-  private void update() {
-    new GetCafeAsyncTask().execute(getActivity().getIntent().getIntExtra(CAFE_PLACE_ID_EXTRA, -1));
   }
 
 }

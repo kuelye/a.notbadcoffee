@@ -24,6 +24,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Fade;
 import android.transition.Slide;
 import android.transition.Transition;
 import android.view.Gravity;
@@ -33,6 +34,7 @@ import android.view.ViewGroup;
 
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.adapters.CafesAdapter;
+import com.kuelye.notbadcoffee.gui.helpers.NavigateHelper;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafesAsyncTask;
 import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.model.Cafes;
@@ -41,28 +43,34 @@ import com.squareup.otto.Subscribe;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static com.kuelye.notbadcoffee.Application.getBus;
+import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchCafeActivity;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchMapActivity;
 
-public class CafesFragment extends Fragment implements CafesAdapter.Callback {
+public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.Callback {
 
   private RecyclerView mRecyclerView;
   private LinearLayoutManager mLayoutManager;
   private CafesAdapter mCafesAdapter;
 
+  @Override
+  @NonNull protected View inflateView(LayoutInflater inflater, @Nullable ViewGroup container) {
+    return inflater.inflate(R.layout.cafes_fragment, container, false);
+  }
+
+  @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     if (SDK_INT >= LOLLIPOP) {
-      final Transition exitTransition = new Slide(Gravity.LEFT);
+      final Transition exitTransition = new Fade();
       getActivity().getWindow().setExitTransition(exitTransition);
     }
   }
 
-  @SuppressLint("InflateParams")
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+  @NonNull public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    final View view = inflater.inflate(R.layout.cafes_fragment, null);
+    final View view = super.onCreateView(inflater, container, savedInstanceState);
 
     mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview);
     mLayoutManager = new LinearLayoutManager(getContext());
@@ -90,10 +98,17 @@ public class CafesFragment extends Fragment implements CafesAdapter.Callback {
   }
 
   @Override
-  public void onLocationLayoutClicked(
+  public void onLocationClicked(
       @NonNull CafesAdapter.RowViewHolder cafeRowViewHolder
       , @NonNull Cafe cafe) {
     launchMapActivity(getActivity(), cafeRowViewHolder, cafe);
+  }
+
+  @Override
+  public void onPhotoClicked(
+      @NonNull CafesAdapter.RowViewHolder cafeRowViewHolder
+      , @NonNull Cafe cafe) {
+    launchCafeActivity(getActivity(), cafeRowViewHolder.photoImageView, cafe.getPlace().getId());
   }
 
   @Subscribe

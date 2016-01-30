@@ -23,6 +23,9 @@ import android.util.TypedValue;
 
 import static android.util.TypedValue.complexToDimensionPixelSize;
 
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+
 public final class AndroidUtils {
 
   public static int getStatusBarHeight(@NonNull Context context) {
@@ -40,6 +43,10 @@ public final class AndroidUtils {
 
     return complexToDimensionPixelSize(actionBarSize.data
         , context.getResources().getDisplayMetrics());
+  }
+
+  public static boolean isLollipopOrUpward() {
+    return SDK_INT >= LOLLIPOP;
   }
 
 }

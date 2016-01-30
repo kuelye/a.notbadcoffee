@@ -1,7 +1,7 @@
 package com.kuelye.notbadcoffee.gui.activities;
 
 /*
- * Not Bad Coffee for Android.
+ * Not Bad Coffee for Android. 
  * Copyright (C) 2016 Alexey Leshchuk.
  *
  * This program is free software: you can redistribute it and/or modify
@@ -19,33 +19,24 @@ package com.kuelye.notbadcoffee.gui.activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
-import android.view.ViewTreeObserver;
+import android.support.v4.app.Fragment;
 
 import com.kuelye.notbadcoffee.R;
+import com.kuelye.notbadcoffee.gui.fragments.CafeFragment;
 
-import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
-import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.setTransitionName;
-
-abstract class AbstractActivity extends AppCompatActivity {
+public class CafeActivity extends AbstractBaseActivity {
 
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    setContentView(R.layout.toolbar_activity);
-
     if (savedInstanceState == null) {
-      // translucent status bar bug fix (it height didn't included, so it is considered as 0dp)
-      final View stubView = findViewById(R.id.stub_view);
-      stubView.setPadding(0, getStatusBarHeight(this), 0, 0);
-
-      final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-      toolbar.setTitle(R.string.application_name);
+      final int cafePlaceId = getIntent().getIntExtra(CafeFragment.CAFE_PLACE_ID_EXTRA, -1);
+      final Fragment fragment = CafeFragment.newInstance(cafePlaceId);
+      getSupportFragmentManager()
+          .beginTransaction()
+          .add(R.id.fragment, fragment)
+          .commit();
     }
   }
 
