@@ -18,9 +18,12 @@ package com.kuelye.notbadcoffee.gui.helpers;
  */
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kuelye.notbadcoffee.R;
@@ -30,24 +33,38 @@ import com.kuelye.notbadcoffee.model.MenuRow;
 import com.kuelye.notbadcoffee.model.Place;
 import com.kuelye.notbadcoffee.model.Timetable;
 import com.kuelye.notbadcoffee.model.TimetableRow;
+import com.squareup.picasso.Picasso;
 
 import static android.view.View.inflate;
 
 public final class CafeHelper {
 
+  public static void fillPhotoLayout(
+      @NonNull Context context
+      , @NonNull ImageView cafePhotoImageView
+      , @NonNull TextView cafeNameTextView
+      , @NonNull Cafe cafe
+      , @Nullable Drawable cafeCachedPhoto) {
+    Picasso.with(context)
+        .load(cafe.getPlace().getPhoto())
+        .placeholder(cafeCachedPhoto)
+        .fit()
+        .into(cafePhotoImageView);
+    cafeNameTextView.setText(cafe.getName());
+  }
+
   public static void fillLocationLayout(
-      @NonNull final ViewGroup mCafePlaceLayout
-      , @NonNull final Cafe cafe) {
+      @NonNull TextView cafePlaceAddressTextView
+      , @NonNull TextView cafePlaceMetroTextView
+      , @NonNull Cafe cafe) {
     final Place place = cafe.getPlaces().get(0);
-    ((TextView) mCafePlaceLayout.findViewById(R.id.cafe_place_address_text_view))
-        .setText(place.getAddress());
-    ((TextView) mCafePlaceLayout.findViewById(R.id.cafe_place_metro_text_view))
-        .setText(place.getMetro());
+    cafePlaceAddressTextView.setText(place.getAddress());
+    cafePlaceMetroTextView.setText(place.getMetro());
   }
 
   public static void fillMenuLayout(@NonNull Context context
       , @NonNull ViewGroup cafeMenuLayout
-      , @NonNull final Cafe cafe) {
+      , @NonNull Cafe cafe) {
     final Menu menu = cafe.getMenu();
     if (menu == null) {
       cafeMenuLayout.setVisibility(View.GONE);

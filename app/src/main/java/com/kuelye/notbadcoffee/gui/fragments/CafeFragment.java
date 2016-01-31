@@ -17,9 +17,9 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.animation.Animator;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -35,13 +35,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.kuelye.components.utils.AndroidUtils;
-import com.kuelye.components.utils.AndroidUtils.AnimatorListenerStub;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
-import com.kuelye.notbadcoffee.model.Cafe;
 import com.squareup.otto.Subscribe;
-import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 
@@ -51,6 +47,7 @@ import static butterknife.ButterKnife.bind;
 import static com.kuelye.notbadcoffee.Application.popBitmapFromCache;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillMenuLayout;
+import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillPhotoLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillTimetableLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.TRANSITION_CACHED_BITMAP_KEY;
 
@@ -58,16 +55,15 @@ public class CafeFragment extends AbstractCafeFragment {
 
   @Bind(R.id.toolbar_background) protected View mToolbarBackgroundView;
   @Bind(R.id.cafe_photo_image_view) protected ImageView mPhotoImageView;
-  @Bind(R.id.cafe_photo_clickable_image_view) protected ImageView mPhotoClickableImageView;
   @Bind(R.id.cafe_name_text_view) protected TextView mNameTextView;
   @Bind(R.id.cafe_info_layout) protected ViewGroup mInfoLayout;
   @Bind(R.id.cafe_place_layout) protected ViewGroup mPlaceLayout;
+  @Bind(R.id.cafe_place_address_text_view) protected TextView mPlaceAddressTextView;
+  @Bind(R.id.cafe_place_metro_text_view) protected TextView mPlaceMetroTextView;
   @Bind(R.id.cafe_more_info_header_layout) protected ViewGroup mMoreInfoHeaderLayout;
   @Bind(R.id.cafe_more_info_layout) protected ViewGroup mMoreInfoLayout;
   @Bind(R.id.cafe_menu_layout) protected ViewGroup mMenuLayout;
   @Bind(R.id.cafe_timetable_layout) protected ViewGroup mTimetableLayout;
-
-  @Nullable private Cafe mCafe;
 
   public static CafeFragment newInstance(int cafePlaceId) {
     final CafeFragment cafeFragment = new CafeFragment();
@@ -172,19 +168,16 @@ public class CafeFragment extends AbstractCafeFragment {
     fillMap();
   }
 
+  @Override
   @Subscribe
   public void onCafeGotten(GetCafeAsyncTask.Event getCafeEvent) {
-    mCafe = getCafeEvent.getCafe();
+    super.onCafeGotten(getCafeEvent);
 
     if (mCafe != null) {
       final Bitmap cachedPhotoBitmap = popBitmapFromCache(TRANSITION_CACHED_BITMAP_KEY);
-      Picasso.with(getActivity())
-          .load(mCafe.getPlace().getPhoto())
-          .placeholder(new BitmapDrawable(getResources(), cachedPhotoBitmap))
-          .fit()
-          .into(mPhotoImageView);
-      mNameTextView.setText(mCafe.getName());
-      fillLocationLayout(mPlaceLayout, mCafe);
+      final Drawable cachedPhoto = new BitmapDrawable(getResources(), cachedPhotoBitmap);
+      fillPhotoLayout(getActivity(), mPhotoImageView, mNameTextView, mCafe, cachedPhoto);
+      fillLocationLayout(mPlaceAddressTextView, mPlaceMetroTextView, mCafe);
       fillMap();
       fillMenuLayout(getActivity(), mMenuLayout, mCafe);
       fillTimetableLayout(getActivity(), mTimetableLayout, mCafe);

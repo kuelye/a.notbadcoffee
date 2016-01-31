@@ -17,8 +17,13 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,14 +33,27 @@ import android.widget.TextView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
-import com.kuelye.notbadcoffee.model.Cafe;
-import com.kuelye.notbadcoffee.model.Place;
 import com.squareup.otto.Subscribe;
-import com.squareup.picasso.Picasso;
 
+import butterknife.Bind;
+
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static butterknife.ButterKnife.bind;
+import static com.kuelye.notbadcoffee.Application.popBitmapFromCache;
+import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
+import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillPhotoLayout;
+import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.TRANSITION_CACHED_BITMAP_KEY;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchCafeActivity;
 
 public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallback {
+
+  @Bind(R.id.card_view) protected CardView mCardView;
+  @Bind(R.id.cafe_photo_image_view) protected ImageView mPhotoImageView;
+  @Bind(R.id.cafe_photo_clickable_image_view) protected ImageView mPhotoClickableImageView;
+  @Bind(R.id.cafe_name_text_view) protected TextView mNameTextView;
+  @Bind(R.id.cafe_place_address_text_view) protected TextView mPlaceAddressTextView;
+  @Bind(R.id.cafe_place_metro_text_view) protected TextView mPlaceMetroTextView;
 
   public static MapFragment newInstance(int cafePlaceId) {
     final MapFragment mapFragment = new MapFragment();
@@ -52,28 +70,42 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
     return inflater.inflate(R.layout.map_fragment, container, false);
   }
 
-  @Subscribe
-  public void onGetCafeEventGotten(GetCafeAsyncTask.Event getCafeEvent) {
-    final Cafe cafe = getCafeEvent.getCafe();
-    final View view = getView();
-    if (cafe != null && view != null) {
-      final Place place = cafe.getPlace();
+  @Override
+  @NonNull public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container
+      , @Nullable Bundle savedInstanceState) {
+    final View view = super.onCreateView(inflater, container, savedInstanceState);
 
-      final ImageView photoImageView = (ImageView) view.findViewById(R.id.cafe_photo_image_view);
-      Picasso.with(getActivity())
-          .load(place.getPhoto())
-          .fit()
-          .into(photoImageView);
-      photoImageView.setOnClickListener(new View.OnClickListener() {
+    bind(this, view);
+
+    return view;
+  }
+
+  @Override
+  protected void onBeforeViewShowed() {
+    super.onBeforeViewShowed();
+
+    if (SDK_INT >= LOLLIPOP) {
+      mCardView.setTransitionName(getString(R.string.card_view_transition_name));
+    }
+  }
+
+  @Override
+  @Subscribe
+  public void onCafeGotten(GetCafeAsyncTask.Event getCafeEvent) {
+    super.onCafeGotten(getCafeEvent);
+
+    if (mCafe != null) {
+      final Bitmap cachedPhotoBitmap = popBitmapFromCache(TRANSITION_CACHED_BITMAP_KEY);
+      final Drawable cachedPhoto = new BitmapDrawable(getResources(), cachedPhotoBitmap);
+      fillPhotoLayout(getActivity(), mPhotoImageView, mNameTextView, mCafe, cachedPhoto);
+      fillLocationLayout(mPlaceAddressTextView, mPlaceMetroTextView, mCafe);
+
+      mPhotoClickableImageView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          launchCafeActivity(getActivity(), photoImageView, null, getCafePlaceId());
+          launchCafeActivity(getActivity(), mPhotoImageView, mNameTextView, getCafePlaceId());
         }
       });
-      final TextView addressTextView = (TextView) view.findViewById(R.id.cafe_place_address_text_view);
-      addressTextView.setText(place.getAddress());
-      final TextView metroTextView = (TextView) view.findViewById(R.id.cafe_place_metro_text_view);
-      metroTextView.setText(place.getMetro());
     }
   }
 

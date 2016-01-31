@@ -9,6 +9,7 @@
     <item name="recycler_view" type="id" />
     <item name="map_view" type="id" />
     <item name="fragment" type="id" />
+    <item name="card_view" type="id" />
 
     <!-- CAFE -->
 

@@ -19,8 +19,10 @@ package com.kuelye.notbadcoffee.gui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
+import com.kuelye.notbadcoffee.model.Cafe;
 import com.squareup.otto.Subscribe;
 
 import static com.kuelye.notbadcoffee.Application.getBus;
@@ -28,6 +30,8 @@ import static com.kuelye.notbadcoffee.Application.getBus;
 public abstract class AbstractCafeFragment extends AbstractMapFragment {
 
   public static final String CAFE_PLACE_ID_EXTRA = "CAFE_PLACE_ID";
+
+  @Nullable protected Cafe mCafe;
 
   protected static void putToBundle(@NonNull Bundle bundle, int cafePlaceId) {
     bundle.putInt(CAFE_PLACE_ID_EXTRA, cafePlaceId);
@@ -46,6 +50,11 @@ public abstract class AbstractCafeFragment extends AbstractMapFragment {
     super.onPause();
 
     getBus().unregister(this);
+  }
+
+  @Subscribe
+  public void onCafeGotten(GetCafeAsyncTask.Event getCafeEvent) {
+    mCafe = getCafeEvent.getCafe();
   }
 
   /* =========================== HIDDEN ============================= */

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/cafe_place_layout"
+    android:background="@drawable/btn_default_light"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/padding_standard_half"
+    >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/padding_standard_quarter"
+        android:layout_marginRight="@dimen/padding_standard_quarter"
+        android:src="@drawable/ic_place_black_24dp"
+        style="@style/AppTheme.ImageView.ClickableIcon" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/padding_standard"
+        android:orientation="vertical"
+        tools:ignore="RtlHardcoded"
+        >
+
+        <TextView
+            android:id="@id/cafe_place_address_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            tools:text="ул. Чарльза Дарвина, 42" />
+
+        <TextView
+            android:id="@id/cafe_place_metro_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            tools:text="м. Невский Проспект" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@id/cafe_place_distance_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginRight="@dimen/padding_standard"
+        android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        tools:text="666 м"
+        tools:ignore="RtlHardcoded" />
+</LinearLayout>
