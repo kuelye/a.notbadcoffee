@@ -8,18 +8,30 @@
     >
 
     <android.support.percent.PercentFrameLayout
-        android:background="?android:attr/selectableItemBackground"
         android:id="@id/cafe_photo_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
 
-        <ImageView
-            android:id="@id/cafe_photo_image_view"
-            android:maxWidth="720dp"
+        <RelativeLayout
             app:layout_widthPercent="100%"
             app:layout_aspectRatio="178%"
-            tools:background="#cccccc" />
+            >
+
+            <ImageView
+                android:id="@id/cafe_photo_image_view"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:background="#cccccc" />
+
+            <ImageView
+                android:id="@id/cafe_photo_clickable_image_view"
+                android:background="?android:attr/selectableItemBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
+        </RelativeLayout>
     </android.support.percent.PercentFrameLayout>
 
     <TextView

@@ -37,12 +37,19 @@ public class Application extends android.app.Application {
     return sBus;
   }
 
-  public static void putBitmapToCache(@NonNull String key, @Nullable Bitmap bitmap) {
+  public static void putBitmapToCache(@NonNull String key, @NonNull Bitmap bitmap) {
     sBitmapCache.put(key, bitmap);
   }
 
   @Nullable public static Bitmap getBitmapFromCache(@NonNull String key) {
     return sBitmapCache.get(key);
+  }
+
+  @Nullable public static Bitmap popBitmapFromCache(@NonNull String key) {
+    final Bitmap bitmap = sBitmapCache.get(key);
+    sBitmapCache.remove(key);
+
+    return bitmap;
   }
 
   @Nullable public static Cafes getCafes() {

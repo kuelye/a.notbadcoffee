@@ -103,8 +103,10 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
   public void onPhotoClicked(
       @NonNull CafesAdapter.RowViewHolder cafeRowViewHolder
       , @NonNull Cafe cafe) {
-    launchCafeActivity(getActivity(), cafeRowViewHolder.photoImageView
-        , cafeRowViewHolder.nameTextView, cafe.getPlace().getId());
+    launchCafeActivity(getActivity()
+        , cafeRowViewHolder.photoImageView
+        , cafeRowViewHolder.nameTextView
+        , cafe.getPlace().getId());
   }
 
   @Subscribe

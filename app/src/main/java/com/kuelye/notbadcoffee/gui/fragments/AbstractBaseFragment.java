@@ -42,6 +42,9 @@ import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 public abstract class AbstractBaseFragment extends Fragment
     implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
+  protected static final long ANIMATION_DURATION_DEFAULT = 200;
+  protected static final long ANIMATION_DELAY_DEFAULT = 100;
+
   protected Toolbar mToolbar;
 
   private boolean mOnViewCreatedCalled = false;
@@ -56,10 +59,8 @@ public abstract class AbstractBaseFragment extends Fragment
       , @Nullable Bundle savedInstanceState) {
     final View view = inflateView(inflater, container);
 
-    if (savedInstanceState == null) {
-      mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-      mToolbar.setTitle(R.string.application_name);
-    }
+    mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
+    mToolbar.setTitle(R.string.application_name);
 
     // translucent status bar bug fix (it height didn't included, so it is considered as 0dp)
     final View stubView = view.findViewById(R.id.stub_view);
@@ -73,6 +74,8 @@ public abstract class AbstractBaseFragment extends Fragment
           .build();
     }
 
+
+
     return view;
   }
 
@@ -83,17 +86,17 @@ public abstract class AbstractBaseFragment extends Fragment
 
       onBeforeViewShowed();
 
-      if (savedInstanceState == null && SDK_INT >= LOLLIPOP) {
+      if (SDK_INT >= LOLLIPOP) {
         getActivity().getWindow().getSharedElementEnterTransition().addListener(new Transition.TransitionListener() {
 
           @Override
           public void onTransitionStart(Transition transition) {
-            AbstractBaseFragment.this.onTransitionStart();
+            AbstractBaseFragment.this.onEnterTransitionStart();
           }
 
           @Override
           public void onTransitionEnd(Transition transition) {
-            AbstractBaseFragment.this.onTransitionEnd();
+            AbstractBaseFragment.this.onEnterTransitionEnd();
           }
 
           @Override
@@ -145,12 +148,22 @@ public abstract class AbstractBaseFragment extends Fragment
     // TODO
   }
 
-  protected void onTransitionStart() {
+  public boolean onBackPressed() {
+    return true;
+  }
+
+  protected void onEnterTransitionStart() {
     // stub
   }
 
-  protected void onTransitionEnd() {
+  protected void onEnterTransitionEnd() {
     // stub
+  }
+
+  protected void finish() {
+    if (getActivity() != null) {
+      getActivity().finishAfterTransition();
+    }
   }
 
   protected void onBeforeViewShowed() {

@@ -17,6 +17,7 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.animation.Animator;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -34,7 +35,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.kuelye.notbadcoffee.Application;
+import com.kuelye.components.utils.AndroidUtils;
+import com.kuelye.components.utils.AndroidUtils.AnimatorListenerStub;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
 import com.kuelye.notbadcoffee.model.Cafe;
@@ -46,6 +48,7 @@ import butterknife.Bind;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static butterknife.ButterKnife.bind;
+import static com.kuelye.notbadcoffee.Application.popBitmapFromCache;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillMenuLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillTimetableLayout;
@@ -55,6 +58,7 @@ public class CafeFragment extends AbstractCafeFragment {
 
   @Bind(R.id.toolbar_background) protected View mToolbarBackgroundView;
   @Bind(R.id.cafe_photo_image_view) protected ImageView mPhotoImageView;
+  @Bind(R.id.cafe_photo_clickable_image_view) protected ImageView mPhotoClickableImageView;
   @Bind(R.id.cafe_name_text_view) protected TextView mNameTextView;
   @Bind(R.id.cafe_info_layout) protected ViewGroup mInfoLayout;
   @Bind(R.id.cafe_place_layout) protected ViewGroup mPlaceLayout;
@@ -93,7 +97,7 @@ public class CafeFragment extends AbstractCafeFragment {
       mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          getActivity().supportFinishAfterTransition();
+          getActivity().onBackPressed();
         }
       });
 
@@ -101,9 +105,6 @@ public class CafeFragment extends AbstractCafeFragment {
       mMoreInfoLayout.setVisibility(View.VISIBLE);
       mInfoLayout.setAlpha(0);
       mMapView.setAlpha(0);
-      mPlaceLayout.setAlpha(0);
-      mMenuLayout.setAlpha(0);
-      mTimetableLayout.setAlpha(0);
     }
 
     return view;
@@ -120,47 +121,41 @@ public class CafeFragment extends AbstractCafeFragment {
   }
 
   @Override
-  protected void onTransitionStart() {
+  protected void onEnterTransitionStart() {
     mToolbarBackgroundView.animate()
         .alpha(0)
-        .setDuration(300);
+        .setDuration(ANIMATION_DURATION_DEFAULT);
   }
 
   @Override
-  protected void onTransitionEnd() {
-    final View view = getView();
-    if (view != null) {
-      mToolbar.setAlpha(0);
-      mMapView.setTranslationY(-mMapView.getHeight());
-      mInfoLayout.setTranslationY(-mInfoLayout.getHeight());
+  protected void onEnterTransitionEnd() {
+    mToolbar.setAlpha(0);
+    mMapView.setTranslationY(-mMapView.getHeight());
+    mInfoLayout.setTranslationY(-mInfoLayout.getHeight());
 
-      mToolbar.animate()
-          .alpha(1)
-          .setDuration(300)
-          .setStartDelay(100);
-      mMapView.animate()
-          .alpha(1)
-          .translationY(0)
-          .setDuration(300)
-          .setStartDelay(200);
-      mInfoLayout.animate()
-          .alpha(1)
-          .translationY(0)
-          .setDuration(300)
-          .setStartDelay(300);
-      mPlaceLayout.animate()
-          .alpha(1)
-          .setDuration(300)
-          .setStartDelay(400);
-      mMenuLayout.animate()
-          .alpha(1)
-          .setDuration(300)
-          .setStartDelay(500);
-      mTimetableLayout.animate()
-          .alpha(1)
-          .setDuration(300)
-          .setStartDelay(600);
-    }
+    mToolbar.animate()
+        .alpha(1)
+        .setDuration(ANIMATION_DURATION_DEFAULT)
+        .setStartDelay(ANIMATION_DELAY_DEFAULT);
+    mMapView.animate()
+        .alpha(1)
+        .translationY(0)
+        .setDuration(ANIMATION_DURATION_DEFAULT)
+        .setStartDelay(2 * ANIMATION_DELAY_DEFAULT);
+    mInfoLayout.animate()
+        .alpha(1)
+        .translationY(0)
+        .setDuration(ANIMATION_DURATION_DEFAULT)
+        .setStartDelay(3 * ANIMATION_DELAY_DEFAULT);
+  }
+
+  @Override
+  public boolean onBackPressed() {
+    mToolbarBackgroundView.animate()
+        .alpha(1)
+        .setDuration(ANIMATION_DURATION_DEFAULT);
+
+    return true;
   }
 
   @Override
@@ -182,7 +177,7 @@ public class CafeFragment extends AbstractCafeFragment {
     mCafe = getCafeEvent.getCafe();
 
     if (mCafe != null) {
-      final Bitmap cachedPhotoBitmap = Application.getBitmapFromCache(TRANSITION_CACHED_BITMAP_KEY);
+      final Bitmap cachedPhotoBitmap = popBitmapFromCache(TRANSITION_CACHED_BITMAP_KEY);
       Picasso.with(getActivity())
           .load(mCafe.getPlace().getPhoto())
           .placeholder(new BitmapDrawable(getResources(), cachedPhotoBitmap))

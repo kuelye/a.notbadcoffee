@@ -23,6 +23,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -103,8 +104,11 @@ public final class NavigateHelper {
 
     final Intent intent = new Intent(activityFrom, CafeActivity.class);
     intent.putExtra(CAFE_PLACE_ID_EXTRA, cafePlaceId);
-    final Bitmap cafePhotoBitmap = ((BitmapDrawable) cafePhotoImageView.getDrawable()).getBitmap();
-    putBitmapToCache(TRANSITION_CACHED_BITMAP_KEY, cafePhotoBitmap);
+    final Drawable cafePhotoDrawable = cafePhotoImageView.getDrawable();
+    if (cafePhotoDrawable != null) {
+      final Bitmap cafePhotoBitmap = ((BitmapDrawable) cafePhotoDrawable).getBitmap();
+      putBitmapToCache(TRANSITION_CACHED_BITMAP_KEY, cafePhotoBitmap);
+    }
 
     ActivityCompat.startActivity(activityFrom, intent, options);
   }

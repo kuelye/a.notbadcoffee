@@ -14,6 +14,7 @@
 
     <item name="cafe_photo_layout" type="id" />
     <item name="cafe_photo_image_view" type="id" />
+    <item name="cafe_photo_clickable_image_view" type="id" />
     <item name="cafe_name_text_view" type="id" />
     <item name="cafe_place_layout" type="id" />
     <item name="cafe_place_address_text_view" type="id" />

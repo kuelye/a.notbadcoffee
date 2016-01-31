@@ -17,6 +17,7 @@ package com.kuelye.components.utils;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.animation.Animator;
 import android.content.Context;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -59,6 +60,32 @@ public final class AndroidUtils {
 
   public static LatLng locationToLatLng(@NonNull Location location) {
     return new LatLng(location.getLatitude(), location.getLongitude());
+  }
+
+  /* ========================== INNER =============================== */
+
+  public static class AnimatorListenerStub implements Animator.AnimatorListener {
+
+    @Override
+    public void onAnimationStart(Animator animation) {
+      // stub
+    }
+
+    @Override
+    public void onAnimationEnd(Animator animation) {
+      // stub
+    }
+
+    @Override
+    public void onAnimationCancel(Animator animation) {
+      // stub
+    }
+
+    @Override
+    public void onAnimationRepeat(Animator animation) {
+      // stub
+    }
+
   }
 
 }

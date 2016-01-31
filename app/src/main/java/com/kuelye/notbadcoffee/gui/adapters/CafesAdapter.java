@@ -69,7 +69,6 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
   @Override
   public void onBindViewHolder(final RowViewHolder holder, int position) {
     final Cafe cafe = mCafes.get(position);
-    final Place place = cafe.getPlaces().get(0);
 
     fillPhotoView(holder, cafe);
     fillNameAndLinksViews(holder, cafe);
@@ -84,7 +83,7 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
         mCallback.onLocationClicked(holder, cafe);
       }
     });
-    holder.photoLayout.setOnClickListener(new View.OnClickListener() {
+    holder.photoClickableImageView.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         mCallback.onPhotoClicked(holder, cafe);
@@ -173,8 +172,8 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
   public static class RowViewHolder extends RecyclerView.ViewHolder {
 
     public final View rootView;
-    @Bind(R.id.cafe_photo_layout) public ViewGroup photoLayout;
     @Bind(R.id.cafe_name_text_view) public TextView nameTextView;
+    @Bind(R.id.cafe_photo_clickable_image_view) public ImageView photoClickableImageView;
     @Bind(R.id.cafe_photo_image_view) public ImageView photoImageView;
     @Bind(R.id.cafe_place_layout) public ViewGroup placeLayout;
     @Bind(R.id.cafe_more_info_layout) public ViewGroup moreInfoLayout;

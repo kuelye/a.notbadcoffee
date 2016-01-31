@@ -24,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.kuelye.notbadcoffee.R;
+import com.kuelye.notbadcoffee.gui.fragments.AbstractBaseFragment;
 
 import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 
@@ -34,6 +35,16 @@ abstract class AbstractBaseActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
 
     setContentView(R.layout.base_activity);
+  }
+
+  @Override
+  public void onBackPressed() {
+    final AbstractBaseFragment fragment
+        = (AbstractBaseFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+
+    if (fragment.onBackPressed()) {
+      super.onBackPressed();
+    }
   }
 
 }
