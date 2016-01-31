@@ -54,6 +54,7 @@ public final class CafeHelper {
     } else {
       final ViewGroup cafeMenuContentLayout
           = (ViewGroup) cafeMenuLayout.findViewById(R.id.cafe_menu_content_layout);
+      cafeMenuContentLayout.removeAllViews();
       for (MenuRow menuRow : menu) {
         final View menuRowView = inflate(context, R.layout.cafe_menu_row, null);
         ((TextView) menuRowView.findViewById(R.id.cafe_menu_item_text_view))
@@ -77,6 +78,7 @@ public final class CafeHelper {
     } else {
       final ViewGroup cafeTimetableContentLayout
           = (ViewGroup) cafeTimetableLayout.findViewById(R.id.cafe_timetable_content_layout);
+      cafeTimetableContentLayout.removeAllViews();
       for (TimetableRow timetableRow : timetable) {
         final View timetableRowView = inflate(
             context, R.layout.cafe_timetable_row, null);
