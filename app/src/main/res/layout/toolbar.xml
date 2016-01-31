@@ -8,7 +8,7 @@
 
     <FrameLayout
         android:id="@id/toolbar_background"
-        android:background="@color/colorPrimaryA80"
+        android:background="@color/colorPrimaryA800"
         android:layout_alignBottom="@id/toolbar"
         android:layout_alignTop="@id/stub_view"
         android:layout_width="match_parent"

@@ -74,8 +74,6 @@ public abstract class AbstractBaseFragment extends Fragment
           .build();
     }
 
-
-
     return view;
   }
 

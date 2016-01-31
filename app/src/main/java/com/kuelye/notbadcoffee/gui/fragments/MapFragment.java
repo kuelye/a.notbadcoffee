@@ -30,16 +30,29 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
+import com.kuelye.notbadcoffee.logic.tasks.GetCafesAsyncTask;
+import com.kuelye.notbadcoffee.model.Cafe;
+import com.kuelye.notbadcoffee.model.Cafes;
 import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static butterknife.ButterKnife.bind;
+import static com.google.android.gms.maps.CameraUpdateFactory.newLatLng;
 import static com.kuelye.notbadcoffee.Application.popBitmapFromCache;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillPhotoLayout;
@@ -48,12 +61,16 @@ import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchCafeActiv
 
 public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallback {
 
+  @Bind(R.id.stub_view) protected View mStubView;
   @Bind(R.id.card_view) protected CardView mCardView;
   @Bind(R.id.cafe_photo_image_view) protected ImageView mPhotoImageView;
   @Bind(R.id.cafe_photo_clickable_image_view) protected ImageView mPhotoClickableImageView;
   @Bind(R.id.cafe_name_text_view) protected TextView mNameTextView;
+  @Bind(R.id.cafe_place_layout) protected TextView mPlaceLayout;
   @Bind(R.id.cafe_place_address_text_view) protected TextView mPlaceAddressTextView;
   @Bind(R.id.cafe_place_metro_text_view) protected TextView mPlaceMetroTextView;
+
+  @Nullable private Cafes mCafes;
 
   public static MapFragment newInstance(int cafePlaceId) {
     final MapFragment mapFragment = new MapFragment();
@@ -106,6 +123,60 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
           launchCafeActivity(getActivity(), mPhotoImageView, mNameTextView, getCafePlaceId());
         }
       });
+      mPlaceLayout.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          if (mGoogleMap != null) {
+            final LatLng placeLatLng = mCafe.getPlace().getLocation().toLatLng();
+            final CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(placeLatLng);
+            mGoogleMap.animateCamera(cameraUpdate);
+          }
+        }
+      });
+    }
+  }
+
+  @Override
+  protected void update() {
+    super.update();
+
+    new GetCafesAsyncTask().execute();
+  }
+
+  @Override
+  public void onMapReady(GoogleMap googleMap) {
+    super.onMapReady(googleMap);
+
+    googleMap.setPadding(0, mToolbar.getHeight() + mStubView.getHeight()
+        , 0, mCardView.getHeight());
+  }
+
+  @Subscribe
+  public void onCafesGotten(GetCafesAsyncTask.Event getCafesEvent) {
+    mCafes = getCafesEvent.getCafes();
+  }
+
+  @Override
+  protected void fillMap() {
+    if (mGoogleMap != null && mCafes != null) {
+      final List<Marker> markers = new ArrayList<>();
+      Marker selectedMarker = null;
+      for (Cafe cafe : mCafes) {
+        final Marker marker = mGoogleMap.addMarker(new MarkerOptions()
+            .position(cafe.getPlace().getLocation().toLatLng()));
+        marker.setTitle(cafe.getName());
+        marker.setSnippet(cafe.getPlace().getAddress());
+
+        if (cafe == mCafe) {
+          selectedMarker = marker;
+        }
+        markers.add(marker);
+      }
+
+      centerCamera(false, markers.toArray(new Marker[markers.size()]));
+      if (selectedMarker != null) {
+        selectedMarker.showInfoWindow();
+      }
     }
   }
 

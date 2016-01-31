@@ -55,15 +55,15 @@ public abstract class AbstractCafeFragment extends AbstractMapFragment {
   @Subscribe
   public void onCafeGotten(GetCafeAsyncTask.Event getCafeEvent) {
     mCafe = getCafeEvent.getCafe();
-  }
 
-  /* =========================== HIDDEN ============================= */
+    fillMap();
+  }
 
   protected int getCafePlaceId() {
     return getArguments().getInt(CAFE_PLACE_ID_EXTRA);
   }
 
-  private void update() {
+  protected void update() {
     new GetCafeAsyncTask().execute(getCafePlaceId());
   }
 

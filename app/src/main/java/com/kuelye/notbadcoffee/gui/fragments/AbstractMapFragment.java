@@ -40,7 +40,7 @@ import static com.kuelye.components.utils.AndroidUtils.locationToLatLng;
 
 public abstract class AbstractMapFragment extends AbstractBaseFragment implements OnMapReadyCallback {
 
-  private static final int MAP_CENTER_PADDING = 20;
+  private static final int MAP_CENTER_PADDING = 32;
 
   @Bind(R.id.map_view) protected MapView mMapView;
   @Nullable protected GoogleMap mGoogleMap;
@@ -85,6 +85,15 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
   public void onMapReady(GoogleMap googleMap) {
     mGoogleMap = googleMap;
     googleMap.setMyLocationEnabled(true);
+
+    fillMap();
+  }
+
+  @Override
+  public void onConnected(@Nullable Bundle connectionHint) {
+    super.onConnected(connectionHint);
+
+    fillMap();
   }
 
   protected void centerCamera(boolean animate, Marker... markers) {
@@ -105,6 +114,10 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
         mGoogleMap.moveCamera(cameraUpdate);
       }
     }
+  }
+
+  protected void fillMap() {
+    // stub
   }
 
 }

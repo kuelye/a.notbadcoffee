@@ -155,20 +155,6 @@ public class CafeFragment extends AbstractCafeFragment {
   }
 
   @Override
-  public void onMapReady(GoogleMap googleMap) {
-    super.onMapReady(googleMap);
-
-    fillMap();
-  }
-
-  @Override
-  public void onConnected(@Nullable Bundle connectionHint) {
-    super.onConnected(connectionHint);
-
-    fillMap();
-  }
-
-  @Override
   @Subscribe
   public void onCafeGotten(GetCafeAsyncTask.Event getCafeEvent) {
     super.onCafeGotten(getCafeEvent);
@@ -178,7 +164,6 @@ public class CafeFragment extends AbstractCafeFragment {
       final Drawable cachedPhoto = new BitmapDrawable(getResources(), cachedPhotoBitmap);
       fillPhotoLayout(getActivity(), mPhotoImageView, mNameTextView, mCafe, cachedPhoto);
       fillLocationLayout(mPlaceAddressTextView, mPlaceMetroTextView, mCafe);
-      fillMap();
       fillMenuLayout(getActivity(), mMenuLayout, mCafe);
       fillTimetableLayout(getActivity(), mTimetableLayout, mCafe);
 
@@ -195,12 +180,12 @@ public class CafeFragment extends AbstractCafeFragment {
     }
   }
 
-  /* =========================== HIDDEN ============================= */
-
-  private void fillMap() {
+  @Override
+  protected void fillMap() {
     if (mGoogleMap != null && mCafe != null) {
       final Marker marker = mGoogleMap.addMarker(new MarkerOptions()
           .position(mCafe.getPlace().getLocation().toLatLng()));
+
       centerCamera(false, marker);
     }
   }

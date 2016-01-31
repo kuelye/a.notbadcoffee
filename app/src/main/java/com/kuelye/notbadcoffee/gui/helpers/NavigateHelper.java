@@ -107,7 +107,9 @@ public final class NavigateHelper {
     final Drawable cafePhotoDrawable = cafePhotoImageView.getDrawable();
     if (cafePhotoDrawable != null) {
       final Bitmap cafePhotoBitmap = ((BitmapDrawable) cafePhotoDrawable).getBitmap();
-      putBitmapToCache(TRANSITION_CACHED_BITMAP_KEY, cafePhotoBitmap);
+      if (cafePhotoBitmap != null) {
+        putBitmapToCache(TRANSITION_CACHED_BITMAP_KEY, cafePhotoBitmap);
+      }
     }
 
     ActivityCompat.startActivity(activityFrom, intent, options);

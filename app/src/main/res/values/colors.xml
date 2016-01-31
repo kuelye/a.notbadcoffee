@@ -4,17 +4,14 @@
     <!-- COMMON -->
 
     <color name="colorPrimary">#03A9F4</color>
-    <color name="colorPrimaryA80">#CC03A9F4</color>
+    <color name="colorPrimaryA800">#CC03A9F4</color>
     <color name="colorPrimaryDark">#0288D1</color>
     <color name="colorAccent">#FF4081</color>
 
     <!-- PALETTE -->
 
     <color name="grey300">#E0E0E0</color>
-
-
-
-    <color name="btn_default_light_normal">#00000000</color>
-    <color name="btn_default_light_pressed">#40ffffff</color>
+    <color name="blackA000">#00000000</color>
+    <color name="whiteA250">#40FFFFFF</color>
 
 </resources>

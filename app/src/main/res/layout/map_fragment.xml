@@ -34,6 +34,8 @@
                 layout="@layout/cafe_photo_layout" />
 
             <include
+                android:paddingBottom="@dimen/padding_standard_half"
+                android:paddingTop="@dimen/padding_standard_half"
                 layout="@layout/cafe_place_layout" />
         </LinearLayout>
     </android.support.v7.widget.CardView>

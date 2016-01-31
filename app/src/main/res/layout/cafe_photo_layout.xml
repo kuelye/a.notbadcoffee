@@ -20,14 +20,13 @@
 
             <ImageView
                 android:id="@id/cafe_photo_image_view"
-                android:foreground="?android:attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:background="#cccccc" />
 
             <ImageView
                 android:id="@id/cafe_photo_clickable_image_view"
-                android:background="?android:attr/selectableItemBackground"
+                android:background="@drawable/selectable_item_background_inverse"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 />
