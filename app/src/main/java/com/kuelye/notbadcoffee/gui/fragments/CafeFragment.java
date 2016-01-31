@@ -28,14 +28,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.kuelye.notbadcoffee.Application;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
 import com.kuelye.notbadcoffee.model.Cafe;
-import com.kuelye.notbadcoffee.model.Place;
 import com.squareup.otto.Subscribe;
 import com.squareup.picasso.Picasso;
 
@@ -60,6 +62,8 @@ public class CafeFragment extends AbstractCafeFragment {
   @Bind(R.id.cafe_more_info_layout) protected ViewGroup mMoreInfoLayout;
   @Bind(R.id.cafe_menu_layout) protected ViewGroup mMenuLayout;
   @Bind(R.id.cafe_timetable_layout) protected ViewGroup mTimetableLayout;
+
+  @Nullable private Cafe mCafe;
 
   public static CafeFragment newInstance(int cafePlaceId) {
     final CafeFragment cafeFragment = new CafeFragment();
@@ -159,28 +163,57 @@ public class CafeFragment extends AbstractCafeFragment {
     }
   }
 
-  @Subscribe
-  public void onGetCafeEventGotten(GetCafeAsyncTask.Event getCafeEvent) {
-    final Cafe cafe = getCafeEvent.getCafe();
-    final View view = getView();
-    if (cafe != null && view != null) {
-      final Place place = cafe.getPlace();
+  @Override
+  public void onMapReady(GoogleMap googleMap) {
+    super.onMapReady(googleMap);
 
+    fillMap();
+  }
+
+  @Override
+  public void onConnected(@Nullable Bundle connectionHint) {
+    super.onConnected(connectionHint);
+
+    fillMap();
+  }
+
+  @Subscribe
+  public void onCafeGotten(GetCafeAsyncTask.Event getCafeEvent) {
+    mCafe = getCafeEvent.getCafe();
+
+    if (mCafe != null) {
       final Bitmap cachedPhotoBitmap = Application.getBitmapFromCache(TRANSITION_CACHED_BITMAP_KEY);
       Picasso.with(getActivity())
-          .load(place.getPhoto())
+          .load(mCafe.getPlace().getPhoto())
           .placeholder(new BitmapDrawable(getResources(), cachedPhotoBitmap))
           .fit()
           .into(mPhotoImageView);
-      mNameTextView.setText(cafe.getName());
-      fillLocationLayout(mPlaceLayout, cafe);
-      final LatLng location = new LatLng(place.getLocation().getLatitude(), place.getLocation().getLongitude());
-      mGoogleMap.addMarker(new MarkerOptions()
-          .position(location))
-          .setTitle(cafe.getName());
-      mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-      fillMenuLayout(getActivity(), mMenuLayout, cafe);
-      fillTimetableLayout(getActivity(), mTimetableLayout, cafe);
+      mNameTextView.setText(mCafe.getName());
+      fillLocationLayout(mPlaceLayout, mCafe);
+      fillMap();
+      fillMenuLayout(getActivity(), mMenuLayout, mCafe);
+      fillTimetableLayout(getActivity(), mTimetableLayout, mCafe);
+
+      mPlaceLayout.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          if (mGoogleMap != null) {
+            final LatLng placeLatLng = mCafe.getPlace().getLocation().toLatLng();
+            final CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(placeLatLng);
+            mGoogleMap.animateCamera(cameraUpdate);
+          }
+        }
+      });
+    }
+  }
+
+  /* =========================== HIDDEN ============================= */
+
+  private void fillMap() {
+    if (mGoogleMap != null && mCafe != null) {
+      final Marker marker = mGoogleMap.addMarker(new MarkerOptions()
+          .position(mCafe.getPlace().getLocation().toLatLng()));
+      centerCamera(false, marker);
     }
   }
 

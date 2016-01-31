@@ -17,6 +17,8 @@ package com.kuelye.notbadcoffee.model;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class Location {
 
   private double mLatitude;
@@ -25,6 +27,10 @@ public class Location {
   public Location(double latitude, double longitude) {
     mLatitude = latitude;
     mLongitude = longitude;
+  }
+
+  public LatLng toLatLng() {
+    return new LatLng(mLatitude, mLongitude);
   }
 
   public double getLatitude() {

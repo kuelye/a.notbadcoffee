@@ -43,6 +43,7 @@
                     android:layout_height="wrap_content" />
 
                 <include
+                    android:id="@id/cafe_photo_layout"
                     layout="@layout/cafe_photo_layout" />
             </RelativeLayout>
         </android.support.percent.PercentFrameLayout>

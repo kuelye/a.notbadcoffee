@@ -17,27 +17,37 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.transition.Transition;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.kuelye.notbadcoffee.R;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 
-public abstract class AbstractBaseFragment extends Fragment {
+public abstract class AbstractBaseFragment extends Fragment
+    implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
   protected Toolbar mToolbar;
 
   private boolean mOnViewCreatedCalled = false;
+
+  private GoogleApiClient mGoogleApiClient;
+  protected Location mLastLocation;
 
   @NonNull protected abstract View inflateView(LayoutInflater inflater, @Nullable ViewGroup container);
 
@@ -47,12 +57,20 @@ public abstract class AbstractBaseFragment extends Fragment {
     final View view = inflateView(inflater, container);
 
     if (savedInstanceState == null) {
-      // translucent status bar bug fix (it height didn't included, so it is considered as 0dp)
-      final View stubView = view.findViewById(R.id.stub_view);
-      stubView.setPadding(0, getStatusBarHeight(getActivity()), 0, 0);
-
       mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
       mToolbar.setTitle(R.string.application_name);
+    }
+
+    // translucent status bar bug fix (it height didn't included, so it is considered as 0dp)
+    final View stubView = view.findViewById(R.id.stub_view);
+    stubView.setPadding(0, getStatusBarHeight(getActivity()), 0, 0);
+
+    if (mGoogleApiClient == null) {
+      mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+          .addConnectionCallbacks(this)
+          .addOnConnectionFailedListener(this)
+          .addApi(LocationServices.API)
+          .build();
     }
 
     return view;
@@ -98,6 +116,33 @@ public abstract class AbstractBaseFragment extends Fragment {
     }
 
     super.onViewCreated(view, savedInstanceState);
+  }
+
+  @Override
+  public void onResume() {
+    mGoogleApiClient.connect();
+    super.onResume();
+  }
+
+  @Override
+  public void onPause() {
+    mGoogleApiClient.disconnect();
+    super.onPause();
+  }
+
+  @Override
+  public void onConnected(@Nullable Bundle connectionHint) {
+    mLastLocation = FusedLocationApi.getLastLocation(mGoogleApiClient);
+  }
+
+  @Override
+  public void onConnectionSuspended(int cause) {
+    // TODO
+  }
+
+  @Override
+  public void onConnectionFailed(@NonNull ConnectionResult result) {
+    // TODO
   }
 
   protected void onTransitionStart() {

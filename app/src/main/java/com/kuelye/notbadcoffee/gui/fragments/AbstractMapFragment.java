@@ -24,22 +24,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.kuelye.notbadcoffee.R;
+
+import butterknife.Bind;
+
+import static butterknife.ButterKnife.bind;
+import static com.google.android.gms.maps.CameraUpdateFactory.newLatLngBounds;
+import static com.kuelye.components.utils.AndroidUtils.locationToLatLng;
 
 public abstract class AbstractMapFragment extends AbstractBaseFragment implements OnMapReadyCallback {
 
-  protected MapView mMapView;
-  protected GoogleMap mGoogleMap; // TODO @Nullable
+  private static final int MAP_CENTER_PADDING = 20;
+
+  @Bind(R.id.map_view) protected MapView mMapView;
+  @Nullable protected GoogleMap mGoogleMap;
 
   @Override
   @NonNull public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final View view = super.onCreateView(inflater, container, savedInstanceState);
 
-    mMapView = (MapView) view.findViewById(R.id.map_view);
+    bind(this, view);
+
     mMapView.onCreate(savedInstanceState);
     mMapView.getMapAsync(this);
 
@@ -74,6 +85,26 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
   public void onMapReady(GoogleMap googleMap) {
     mGoogleMap = googleMap;
     googleMap.setMyLocationEnabled(true);
+  }
+
+  protected void centerCamera(boolean animate, Marker... markers) {
+    if (mGoogleMap != null) {
+      final LatLngBounds.Builder builder = new LatLngBounds.Builder();
+      for (Marker marker : markers) {
+        builder.include(marker.getPosition());
+      }
+      if (mLastLocation != null) {
+        builder.include(locationToLatLng(mLastLocation));
+      }
+      final LatLngBounds bounds = builder.build();
+      final CameraUpdate cameraUpdate = newLatLngBounds(bounds, MAP_CENTER_PADDING);
+
+      if (animate) {
+        mGoogleMap.animateCamera(cameraUpdate);
+      } else {
+        mGoogleMap.moveCamera(cameraUpdate);
+      }
+    }
   }
 
 }

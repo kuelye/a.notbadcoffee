@@ -18,8 +18,12 @@ package com.kuelye.components.utils;
  */
 
 import android.content.Context;
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
+import android.view.View;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import static android.util.TypedValue.complexToDimensionPixelSize;
 
@@ -43,6 +47,18 @@ public final class AndroidUtils {
 
     return complexToDimensionPixelSize(actionBarSize.data
         , context.getResources().getDisplayMetrics());
+  }
+
+  public static int getRelativeTop(@NonNull View view) {
+    if (view.getParent() == view.getRootView()) {
+      return view.getTop();
+    } else {
+      return view.getTop() + getRelativeTop((View) view.getParent());
+    }
+  }
+
+  public static LatLng locationToLatLng(@NonNull Location location) {
+    return new LatLng(location.getLatitude(), location.getLongitude());
   }
 
 }

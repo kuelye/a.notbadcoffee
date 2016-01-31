@@ -20,6 +20,8 @@ package com.kuelye.notbadcoffee.model;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.google.android.gms.maps.model.LatLng;
+
 public class Place {
 
   private final int mId;
