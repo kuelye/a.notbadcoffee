@@ -66,7 +66,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   @Bind(R.id.cafe_photo_image_view) protected ImageView mPhotoImageView;
   @Bind(R.id.cafe_photo_clickable_image_view) protected ImageView mPhotoClickableImageView;
   @Bind(R.id.cafe_name_text_view) protected TextView mNameTextView;
-  @Bind(R.id.cafe_place_layout) protected TextView mPlaceLayout;
+  @Bind(R.id.cafe_place_layout) protected ViewGroup mPlaceLayout;
   @Bind(R.id.cafe_place_address_text_view) protected TextView mPlaceAddressTextView;
   @Bind(R.id.cafe_place_metro_text_view) protected TextView mPlaceMetroTextView;
 
