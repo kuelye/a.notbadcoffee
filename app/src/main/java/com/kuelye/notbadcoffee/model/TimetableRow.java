@@ -38,6 +38,17 @@ public class TimetableRow {
   }
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+
+    TimetableRow that = (TimetableRow) o;
+
+    if (!mDayRange.equals(that.mDayRange)) return false;
+    return mTimeRange.equals(that.mTimeRange);
+  }
+
+  @Override
   public String toString() {
     return "TimetableRow{" +
         "mDayRange=" + mDayRange +

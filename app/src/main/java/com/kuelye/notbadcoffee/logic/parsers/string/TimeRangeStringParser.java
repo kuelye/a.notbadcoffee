@@ -22,13 +22,13 @@ import android.support.annotation.NonNull;
 import com.kuelye.notbadcoffee.model.TimeRange;
 import com.kuelye.notbadcoffee.logic.parsers.UnsupportedParseValue;
 
-import static com.kuelye.notbadcoffee.model.TimeRange.SEPARATOR;
+import static com.kuelye.notbadcoffee.model.TimeRange.TIME_RANGE_SEPARATOR;
 
 public class TimeRangeStringParser extends AbstractStringParser<TimeRange> {
 
   @Override
   @NonNull public TimeRange parse(@NonNull String timeRangeAsString) throws Exception {
-    final String[] parts = timeRangeAsString.split(SEPARATOR);
+    final String[] parts = timeRangeAsString.split(TIME_RANGE_SEPARATOR);
 
     if (parts.length != 2) {
       throw new UnsupportedParseValue(timeRangeAsString);

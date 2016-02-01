@@ -84,7 +84,7 @@ public class DayRange {
         break;
     }
 
-    return (dayMask & mMask) == 0;
+    return (dayMask & mMask) != 0;
   }
 
   @Override

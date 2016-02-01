@@ -23,29 +23,60 @@ import android.support.annotation.NonNull;
 import com.kuelye.notbadcoffee.R;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
+import static com.kuelye.notbadcoffee.logic.helpers.CalendarHelper.getCalendar;
+import static com.kuelye.notbadcoffee.model.TimeRange.MIDNIGHT_TIME_FROM;
+import static com.kuelye.notbadcoffee.model.TimeRange.MIDNIGHT_TIME_TO;
 import static java.lang.String.format;
-import static java.util.Calendar.DAY_OF_WEEK;
 
 public class Timetable extends ArrayList<TimetableRow> {
 
   // TODO 12h (am/pm) format support
+  // TODO closed until
   @NonNull public String getOpenUntilDisplayString(@NonNull Context context) {
-    final int day = Calendar.getInstance().get(DAY_OF_WEEK);
-    for (TimetableRow timetableRow : this) {
-      if (timetableRow.getDayRange().isIncludeDay(day)) {
-        final String openUntilTemplate = context.getString(R.string.cafe_open_until_template);
-        String timeTo = timetableRow.getTimeRange().getTimeTo();
-        if (timeTo.equals(TimeRange.MIDNIGHT_TIME)) {
-          timeTo = context.getString(R.string.cafe_time_midnight);
-        }
+    final TimeRange todayTimeRange = getTodayTimeRangeIfOpened();
+    if (todayTimeRange == null) {
+      return context.getString(R.string.cafe_closed);
+    } else {
+      final String openUntilTemplate = context.getString(R.string.cafe_open_until_template);
+      String timeTo = todayTimeRange.getTimeToAsString();
+      if (timeTo.equals(MIDNIGHT_TIME_TO)) {
+        timeTo = context.getString(R.string.cafe_time_midnight);
+      }
 
-        return format(openUntilTemplate, timeTo);
+      return format(openUntilTemplate, timeTo);
+    }
+  }
+
+  TimeRange getTodayTimeRangeIfOpened() {
+    final int day = getCalendar().getDay();
+    final int hour = getCalendar().getHour();
+    final int minute = getCalendar().getMinute();
+    for (TimetableRow timetableRow : this) {
+      final DayRange dayRange = timetableRow.getDayRange();
+      final TimeRange todayTimeRange = timetableRow.getTimeRange();
+
+      if (dayRange.isIncludeDay(day)) {
+        final TimeRange actualTimeRange = new TimeRange(todayTimeRange.getTimeFromAsString(), MIDNIGHT_TIME_TO);
+        if (actualTimeRange.isIncludeTime(hour, minute)) {
+          return todayTimeRange;
+        }
+      }
+
+      int yesterday = day - 1;
+      if (yesterday <= 0) {
+        yesterday += 7;
+      }
+      if (dayRange.isIncludeDay(yesterday)
+          && todayTimeRange.getTimeFrom() > todayTimeRange.getTimeTo()) {
+        final TimeRange actualTimeRange = new TimeRange(MIDNIGHT_TIME_FROM, todayTimeRange.getTimeToAsString());
+        if (actualTimeRange.isIncludeTime(hour, minute)) {
+          return todayTimeRange;
+        }
       }
     }
 
-    return context.getString(R.string.cafe_closed);
+    return null;
   }
 
 }
