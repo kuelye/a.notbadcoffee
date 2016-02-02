@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.kuelye.notbadcoffee.Application;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafesAsyncTask;
@@ -53,6 +55,7 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static butterknife.ButterKnife.bind;
 import static com.google.android.gms.maps.CameraUpdateFactory.newLatLng;
+import static com.kuelye.notbadcoffee.Application.getLastLocation;
 import static com.kuelye.notbadcoffee.Application.popBitmapFromCache;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillPhotoLayout;
@@ -67,8 +70,6 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   @Bind(R.id.cafe_photo_clickable_image_view) protected ImageView mPhotoClickableImageView;
   @Bind(R.id.cafe_name_text_view) protected TextView mNameTextView;
   @Bind(R.id.cafe_place_layout) protected ViewGroup mPlaceLayout;
-  @Bind(R.id.cafe_place_address_text_view) protected TextView mPlaceAddressTextView;
-  @Bind(R.id.cafe_place_metro_text_view) protected TextView mPlaceMetroTextView;
 
   @Nullable private Cafes mCafes;
 
@@ -115,7 +116,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
       final Bitmap cachedPhotoBitmap = popBitmapFromCache(TRANSITION_CACHED_BITMAP_KEY);
       final Drawable cachedPhoto = new BitmapDrawable(getResources(), cachedPhotoBitmap);
       fillPhotoLayout(getActivity(), mPhotoImageView, mNameTextView, mCafe, cachedPhoto);
-      fillLocationLayout(mPlaceAddressTextView, mPlaceMetroTextView, mCafe);
+      fillLocationLayout(getActivity(), mPlaceLayout, mCafe, getLastLocation());
 
       mPhotoClickableImageView.setOnClickListener(new View.OnClickListener() {
         @Override
@@ -151,11 +152,6 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
         , 0, mCardView.getHeight());
   }
 
-  @Subscribe
-  public void onCafesGotten(GetCafesAsyncTask.Event getCafesEvent) {
-    mCafes = getCafesEvent.getCafes();
-  }
-
   @Override
   protected void fillMap() {
     if (mGoogleMap != null && mCafes != null) {
@@ -177,6 +173,18 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
       if (selectedMarker != null) {
         selectedMarker.showInfoWindow();
       }
+    }
+  }
+
+  @Subscribe
+  public void onCafesGotten(GetCafesAsyncTask.Event event) {
+    mCafes = event.getCafes();
+  }
+
+  @Subscribe
+  public void onLocationGotten(OnLocationGottenEvent event) {
+    if (mCafe != null) {
+      fillLocationLayout(getActivity(), mPlaceLayout, mCafe, event.getLocation());
     }
   }
 

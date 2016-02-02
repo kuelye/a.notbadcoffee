@@ -46,6 +46,7 @@ import butterknife.Bind;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static butterknife.ButterKnife.bind;
+import static com.kuelye.notbadcoffee.Application.getLastLocation;
 import static com.kuelye.notbadcoffee.Application.popBitmapFromCache;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillMenuLayout;
@@ -60,8 +61,6 @@ public class CafeFragment extends AbstractCafeFragment {
   @Bind(R.id.cafe_name_text_view) protected TextView mNameTextView;
   @Bind(R.id.cafe_info_layout) protected ViewGroup mInfoLayout;
   @Bind(R.id.cafe_place_layout) protected ViewGroup mPlaceLayout;
-  @Bind(R.id.cafe_place_address_text_view) protected TextView mPlaceAddressTextView;
-  @Bind(R.id.cafe_place_metro_text_view) protected TextView mPlaceMetroTextView;
   @Bind(R.id.cafe_more_info_header_layout) protected ViewGroup mMoreInfoHeaderLayout;
   @Bind(R.id.cafe_more_info_layout) protected ViewGroup mMoreInfoLayout;
   @Bind(R.id.cafe_menu_layout) protected ViewGroup mMenuLayout;
@@ -167,7 +166,7 @@ public class CafeFragment extends AbstractCafeFragment {
       final Bitmap cachedPhotoBitmap = popBitmapFromCache(TRANSITION_CACHED_BITMAP_KEY);
       final Drawable cachedPhoto = new BitmapDrawable(getResources(), cachedPhotoBitmap);
       fillPhotoLayout(getActivity(), mPhotoImageView, mNameTextView, mCafe, cachedPhoto);
-      fillLocationLayout(mPlaceAddressTextView, mPlaceMetroTextView, mCafe);
+      fillLocationLayout(getActivity(), mPlaceLayout, mCafe, getLastLocation());
       fillMenuLayout(getActivity(), mMenuLayout, mCafe);
       fillTimetableLayout(getActivity(), mTimetableLayout, mCafe);
 
@@ -191,6 +190,13 @@ public class CafeFragment extends AbstractCafeFragment {
           .position(mCafe.getPlace().getLocation().toLatLng()));
 
       centerCamera(false, marker);
+    }
+  }
+
+  @Subscribe
+  public void onLocationGotten(OnLocationGottenEvent event) {
+    if (mCafe != null) {
+      fillLocationLayout(getActivity(), mPlaceLayout, mCafe, event.getLocation());
     }
   }
 

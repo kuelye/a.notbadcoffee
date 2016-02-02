@@ -18,6 +18,7 @@ package com.kuelye.notbadcoffee;
  */
 
 import android.graphics.Bitmap;
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.util.LruCache;
@@ -32,6 +33,7 @@ public class Application extends android.app.Application {
       = new LruCache<>((int) (Runtime.getRuntime().maxMemory() / 1024) / 8);
 
   @Nullable private static Cafes sCafes;
+  @Nullable private static Location sLastLocation;
 
   @NonNull public static Bus getBus() {
     return sBus;
@@ -58,6 +60,14 @@ public class Application extends android.app.Application {
 
   public static void setCafes(@Nullable Cafes cafes) {
     sCafes = cafes;
+  }
+
+  @Nullable public static Location getLastLocation() {
+    return sLastLocation;
+  }
+
+  public static void setLastLocation(@Nullable Location lastLocation) {
+    sLastLocation = lastLocation;
   }
 
 }

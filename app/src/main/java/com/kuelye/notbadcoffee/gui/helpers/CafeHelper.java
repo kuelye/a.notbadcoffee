@@ -19,6 +19,7 @@ package com.kuelye.notbadcoffee.gui.helpers;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -54,13 +55,26 @@ public final class CafeHelper {
     cafeNameTextView.setText(cafe.getName());
   }
 
-  public static void fillLocationLayout(
-      @NonNull TextView cafePlaceAddressTextView
-      , @NonNull TextView cafePlaceMetroTextView
-      , @NonNull Cafe cafe) {
+  public static void fillLocationLayout(@NonNull Context context
+      , @NonNull ViewGroup cafeLocationLayout
+      , @NonNull Cafe cafe
+      , @Nullable Location location) {
     final Place place = cafe.getPlaces().get(0);
-    cafePlaceAddressTextView.setText(place.getAddress());
-    cafePlaceMetroTextView.setText(place.getMetro());
+    final TextView placeAddressTextView
+        = (TextView) cafeLocationLayout.findViewById(R.id.cafe_place_address_text_view);
+    placeAddressTextView.setText(place.getAddress());
+    final TextView placeMetroTextView
+        = (TextView) cafeLocationLayout.findViewById(R.id.cafe_place_metro_text_view);
+    placeMetroTextView.setText(place.getMetro());
+    final TextView placeDistanceTextView
+        = (TextView) cafeLocationLayout.findViewById(R.id.cafe_place_distance_text_view);
+    if (location != null) {
+      final double distance = location.distanceTo(cafe.getPlace().getLocation().toLocation());
+      final String distanceTemplate = context.getString(R.string.cafe_distance_template);
+      placeDistanceTextView.setText(String.format(distanceTemplate, (int) distance));
+    } else {
+      placeDistanceTextView.setText(null);
+    }
   }
 
   public static void fillMenuLayout(@NonNull Context context

@@ -6,4 +6,5 @@
     <string name="cafe_closed">Закрыто</string>
     <string name="cafe_open_until_template">Открыто до</string>
     <string name="cafe_time_midnight">полуночи</string>
+    <string name="cafe_distance_template">%d м</string>
 </resources>

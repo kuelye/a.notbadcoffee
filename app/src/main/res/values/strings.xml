@@ -20,5 +20,6 @@
     <string name="cafe_closed">Closed</string>
     <string name="cafe_timetable_weekdays">Weekdays</string>
     <string name="cafe_timetable_weekend">Weekend</string>
+    <string name="cafe_distance_template">%d m</string>
 
 </resources>

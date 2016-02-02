@@ -28,7 +28,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.kuelye.notbadcoffee.R;
+import com.kuelye.notbadcoffee.gui.fragments.AbstractBaseFragment;
 import com.kuelye.notbadcoffee.model.Cafe;
+import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,7 @@ import butterknife.Bind;
 import static butterknife.ButterKnife.bind;
 import static com.kuelye.components.utils.AndroidUtils.getActionBarHeight;
 import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
+import static com.kuelye.notbadcoffee.Application.getLastLocation;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillMenuLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillPhotoLayout;
@@ -69,7 +72,7 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
     final Cafe cafe = mCafes.get(position);
 
     fillPhotoLayout(mContext, holder.photoImageView, holder.nameTextView, cafe, null);
-    fillLocationLayout(holder.placeAddressTextView, holder.placeMetroTextView, cafe);
+    fillLocationLayout(mContext, holder.placeLayout, cafe, getLastLocation());
     fillMoreInfoHeaderLayout(holder, cafe);
     fillMenuLayout(mContext, holder.menuLayout, cafe);
     fillTimetableLayout(mContext, holder.timetableLayout, cafe);
@@ -86,13 +89,16 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
         mCallback.onPhotoClicked(holder, cafe);
       }
     });
-
-
   }
 
   @Override
   public int getItemCount() {
     return mCafes.size();
+  }
+
+  @Subscribe
+  public void onLocationGotten(AbstractBaseFragment.OnLocationGottenEvent event) {
+    notifyDataSetChanged();
   }
 
   public void set(@NonNull List<Cafe> cafes) {

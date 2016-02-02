@@ -24,7 +24,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.Toolbar;
 import android.transition.Transition;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +37,8 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
+import static com.kuelye.notbadcoffee.Application.getBus;
+import static com.kuelye.notbadcoffee.Application.setLastLocation;
 
 public abstract class AbstractBaseFragment extends Fragment
     implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
@@ -134,6 +135,9 @@ public abstract class AbstractBaseFragment extends Fragment
   @Override
   public void onConnected(@Nullable Bundle connectionHint) {
     mLastLocation = FusedLocationApi.getLastLocation(mGoogleApiClient);
+    setLastLocation(mLastLocation);
+
+    getBus().post(new OnLocationGottenEvent(mLastLocation));
   }
 
   @Override
@@ -166,6 +170,22 @@ public abstract class AbstractBaseFragment extends Fragment
 
   protected void onBeforeViewShowed() {
     // stub
+  }
+
+  /* =========================== INNER ============================== */
+
+  public static class OnLocationGottenEvent {
+
+    @Nullable private final Location mLocation;
+
+    public OnLocationGottenEvent(@Nullable Location location) {
+      mLocation = location;
+    }
+
+    @Nullable public Location getLocation() {
+      return mLocation;
+    }
+
   }
 
 }

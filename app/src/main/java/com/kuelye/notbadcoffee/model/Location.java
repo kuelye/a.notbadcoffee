@@ -33,6 +33,14 @@ public class Location {
     return new LatLng(mLatitude, mLongitude);
   }
 
+  public android.location.Location toLocation() {
+    final android.location.Location location = new android.location.Location("");
+    location.setLatitude(mLatitude);
+    location.setLongitude(mLongitude);
+
+    return location;
+  }
+
   public double getLatitude() {
     return mLatitude;
   }
