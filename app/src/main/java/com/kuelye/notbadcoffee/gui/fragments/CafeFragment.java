@@ -17,6 +17,7 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.animation.Animator;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -26,15 +27,17 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.kuelye.components.utils.AndroidUtils;
+import com.kuelye.components.utils.AndroidUtils.AnimatorListenerStub;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
 import com.squareup.otto.Subscribe;
@@ -53,6 +56,7 @@ import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.TRANSITION_CACH
 
 public class CafeFragment extends AbstractCafeFragment {
 
+  @Bind(R.id.transition_toolbar) protected View mTransitionToolbar;
   @Bind(R.id.toolbar_background) protected View mToolbarBackgroundView;
   @Bind(R.id.cafe_photo_image_view) protected ImageView mPhotoImageView;
   @Bind(R.id.cafe_name_text_view) protected TextView mNameTextView;
@@ -117,13 +121,6 @@ public class CafeFragment extends AbstractCafeFragment {
   }
 
   @Override
-  protected void onEnterTransitionStart() {
-    mToolbarBackgroundView.animate()
-        .alpha(0)
-        .setDuration(ANIMATION_DURATION_DEFAULT);
-  }
-
-  @Override
   protected void onEnterTransitionEnd() {
     mToolbar.setAlpha(0);
     mMapView.setTranslationY(-mMapView.getHeight());
@@ -143,15 +140,6 @@ public class CafeFragment extends AbstractCafeFragment {
         .translationY(0)
         .setDuration(ANIMATION_DURATION_DEFAULT)
         .setStartDelay(3 * ANIMATION_DELAY_DEFAULT);
-  }
-
-  @Override
-  public boolean onBackPressed() {
-    mToolbarBackgroundView.animate()
-        .alpha(1)
-        .setDuration(ANIMATION_DURATION_DEFAULT);
-
-    return true;
   }
 
   @Override

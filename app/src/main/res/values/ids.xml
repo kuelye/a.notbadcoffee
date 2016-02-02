@@ -11,9 +11,16 @@
     <item name="fragment" type="id" />
     <item name="card_view" type="id" />
 
+    <!-- TRANSITION -->
+
+    <item name="transition_toolbar" type="id" />
+
+    <!-- POSITIONING -->
+
+    <item name="positioning_cafe_photo_layout" type="id" />
+
     <!-- CAFE -->
 
-    <item name="cafe_photo_layout" type="id" />
     <item name="cafe_photo_image_view" type="id" />
     <item name="cafe_photo_clickable_image_view" type="id" />
     <item name="cafe_name_text_view" type="id" />

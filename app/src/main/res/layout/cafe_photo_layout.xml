@@ -8,14 +8,14 @@
     >
 
     <android.support.percent.PercentFrameLayout
-        android:id="@id/cafe_photo_layout"
+        android:id="@id/positioning_cafe_photo_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
 
         <RelativeLayout
             app:layout_widthPercent="100%"
-            app:layout_aspectRatio="178%"
+            app:layout_aspectRatio="@fraction/cafe_photo_image_view_aspect_ratio"
             >
 
             <ImageView
@@ -37,7 +37,7 @@
         android:id="@id/cafe_name_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/cafe_photo_layout"
+        android:layout_alignBottom="@id/positioning_cafe_photo_layout"
         android:padding="@dimen/padding_standard"
         android:textAppearance="@style/TextAppearance.AppCompat.Title.Inverse"
         tools:text="Централь" />

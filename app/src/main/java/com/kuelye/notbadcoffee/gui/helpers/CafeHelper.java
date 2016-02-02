@@ -49,6 +49,7 @@ public final class CafeHelper {
         .load(cafe.getPlace().getPhoto())
         .placeholder(cafeCachedPhoto)
         .fit()
+        .centerCrop()
         .into(cafePhotoImageView);
     cafeNameTextView.setText(cafe.getName());
   }

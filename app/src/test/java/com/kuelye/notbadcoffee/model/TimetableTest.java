@@ -72,7 +72,7 @@ public class TimetableTest {
     mTimetableB.add(timetableBRow1);
   }
 
-  @Test public void getTodayTimeRangeIfInclude() {
+  @Test public void getTodayTimeRangeIfOpened() {
     setupCalendarMock(MONDAY, 8, 59);
     assertNull(mTimetableA.getTodayTimeRangeIfOpened());
     setupCalendarMock(WEDNESDAY, 9, 0);
