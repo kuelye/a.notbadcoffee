@@ -26,11 +26,11 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.kuelye.notbadcoffee.R;
+import com.kuelye.notbadcoffee.gui.views.MapView;
 
 import butterknife.Bind;
 

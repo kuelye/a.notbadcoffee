@@ -7,6 +7,7 @@
     >
 
     <ScrollView
+        android:id="@id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -22,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/map_view" />
 
-            <com.google.android.gms.maps.MapView
+            <com.kuelye.notbadcoffee.gui.views.MapView
                 android:id="@id/map_view"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/cafe_fragment_map_view_height"
@@ -49,14 +50,15 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:transitionName="@string/toolbar_background_transition_name"
-            tools:ignore="Suspicious0dp" />
+            tools:ignore="Suspicious0dp,UnusedAttribute" />
 
         <android.support.v7.widget.Toolbar
             style="@style/AppTheme.Toolbar"
             android:id="@id/transition_toolbar"
             android:layout_height="0dp"
             android:layout_width="match_parent"
-            android:transitionName="@string/toolbar_transition_name" />
+            android:transitionName="@string/toolbar_transition_name"
+            tools:ignore="UnusedAttribute" />
 
         <FrameLayout
             android:id="@id/stub_view"

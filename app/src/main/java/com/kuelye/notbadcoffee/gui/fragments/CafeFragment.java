@@ -17,7 +17,6 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.animation.Animator;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -25,10 +24,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -36,9 +36,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.kuelye.components.utils.AndroidUtils;
-import com.kuelye.components.utils.AndroidUtils.AnimatorListenerStub;
 import com.kuelye.notbadcoffee.R;
+import com.kuelye.notbadcoffee.gui.views.MapView;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
 import com.squareup.otto.Subscribe;
 
@@ -56,8 +55,7 @@ import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.TRANSITION_CACH
 
 public class CafeFragment extends AbstractCafeFragment {
 
-  @Bind(R.id.transition_toolbar) protected View mTransitionToolbar;
-  @Bind(R.id.toolbar_background) protected View mToolbarBackgroundView;
+  @Bind(R.id.scroll_view) protected ScrollView mScrollView;
   @Bind(R.id.cafe_photo_image_view) protected ImageView mPhotoImageView;
   @Bind(R.id.cafe_name_text_view) protected TextView mNameTextView;
   @Bind(R.id.cafe_info_layout) protected ViewGroup mInfoLayout;
@@ -105,6 +103,24 @@ public class CafeFragment extends AbstractCafeFragment {
       mMoreInfoLayout.setVisibility(View.VISIBLE);
       mInfoLayout.setAlpha(0);
       mMapView.setAlpha(0);
+
+      // fix to avoid ScrollView stealing of MapView touch events
+      mMapView.setOnInterceptTouchListener(new MapView.OnInterceptTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent event) {
+          switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+              mScrollView.requestDisallowInterceptTouchEvent(true);
+              break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+              mScrollView.requestDisallowInterceptTouchEvent(false);
+              break;
+          }
+
+          return false;
+        }
+      });
     }
 
     return view;
