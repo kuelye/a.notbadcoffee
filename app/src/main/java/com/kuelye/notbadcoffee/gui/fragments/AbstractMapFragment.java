@@ -49,8 +49,6 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
   @NonNull public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final View view = super.onCreateView(inflater, container, savedInstanceState);
 
-    bind(this, view);
-
     mMapView.onCreate(savedInstanceState);
     mMapView.getMapAsync(this);
 

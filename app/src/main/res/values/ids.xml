@@ -7,7 +7,6 @@
     <item name="fragment" type="id" />
     <item name="map_view" type="id" />
     <item name="scroll_view" type="id" />
-    <item name="stub_view" type="id" />
     <item name="toolbar" type="id" />
     <item name="toolbar_background" type="id" />
     <item name="recycler_view" type="id" />

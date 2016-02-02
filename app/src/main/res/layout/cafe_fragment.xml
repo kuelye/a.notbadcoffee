@@ -62,18 +62,13 @@
             android:transitionName="@string/toolbar_transition_name"
             tools:ignore="UnusedAttribute" />
 
-        <FrameLayout
-            android:id="@id/stub_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true" />
-
         <android.support.v7.widget.Toolbar
             style="@style/AppTheme.Toolbar"
             android:id="@id/toolbar"
-            android:layout_below="@id/stub_view"
+            android:layout_alignParentTop="true"
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            tools:ignore="UnusedAttribute" />
+            tools:ignore="UnusedAttribute"
+            />
     </RelativeLayout>
 </RelativeLayout>

@@ -10,25 +10,21 @@
         android:id="@id/toolbar_background"
         android:background="@color/colorPrimaryA800"
         android:layout_alignBottom="@id/toolbar"
-        android:layout_alignTop="@id/stub_view"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:transitionName="@string/toolbar_background_transition_name"
-        tools:ignore="UnusedAttribute" />
-
-    <FrameLayout
-        android:id="@id/stub_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
+        tools:ignore="UnusedAttribute"
+        />
 
     <android.support.v7.widget.Toolbar
         style="@style/AppTheme.Toolbar"
         android:id="@id/toolbar"
-        android:layout_below="@id/stub_view"
+        android:layout_alignParentTop="true"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:minHeight="?attr/actionBarSize"
         android:transitionName="@string/toolbar_transition_name"
-        tools:ignore="UnusedAttribute" />
+        tools:ignore="UnusedAttribute"
+        />
 </RelativeLayout>

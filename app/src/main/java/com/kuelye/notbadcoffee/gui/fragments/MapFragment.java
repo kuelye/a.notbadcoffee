@@ -55,6 +55,7 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static butterknife.ButterKnife.bind;
 import static com.google.android.gms.maps.CameraUpdateFactory.newLatLng;
+import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 import static com.kuelye.notbadcoffee.Application.getLastLocation;
 import static com.kuelye.notbadcoffee.Application.popBitmapFromCache;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
@@ -64,7 +65,6 @@ import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchCafeActiv
 
 public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallback {
 
-  @Bind(R.id.stub_view) protected View mStubView;
   @Bind(R.id.card_view) protected CardView mCardView;
   @Bind(R.id.cafe_photo_image_view) protected ImageView mPhotoImageView;
   @Bind(R.id.cafe_photo_clickable_image_view) protected ImageView mPhotoClickableImageView;
@@ -148,7 +148,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   public void onMapReady(GoogleMap googleMap) {
     super.onMapReady(googleMap);
 
-    googleMap.setPadding(0, mToolbar.getHeight() + mStubView.getHeight()
+    googleMap.setPadding(0, mToolbar.getHeight() + getStatusBarHeight(getActivity())
         , 0, mCardView.getHeight());
   }
 

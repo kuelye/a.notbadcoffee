@@ -27,14 +27,18 @@ import android.transition.Transition;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.kuelye.notbadcoffee.R;
 
+import butterknife.Bind;
+
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static butterknife.ButterKnife.bind;
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 import static com.kuelye.notbadcoffee.Application.getBus;
@@ -46,7 +50,7 @@ public abstract class AbstractBaseFragment extends Fragment
   protected static final long ANIMATION_DURATION_DEFAULT = 200;
   protected static final long ANIMATION_DELAY_DEFAULT = 100;
 
-  protected Toolbar mToolbar;
+  @Bind(R.id.toolbar) protected Toolbar mToolbar;
 
   private boolean mOnViewCreatedCalled = false;
 
@@ -60,12 +64,13 @@ public abstract class AbstractBaseFragment extends Fragment
       , @Nullable Bundle savedInstanceState) {
     final View view = inflateView(inflater, container);
 
-    mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
+    bind(this, view);
+
     mToolbar.setTitle(R.string.application_name);
 
     // translucent status bar bug fix (it height didn't included, so it is considered as 0dp)
-    final View stubView = view.findViewById(R.id.stub_view);
-    stubView.setPadding(0, getStatusBarHeight(getActivity()), 0, 0);
+    ((RelativeLayout.LayoutParams) mToolbar.getLayoutParams())
+        .setMargins(0, getStatusBarHeight(getActivity()), 0, 0);
 
     if (mGoogleApiClient == null) {
       mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
