@@ -117,6 +117,11 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
     }
   }
 
+  @Subscribe
+  public void onLocationGotten(OnLocationGottenEvent event) {
+    update();
+  }
+
   /* =========================== HIDDEN ============================= */
 
   private void update() {

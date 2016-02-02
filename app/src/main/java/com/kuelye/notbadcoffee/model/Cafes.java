@@ -17,7 +17,17 @@ package com.kuelye.notbadcoffee.model;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.location.*;
+import android.location.Location;
+
+import com.kuelye.notbadcoffee.Application;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+
+import static com.kuelye.notbadcoffee.Application.getLastLocation;
+import static java.lang.Math.signum;
 
 public class Cafes extends ArrayList<Cafe> {
 
@@ -31,6 +41,23 @@ public class Cafes extends ArrayList<Cafe> {
     }
 
     return null;
+  }
+
+  public void sortByDistanceAscending() {
+    final Location location = getLastLocation();
+    if (location != null) {
+      Collections.sort(this, new Comparator<Cafe>() {
+        @Override
+        public int compare(Cafe lhs, Cafe rhs) {
+          final Location lhsLocation = lhs.getPlace().getLocation().toLocation();
+          final double lhsDistance = location.distanceTo(lhsLocation);
+          final Location rhsLocation = rhs.getPlace().getLocation().toLocation();
+          final double rhsDistance = location.distanceTo(rhsLocation);
+
+          return (int) signum(lhsDistance - rhsDistance);
+        }
+      });
+    }
   }
 
 }

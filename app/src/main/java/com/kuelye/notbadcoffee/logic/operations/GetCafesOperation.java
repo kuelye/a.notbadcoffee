@@ -32,6 +32,8 @@ public class GetCafesOperation implements Callable<Cafes> {
       cafes = new UpdateCafesOperation().call();
     }
 
+    cafes.sortByDistanceAscending();
+
     return cafes;
   }
 
