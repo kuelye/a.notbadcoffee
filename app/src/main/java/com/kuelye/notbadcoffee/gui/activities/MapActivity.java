@@ -31,7 +31,7 @@ public class MapActivity extends AbstractBaseActivity {
     super.onCreate(savedInstanceState);
 
     if (savedInstanceState == null) {
-      final int cafePlaceId = getIntent().getIntExtra(MapFragment.CAFE_PLACE_ID_EXTRA, -1);
+      final long cafePlaceId = getIntent().getLongExtra(MapFragment.ENTER_CAFE_PLACE_ID_EXTRA, -1);
       final Fragment fragment = MapFragment.newInstance(cafePlaceId);
       getSupportFragmentManager()
           .beginTransaction()

@@ -34,7 +34,6 @@ import android.transition.TransitionInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.activities.CafeActivity;
@@ -51,7 +50,7 @@ import static android.support.v4.app.ActivityOptionsCompat.makeSceneTransitionAn
 import static android.view.Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME;
 import static android.view.Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME;
 import static com.kuelye.notbadcoffee.Application.putDrawableToCache;
-import static com.kuelye.notbadcoffee.gui.fragments.MapFragment.CAFE_PLACE_ID_EXTRA;
+import static com.kuelye.notbadcoffee.gui.fragments.MapFragment.ENTER_CAFE_PLACE_ID_EXTRA;
 
 public final class NavigateHelper {
 
@@ -84,7 +83,7 @@ public final class NavigateHelper {
     }
 
     final Intent intent = new Intent(activityFrom, MapActivity.class);
-    intent.putExtra(CAFE_PLACE_ID_EXTRA, cafe.getPlace().getId());
+    intent.putExtra(ENTER_CAFE_PLACE_ID_EXTRA, cafe.getPlace().getId());
     putDrawableToCache(TRANSITION_CACHED_DRAWABLE_KEY, cafeRowViewHolder.photoImageView.getDrawable());
 
     ActivityCompat.startActivity(activityFrom, intent, options);
@@ -93,7 +92,7 @@ public final class NavigateHelper {
   public static void launchCafeActivity(
       @NonNull Activity activityFrom
       , @NonNull ViewGroup cafeHeaderLayout
-      , int cafePlaceId) {
+      , long cafePlaceId) {
     Bundle options = null;
     final ImageView photoImageView = (ImageView) cafeHeaderLayout.findViewById(R.id.cafe_photo_image_view);
     final ViewGroup nameAndLinksLayout = (ViewGroup) cafeHeaderLayout.findViewById(R.id.cafe_name_and_links_layout);
@@ -112,7 +111,7 @@ public final class NavigateHelper {
     }
 
     final Intent intent = new Intent(activityFrom, CafeActivity.class);
-    intent.putExtra(CAFE_PLACE_ID_EXTRA, cafePlaceId);
+    intent.putExtra(ENTER_CAFE_PLACE_ID_EXTRA, cafePlaceId);
     putDrawableToCache(TRANSITION_CACHED_DRAWABLE_KEY, photoImageView.getDrawable());
 
     ActivityCompat.startActivity(activityFrom, intent, options);

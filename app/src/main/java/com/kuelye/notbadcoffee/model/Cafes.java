@@ -17,10 +17,7 @@ package com.kuelye.notbadcoffee.model;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.location.*;
 import android.location.Location;
-
-import com.kuelye.notbadcoffee.Application;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,7 +28,7 @@ import static java.lang.Math.signum;
 
 public class Cafes extends ArrayList<Cafe> {
 
-  public Cafe byPlaceId(int placeId) {
+  public Cafe byPlaceId(long placeId) {
     for (Cafe cafe : this) {
       for (Place place : cafe.getPlaces()) {
         if (place.getId() == placeId) {

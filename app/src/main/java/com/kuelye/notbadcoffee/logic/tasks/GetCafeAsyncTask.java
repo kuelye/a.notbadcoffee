@@ -26,14 +26,14 @@ import com.kuelye.notbadcoffee.model.Cafe;
 
 import static com.kuelye.notbadcoffee.Application.getBus;
 
-public class GetCafeAsyncTask extends AsyncTask<Integer, Void, Cafe> {
+public class GetCafeAsyncTask extends AsyncTask<Long, Void, Cafe> {
 
   public static final String TAG = "GetCafesAsyncTask";
 
   @Override
-  protected Cafe doInBackground(Integer... params) {
+  protected Cafe doInBackground(Long... params) {
     try {
-      final int placeId = params[0];
+      final long placeId = params[0];
       return new GetCafeOperation(placeId).call();
     } catch (Exception e) {
       Log.e(TAG, "", e);

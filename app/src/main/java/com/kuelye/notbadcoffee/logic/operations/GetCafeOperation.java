@@ -26,9 +26,9 @@ import static com.kuelye.notbadcoffee.Application.getCafes;
 
 public class GetCafeOperation implements Callable<Cafe> {
 
-  private final int mPlaceId;
+  private final long mPlaceId;
 
-  public GetCafeOperation(int placeId) {
+  public GetCafeOperation(long placeId) {
     mPlaceId = placeId;
   }
 

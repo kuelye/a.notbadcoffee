@@ -17,7 +17,6 @@ package com.kuelye.notbadcoffee.gui.activities;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -32,7 +31,7 @@ public class CafeActivity extends AbstractBaseActivity {
     super.onCreate(savedInstanceState);
 
     if (savedInstanceState == null) {
-      final int cafePlaceId = getIntent().getIntExtra(CafeFragment.CAFE_PLACE_ID_EXTRA, -1);
+      final long cafePlaceId = getIntent().getLongExtra(CafeFragment.ENTER_CAFE_PLACE_ID_EXTRA, -1);
       final Fragment fragment = CafeFragment.newInstance(cafePlaceId);
       getSupportFragmentManager()
           .beginTransaction()

@@ -44,7 +44,7 @@ public abstract class AbstractOperation<R> implements Callable<R> {
     try {
       doCall();
     } catch (Exception e) {
-      Log.d("GUB", "& ", e); // TODO
+      // TODO
     } finally {
       onComplete();
     }

@@ -24,7 +24,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class Place {
 
-  private final int mId;
+  private final long mId;
   @NonNull private final String mAddress;
   @NonNull private final String mMetro;
   @NonNull private final Location mLocation;
@@ -38,7 +38,7 @@ public class Place {
     mLocation = builder.mLocation;
   }
 
-  public int getId() {
+  public long getId() {
     return mId;
   }
 
@@ -73,7 +73,7 @@ public class Place {
 
   public static class Builder {
 
-    private final int mId;
+    private final long mId;
     @NonNull private final String mAddress;
     @NonNull private final String mMetro;
     @NonNull private final Location mLocation;

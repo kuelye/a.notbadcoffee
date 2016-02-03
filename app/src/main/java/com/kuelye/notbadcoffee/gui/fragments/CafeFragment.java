@@ -65,7 +65,7 @@ public class CafeFragment extends AbstractCafeFragment {
   @Bind(R.id.cafe_menu_layout) protected ViewGroup mMenuLayout;
   @Bind(R.id.cafe_timetable_layout) protected ViewGroup mTimetableLayout;
 
-  public static CafeFragment newInstance(int cafePlaceId) {
+  public static CafeFragment newInstance(long cafePlaceId) {
     final CafeFragment cafeFragment = new CafeFragment();
 
     final Bundle arguments = new Bundle();

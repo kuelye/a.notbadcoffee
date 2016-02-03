@@ -29,12 +29,13 @@ import static com.kuelye.notbadcoffee.Application.getBus;
 
 public abstract class AbstractCafeFragment extends AbstractMapFragment {
 
-  public static final String CAFE_PLACE_ID_EXTRA = "CAFE_PLACE_ID";
+  public static final String ENTER_CAFE_PLACE_ID_EXTRA = "ENTER_CAFE_PLACE_ID";
+  protected static final long CAFE_PLACE_ID_DEFAULT = -1L;
 
   @Nullable protected Cafe mCafe;
 
-  protected static void putToBundle(@NonNull Bundle bundle, int cafePlaceId) {
-    bundle.putInt(CAFE_PLACE_ID_EXTRA, cafePlaceId);
+  protected static void putToBundle(@NonNull Bundle bundle, long cafePlaceId) {
+    bundle.putLong(ENTER_CAFE_PLACE_ID_EXTRA, cafePlaceId);
   }
 
   @Override
@@ -59,12 +60,12 @@ public abstract class AbstractCafeFragment extends AbstractMapFragment {
     fillMap();
   }
 
-  protected int getCafePlaceId() {
-    return getArguments().getInt(CAFE_PLACE_ID_EXTRA);
+  protected long getEnterCafePlaceId() {
+    return getArguments().getLong(ENTER_CAFE_PLACE_ID_EXTRA, CAFE_PLACE_ID_DEFAULT);
   }
 
   protected void update() {
-    new GetCafeAsyncTask().execute(getCafePlaceId());
+    new GetCafeAsyncTask().execute(getEnterCafePlaceId());
   }
 
 }

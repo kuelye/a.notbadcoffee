@@ -36,14 +36,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.kuelye.notbadcoffee.R;
-import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafesAsyncTask;
 import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.model.Cafes;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import butterknife.Bind;
 
@@ -53,12 +54,14 @@ import static butterknife.ButterKnife.bind;
 import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 import static com.kuelye.notbadcoffee.Application.getDrawableFromCache;
 import static com.kuelye.notbadcoffee.Application.getLastLocation;
-import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillHeaderLayout;
+import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.TRANSITION_CACHED_DRAWABLE_KEY;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchCafeActivity;
 
 public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallback {
+
+  private static final String SELECTED_CAFE_PLACE_ID_EXTRA = "SELECTED_CAFE_PLACE_ID";
 
   @Bind(R.id.card_view) protected CardView mCardView;
   @Bind(R.id.cafe_header_layout) protected ViewGroup mHeaderLayout;
@@ -68,12 +71,14 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   @Bind(R.id.cafe_place_layout) protected ViewGroup mPlaceLayout;
 
   @Nullable private Cafes mCafes;
+  @Nullable private Map<String, Long> mCafeMarkersMap;
 
-  public static MapFragment newInstance(int cafePlaceId) {
+  public static MapFragment newInstance(long cafePlaceId) {
     final MapFragment mapFragment = new MapFragment();
 
     final Bundle arguments = new Bundle();
     putToBundle(arguments, cafePlaceId);
+    arguments.putLong(SELECTED_CAFE_PLACE_ID_EXTRA, cafePlaceId);
     mapFragment.setArguments(arguments);
 
     return mapFragment;
@@ -117,38 +122,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   }
 
   @Override
-  @Subscribe
-  public void onCafeGotten(GetCafeAsyncTask.Event getCafeEvent) {
-    super.onCafeGotten(getCafeEvent);
-
-    if (mCafe != null) {
-      final Drawable cachedPhoto = getDrawableFromCache(TRANSITION_CACHED_DRAWABLE_KEY);
-      fillHeaderLayout(getActivity(), mHeaderLayout, mCafe, cachedPhoto);
-      fillLocationLayout(getActivity(), mPlaceLayout, mCafe, getLastLocation());
-
-      mPhotoClickableImageView.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          launchCafeActivity(getActivity(), mHeaderLayout, getCafePlaceId());
-        }
-      });
-      mPlaceLayout.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          if (mGoogleMap != null) {
-            final LatLng placeLatLng = mCafe.getPlace().getLocation().toLatLng();
-            final CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(placeLatLng);
-            mGoogleMap.animateCamera(cameraUpdate);
-          }
-        }
-      });
-    }
-  }
-
-  @Override
   protected void update() {
-    super.update();
-
     new GetCafesAsyncTask().execute();
   }
 
@@ -163,7 +137,10 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   @Override
   protected void fillMap() {
     if (mGoogleMap != null && mCafes != null) {
+      mGoogleMap.clear();
+
       final List<Marker> markers = new ArrayList<>();
+      mCafeMarkersMap = new HashMap<>();
       Marker selectedMarker = null;
       for (Cafe cafe : mCafes) {
         final Marker marker = mGoogleMap.addMarker(new MarkerOptions()
@@ -171,11 +148,28 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
         marker.setTitle(cafe.getName());
         marker.setSnippet(cafe.getPlace().getAddress());
 
+        mCafeMarkersMap.put(marker.getId(), cafe.getPlace().getId());
+
         if (cafe == mCafe) {
           selectedMarker = marker;
         }
         markers.add(marker);
       }
+
+      mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+        @Override
+        public boolean onMarkerClick(Marker marker) {
+          final String markerId = marker.getId();
+          if (mCafeMarkersMap.containsKey(markerId)) {
+            final long placeId = mCafeMarkersMap.get(markerId);
+            setSelectedCafePlaceId(placeId);
+            mCafe = mCafes.byPlaceId(placeId);
+            fillCafeLayout();
+          }
+
+          return false;
+        }
+      });
 
       centerCamera(false, markers.toArray(new Marker[markers.size()]));
       if (selectedMarker != null) {
@@ -192,12 +186,55 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   @Subscribe
   public void onCafesGotten(GetCafesAsyncTask.Event event) {
     mCafes = event.getCafes();
+    if (mCafes != null) {
+      mCafe = mCafes.byPlaceId(getSelectedCafePlaceId());
+      fillCafeLayout();
+      fillMap();
+    }
   }
 
   @Subscribe
   public void onLocationGotten(OnLocationGottenEvent event) {
     if (mCafe != null) {
       fillLocationLayout(getActivity(), mPlaceLayout, mCafe, event.getLocation());
+    }
+  }
+
+  protected long getSelectedCafePlaceId() {
+    return getArguments().getLong(SELECTED_CAFE_PLACE_ID_EXTRA, CAFE_PLACE_ID_DEFAULT);
+  }
+
+  protected void setSelectedCafePlaceId(long cafePlaceId) {
+    getArguments().putLong(SELECTED_CAFE_PLACE_ID_EXTRA, cafePlaceId);
+  }
+
+  /* ======================== INNER ================================= */
+
+  private void fillCafeLayout() {
+    if (mCafe != null) {
+      final Drawable cachedPhoto
+          = getEnterCafePlaceId() == getSelectedCafePlaceId()
+          ? getDrawableFromCache(TRANSITION_CACHED_DRAWABLE_KEY)
+          : null;
+      fillHeaderLayout(getActivity(), mHeaderLayout, mCafe, cachedPhoto);
+      fillLocationLayout(getActivity(), mPlaceLayout, mCafe, getLastLocation());
+
+      mPhotoClickableImageView.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          launchCafeActivity(getActivity(), mHeaderLayout, getSelectedCafePlaceId());
+        }
+      });
+      mPlaceLayout.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          if (mGoogleMap != null) {
+            final LatLng placeLatLng = mCafe.getPlace().getLocation().toLatLng();
+            final CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(placeLatLng);
+            mGoogleMap.animateCamera(cameraUpdate);
+          }
+        }
+      });
     }
   }
 
