@@ -18,6 +18,7 @@ package com.kuelye.notbadcoffee;
  */
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,7 +30,7 @@ import com.squareup.otto.Bus;
 public class Application extends android.app.Application {
 
   @NonNull private static final Bus sBus = new Bus();
-  private static LruCache<String, Bitmap> sBitmapCache
+  private static LruCache<String, Drawable> sDrawableCache
       = new LruCache<>((int) (Runtime.getRuntime().maxMemory() / 1024) / 8);
 
   @Nullable private static Cafes sCafes;
@@ -39,19 +40,23 @@ public class Application extends android.app.Application {
     return sBus;
   }
 
-  public static void putBitmapToCache(@NonNull String key, @NonNull Bitmap bitmap) {
-    sBitmapCache.put(key, bitmap);
+  public static void putDrawableToCache(@NonNull String key, @Nullable Drawable drawable) {
+    if (drawable == null) {
+      sDrawableCache.remove(key);
+    } else {
+      sDrawableCache.put(key, drawable);
+    }
   }
 
-  @Nullable public static Bitmap getBitmapFromCache(@NonNull String key) {
-    return sBitmapCache.get(key);
+  @Nullable public static Drawable getDrawableFromCache(@NonNull String key) {
+    return sDrawableCache.get(key);
   }
 
-  @Nullable public static Bitmap popBitmapFromCache(@NonNull String key) {
-    final Bitmap bitmap = sBitmapCache.get(key);
-    sBitmapCache.remove(key);
+  @Nullable public static Drawable popDrawableFromCache(@NonNull String key) {
+    final Drawable drawable = sDrawableCache.get(key);
+    sDrawableCache.remove(key);
 
-    return bitmap;
+    return drawable;
   }
 
   @Nullable public static Cafes getCafes() {

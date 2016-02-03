@@ -22,6 +22,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -40,19 +41,23 @@ import static android.view.View.inflate;
 
 public final class CafeHelper {
 
-  public static void fillPhotoLayout(
+  public static void fillHeaderLayout(
       @NonNull Context context
-      , @NonNull ImageView cafePhotoImageView
-      , @NonNull TextView cafeNameTextView
+      , @NonNull ViewGroup cafeHeaderLayout
       , @NonNull Cafe cafe
       , @Nullable Drawable cafeCachedPhoto) {
-    Picasso.with(context)
-        .load(cafe.getPlace().getPhoto())
-        .placeholder(cafeCachedPhoto)
-        .fit()
-        .centerCrop()
-        .into(cafePhotoImageView);
-    cafeNameTextView.setText(cafe.getName());
+    final ImageView photoImageView = (ImageView) cafeHeaderLayout.findViewById(R.id.cafe_photo_image_view);
+    if (cafeCachedPhoto != null) {
+      photoImageView.setImageDrawable(cafeCachedPhoto);
+    } else {
+      Picasso.with(context)
+          .load(cafe.getPlace().getPhoto())
+          .fit()
+          .centerCrop()
+          .into(photoImageView);
+    }
+    final TextView nameTextView = (TextView) cafeHeaderLayout.findViewById(R.id.cafe_name_text_view);
+    nameTextView.setText(cafe.getName());
   }
 
   public static void fillLocationLayout(@NonNull Context context

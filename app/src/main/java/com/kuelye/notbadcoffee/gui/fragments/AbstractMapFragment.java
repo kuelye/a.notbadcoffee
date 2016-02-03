@@ -69,8 +69,8 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
 
   @Override
   public void onSaveInstanceState(Bundle outState) {
-    super.onSaveInstanceState(outState);
     mMapView.onSaveInstanceState(outState);
+    super.onSaveInstanceState(outState);
   }
 
   @Override

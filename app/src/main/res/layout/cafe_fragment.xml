@@ -29,14 +29,14 @@
                 android:id="@id/map_view"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/cafe_fragment_map_view_height"
-                android:layout_below="@id/positioning_cafe_photo_layout" />
+                android:layout_below="@id/cafe_header_layout" />
 
             <include
-                android:id="@id/positioning_cafe_photo_layout"
+                layout="@layout/cafe_header_layout"
+                android:id="@id/cafe_header_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                layout="@layout/cafe_photo_layout" />
+                android:layout_alignParentTop="true" />
         </RelativeLayout>
     </ScrollView>
 

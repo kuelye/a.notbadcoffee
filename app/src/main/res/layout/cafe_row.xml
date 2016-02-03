@@ -15,7 +15,7 @@
         >
 
         <include
-            layout="@layout/cafe_photo_layout" />
+            layout="@layout/cafe_header_layout" />
 
         <include
             layout="@layout/cafe_info_layout" />

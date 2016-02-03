@@ -41,9 +41,9 @@ import static butterknife.ButterKnife.bind;
 import static com.kuelye.components.utils.AndroidUtils.getActionBarHeight;
 import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 import static com.kuelye.notbadcoffee.Application.getLastLocation;
+import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillHeaderLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillMenuLayout;
-import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillPhotoLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillTimetableLayout;
 
 public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolder> {
@@ -71,7 +71,7 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
   public void onBindViewHolder(final RowViewHolder holder, int position) {
     final Cafe cafe = mCafes.get(position);
 
-    fillPhotoLayout(mContext, holder.photoImageView, holder.nameTextView, cafe, null);
+    fillHeaderLayout(mContext, holder.headerLayout, cafe, null);
     fillLocationLayout(mContext, holder.placeLayout, cafe, getLastLocation());
     fillMoreInfoHeaderLayout(holder, cafe);
     fillMenuLayout(mContext, holder.menuLayout, cafe);
@@ -161,12 +161,12 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
   public static class RowViewHolder extends RecyclerView.ViewHolder {
 
     public final View rootView;
+    @Bind(R.id.cafe_header_layout) public ViewGroup headerLayout;
     @Bind(R.id.cafe_name_text_view) public TextView nameTextView;
+    @Bind(R.id.cafe_name_and_links_layout) public ViewGroup nameAndLinksLayout;
     @Bind(R.id.cafe_photo_clickable_image_view) public ImageView photoClickableImageView;
     @Bind(R.id.cafe_photo_image_view) public ImageView photoImageView;
     @Bind(R.id.cafe_place_layout) public ViewGroup placeLayout;
-    @Bind(R.id.cafe_place_address_text_view) public TextView placeAddressTextView;
-    @Bind(R.id.cafe_place_metro_text_view) public TextView placeMetroTextView;
     @Bind(R.id.cafe_more_info_layout) public ViewGroup moreInfoLayout;
     @Bind(R.id.cafe_more_info_header_layout) public ViewGroup moreInfoHeaderLayout;
     @Bind(R.id.cafe_open_until_text_view) public TextView openUntilTextView;

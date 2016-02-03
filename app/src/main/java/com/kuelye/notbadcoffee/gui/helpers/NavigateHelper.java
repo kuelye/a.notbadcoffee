@@ -21,9 +21,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -33,7 +30,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
+import android.transition.TransitionInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,13 +50,12 @@ import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.support.v4.app.ActivityOptionsCompat.makeSceneTransitionAnimation;
 import static android.view.Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME;
 import static android.view.Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME;
-import static com.kuelye.notbadcoffee.Application.putBitmapToCache;
+import static com.kuelye.notbadcoffee.Application.putDrawableToCache;
 import static com.kuelye.notbadcoffee.gui.fragments.MapFragment.CAFE_PLACE_ID_EXTRA;
 
 public final class NavigateHelper {
 
-  // saving bitmap to the cache helps to avoid first transition blinking bug
-  public static final String TRANSITION_CACHED_BITMAP_KEY = "TRANSITION_BITMAP_CACHE";
+  public static final String TRANSITION_CACHED_DRAWABLE_KEY = "TRANSITION_CACHED_DRAWABLE";
 
   public static void launchMapActivity(
       @NonNull Activity activityFrom
@@ -72,22 +70,33 @@ public final class NavigateHelper {
           , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar)
               , R.string.toolbar_transition_name)
           , new SharedElementHolder(cafeRowViewHolder.rootView
-              , R.string.card_view_transition_name))
+              , R.string.card_view_transition_name)
+          , new SharedElementHolder(cafeRowViewHolder.photoImageView
+              , R.string.cafe_photo_image_view_transition_name)
+          , new SharedElementHolder(cafeRowViewHolder.nameAndLinksLayout
+              , R.string.cafe_name_and_links_layout_transition_name)
+          , new SharedElementHolder(cafeRowViewHolder.placeLayout
+              , R.string.cafe_place_layout_transition_name))
           .toBundle();
+
+      activityFrom.getWindow().setSharedElementExitTransition(
+          TransitionInflater.from(activityFrom).inflateTransition(R.transition.test));
     }
 
     final Intent intent = new Intent(activityFrom, MapActivity.class);
     intent.putExtra(CAFE_PLACE_ID_EXTRA, cafe.getPlace().getId());
+    putDrawableToCache(TRANSITION_CACHED_DRAWABLE_KEY, cafeRowViewHolder.photoImageView.getDrawable());
 
     ActivityCompat.startActivity(activityFrom, intent, options);
   }
 
   public static void launchCafeActivity(
       @NonNull Activity activityFrom
-      , @NonNull ImageView cafePhotoImageView
-      , @NonNull TextView cafeNameTextView
+      , @NonNull ViewGroup cafeHeaderLayout
       , int cafePlaceId) {
     Bundle options = null;
+    final ImageView photoImageView = (ImageView) cafeHeaderLayout.findViewById(R.id.cafe_photo_image_view);
+    final ViewGroup nameAndLinksLayout = (ViewGroup) cafeHeaderLayout.findViewById(R.id.cafe_name_and_links_layout);
     if (SDK_INT >= LOLLIPOP) {
       options = setTransitionNameAndGetOptions(activityFrom
           // share toolbar & stub view to avoid overlaying
@@ -95,22 +104,16 @@ public final class NavigateHelper {
               , R.string.toolbar_background_transition_name)
           , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar)
               , R.string.toolbar_transition_name)
-          , new SharedElementHolder(cafePhotoImageView
+          , new SharedElementHolder(photoImageView
               , R.string.cafe_photo_image_view_transition_name)
-          , new SharedElementHolder(cafeNameTextView
-              , R.string.cafe_name_text_view_transition_name))
+          , new SharedElementHolder(nameAndLinksLayout
+              , R.string.cafe_name_and_links_layout_transition_name))
           .toBundle();
     }
 
     final Intent intent = new Intent(activityFrom, CafeActivity.class);
     intent.putExtra(CAFE_PLACE_ID_EXTRA, cafePlaceId);
-    final Drawable cafePhotoDrawable = cafePhotoImageView.getDrawable();
-    if (cafePhotoDrawable != null) {
-      final Bitmap cafePhotoBitmap = ((BitmapDrawable) cafePhotoDrawable).getBitmap();
-      if (cafePhotoBitmap != null) {
-        putBitmapToCache(TRANSITION_CACHED_BITMAP_KEY, cafePhotoBitmap);
-      }
-    }
+    putDrawableToCache(TRANSITION_CACHED_DRAWABLE_KEY, photoImageView.getDrawable());
 
     ActivityCompat.startActivity(activityFrom, intent, options);
   }
@@ -156,6 +159,10 @@ public final class NavigateHelper {
 
     return makeSceneTransitionAnimation(activityFrom
         , sharedElements.toArray(new Pair[sharedElements.size()]));
+  }
+
+  private void putSourceToCache(@NonNull ImageView imageView) {
+
   }
 
   /* ========================= INNER ================================ */

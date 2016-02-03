@@ -19,19 +19,19 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding_standard_half"
         android:layout_alignParentBottom="true"
-        android:transitionName="@string/card_view_transition_name"
         tools:ignore="UnusedAttribute"
         tools:showIn="@layout/cafes_fragment"
         >
 
         <LinearLayout
+            android:animateLayoutChanges="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             >
 
             <include
-                layout="@layout/cafe_photo_layout" />
+                layout="@layout/cafe_header_layout_short" />
 
             <include
                 layout="@layout/cafe_place_layout"

@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@id/cafe_header_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     >
@@ -22,6 +23,7 @@
                 android:id="@id/cafe_photo_image_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scaleType="centerCrop"
                 tools:background="#cccccc" />
 
             <ImageView
@@ -33,12 +35,9 @@
         </RelativeLayout>
     </android.support.percent.PercentFrameLayout>
 
-    <TextView
-        android:id="@id/cafe_name_text_view"
+    <include
+        layout="@layout/cafe_name_and_links_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/positioning_cafe_photo_layout"
-        android:padding="@dimen/padding_standard"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title.Inverse"
-        tools:text="Централь" />
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignBottom="@id/positioning_cafe_photo_layout" />
 </RelativeLayout>

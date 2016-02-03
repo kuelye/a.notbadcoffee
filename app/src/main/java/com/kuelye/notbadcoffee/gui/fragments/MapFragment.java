@@ -17,19 +17,16 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
-import android.util.Log;
+import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -38,7 +35,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.kuelye.notbadcoffee.Application;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafesAsyncTask;
@@ -54,21 +50,21 @@ import butterknife.Bind;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static butterknife.ButterKnife.bind;
-import static com.google.android.gms.maps.CameraUpdateFactory.newLatLng;
 import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
+import static com.kuelye.notbadcoffee.Application.getDrawableFromCache;
 import static com.kuelye.notbadcoffee.Application.getLastLocation;
-import static com.kuelye.notbadcoffee.Application.popBitmapFromCache;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
-import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillPhotoLayout;
-import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.TRANSITION_CACHED_BITMAP_KEY;
+import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillHeaderLayout;
+import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.TRANSITION_CACHED_DRAWABLE_KEY;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchCafeActivity;
 
 public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallback {
 
   @Bind(R.id.card_view) protected CardView mCardView;
+  @Bind(R.id.cafe_header_layout) protected ViewGroup mHeaderLayout;
+  @Bind(R.id.cafe_name_and_links_layout) protected ViewGroup mNameAndLinksLayout;
   @Bind(R.id.cafe_photo_image_view) protected ImageView mPhotoImageView;
   @Bind(R.id.cafe_photo_clickable_image_view) protected ImageView mPhotoClickableImageView;
-  @Bind(R.id.cafe_name_text_view) protected TextView mNameTextView;
   @Bind(R.id.cafe_place_layout) protected ViewGroup mPlaceLayout;
 
   @Nullable private Cafes mCafes;
@@ -81,6 +77,16 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
     mapFragment.setArguments(arguments);
 
     return mapFragment;
+  }
+
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    if (SDK_INT >= LOLLIPOP) {
+      getActivity().getWindow().setSharedElementEnterTransition(
+          TransitionInflater.from(getActivity()).inflateTransition(R.transition.test));
+    }
   }
 
   @Override
@@ -104,6 +110,9 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
 
     if (SDK_INT >= LOLLIPOP) {
       mCardView.setTransitionName(getString(R.string.card_view_transition_name));
+      mPhotoImageView.setTransitionName(getString(R.string.cafe_photo_image_view_transition_name));
+      mNameAndLinksLayout.setTransitionName(getString(R.string.cafe_name_and_links_layout_transition_name));
+      mPlaceLayout.setTransitionName(getString(R.string.cafe_place_layout_transition_name));
     }
   }
 
@@ -113,15 +122,14 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
     super.onCafeGotten(getCafeEvent);
 
     if (mCafe != null) {
-      final Bitmap cachedPhotoBitmap = popBitmapFromCache(TRANSITION_CACHED_BITMAP_KEY);
-      final Drawable cachedPhoto = new BitmapDrawable(getResources(), cachedPhotoBitmap);
-      fillPhotoLayout(getActivity(), mPhotoImageView, mNameTextView, mCafe, cachedPhoto);
+      final Drawable cachedPhoto = getDrawableFromCache(TRANSITION_CACHED_DRAWABLE_KEY);
+      fillHeaderLayout(getActivity(), mHeaderLayout, mCafe, cachedPhoto);
       fillLocationLayout(getActivity(), mPlaceLayout, mCafe, getLastLocation());
 
       mPhotoClickableImageView.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-          launchCafeActivity(getActivity(), mPhotoImageView, mNameTextView, getCafePlaceId());
+          launchCafeActivity(getActivity(), mHeaderLayout, getCafePlaceId());
         }
       });
       mPlaceLayout.setOnClickListener(new View.OnClickListener() {
@@ -174,6 +182,11 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
         selectedMarker.showInfoWindow();
       }
     }
+  }
+
+  @Override
+  protected void onEnterTransitionEnd() {
+    super.onEnterTransitionEnd();
   }
 
   @Subscribe

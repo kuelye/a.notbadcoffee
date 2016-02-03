@@ -17,8 +17,6 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -46,19 +44,20 @@ import butterknife.Bind;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static butterknife.ButterKnife.bind;
+import static com.kuelye.notbadcoffee.Application.getDrawableFromCache;
 import static com.kuelye.notbadcoffee.Application.getLastLocation;
-import static com.kuelye.notbadcoffee.Application.popBitmapFromCache;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillMenuLayout;
-import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillPhotoLayout;
+import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillHeaderLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillTimetableLayout;
-import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.TRANSITION_CACHED_BITMAP_KEY;
+import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.TRANSITION_CACHED_DRAWABLE_KEY;
 
 public class CafeFragment extends AbstractCafeFragment {
 
   @Bind(R.id.scroll_view) protected ScrollView mScrollView;
+  @Bind(R.id.cafe_header_layout) protected ViewGroup mHeaderLayout;
+  @Bind(R.id.cafe_name_and_links_layout) protected ViewGroup mNameAndLinksLayout;
   @Bind(R.id.cafe_photo_image_view) protected ImageView mPhotoImageView;
-  @Bind(R.id.cafe_name_text_view) protected TextView mNameTextView;
   @Bind(R.id.cafe_info_layout) protected ViewGroup mInfoLayout;
   @Bind(R.id.cafe_place_layout) protected ViewGroup mPlaceLayout;
   @Bind(R.id.cafe_more_info_header_layout) protected ViewGroup mMoreInfoHeaderLayout;
@@ -131,12 +130,14 @@ public class CafeFragment extends AbstractCafeFragment {
 
     if (SDK_INT >= LOLLIPOP) {
       mPhotoImageView.setTransitionName(getString(R.string.cafe_photo_image_view_transition_name));
-      mNameTextView.setTransitionName(getString(R.string.cafe_name_text_view_transition_name));
+      mNameAndLinksLayout.setTransitionName(getString(R.string.cafe_name_and_links_layout_transition_name));
     }
   }
 
   @Override
   protected void onEnterTransitionEnd() {
+    super.onEnterTransitionEnd();
+
     mToolbar.setAlpha(0);
     mMapView.setTranslationY(-mMapView.getHeight());
     mInfoLayout.setTranslationY(-mInfoLayout.getHeight());
@@ -163,9 +164,8 @@ public class CafeFragment extends AbstractCafeFragment {
     super.onCafeGotten(getCafeEvent);
 
     if (mCafe != null) {
-      final Bitmap cachedPhotoBitmap = popBitmapFromCache(TRANSITION_CACHED_BITMAP_KEY);
-      final Drawable cachedPhoto = new BitmapDrawable(getResources(), cachedPhotoBitmap);
-      fillPhotoLayout(getActivity(), mPhotoImageView, mNameTextView, mCafe, cachedPhoto);
+      final Drawable cachedPhoto = getDrawableFromCache(TRANSITION_CACHED_DRAWABLE_KEY);
+      fillHeaderLayout(getActivity(), mHeaderLayout, mCafe, cachedPhoto);
       fillLocationLayout(getActivity(), mPlaceLayout, mCafe, getLastLocation());
       fillMenuLayout(getActivity(), mMenuLayout, mCafe);
       fillTimetableLayout(getActivity(), mTimetableLayout, mCafe);
