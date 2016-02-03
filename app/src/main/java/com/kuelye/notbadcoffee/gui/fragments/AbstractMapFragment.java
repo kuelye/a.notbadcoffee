@@ -42,6 +42,9 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
 
   private static final int MAP_CENTER_PADDING = 32;
 
+  // used to fix MapView onCreate() crash when orientation changes
+  private static final String MAP_VIEW_SAVED_STATE_KEY = "MAP_VIEW_SAVED_STATE";
+
   @Bind(R.id.map_view) protected MapView mMapView;
   @Nullable protected GoogleMap mGoogleMap;
 
@@ -49,7 +52,11 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
   @NonNull public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     final View view = super.onCreateView(inflater, container, savedInstanceState);
 
-    mMapView.onCreate(savedInstanceState);
+    final Bundle mapViewSavedInstanceState
+        = savedInstanceState == null
+        ? null
+        : savedInstanceState.getBundle(MAP_VIEW_SAVED_STATE_KEY);
+    mMapView.onCreate(mapViewSavedInstanceState);
     mMapView.getMapAsync(this);
 
     return view;
@@ -69,7 +76,10 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
 
   @Override
   public void onSaveInstanceState(Bundle outState) {
-    mMapView.onSaveInstanceState(outState);
+    final Bundle mapViewOutState = new Bundle(outState);
+    mMapView.onSaveInstanceState(mapViewOutState);
+    outState.putBundle(MAP_VIEW_SAVED_STATE_KEY, mapViewOutState);
+
     super.onSaveInstanceState(outState);
   }
 
