@@ -23,6 +23,10 @@ import android.support.v4.app.Fragment;
 
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.fragments.MapFragment;
+import com.kuelye.notbadcoffee.model.Place;
+
+import static com.kuelye.notbadcoffee.gui.fragments.AbstractCafeFragment.ENTER_CAFE_PLACE_ID_EXTRA;
+import static com.kuelye.notbadcoffee.model.Place.STUB_ID;
 
 public class MapActivity extends AbstractBaseActivity {
 
@@ -31,8 +35,8 @@ public class MapActivity extends AbstractBaseActivity {
     super.onCreate(savedInstanceState);
 
     if (savedInstanceState == null) {
-      final long cafePlaceId = getIntent().getLongExtra(MapFragment.ENTER_CAFE_PLACE_ID_EXTRA, -1);
-      final Fragment fragment = MapFragment.newInstance(cafePlaceId);
+      final long enterCafePlaceId = getIntent().getLongExtra(ENTER_CAFE_PLACE_ID_EXTRA, STUB_ID);
+      final Fragment fragment = MapFragment.newInstance(enterCafePlaceId);
       getSupportFragmentManager()
           .beginTransaction()
           .add(R.id.fragment, fragment)

@@ -27,7 +27,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -66,13 +65,13 @@ public class CafeFragment extends AbstractCafeFragment {
   @Bind(R.id.cafe_timetable_layout) protected ViewGroup mTimetableLayout;
 
   public static CafeFragment newInstance(long cafePlaceId) {
-    final CafeFragment cafeFragment = new CafeFragment();
+    final CafeFragment fragment = new CafeFragment();
 
     final Bundle arguments = new Bundle();
-    putToBundle(arguments, cafePlaceId);
-    cafeFragment.setArguments(arguments);
+    fillArguments(arguments, cafePlaceId);
+    fragment.setArguments(arguments);
 
-    return cafeFragment;
+    return fragment;
   }
 
   @Override

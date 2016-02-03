@@ -37,6 +37,7 @@ import android.widget.ImageView;
 
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.activities.CafeActivity;
+import com.kuelye.notbadcoffee.gui.activities.MainActivity;
 import com.kuelye.notbadcoffee.gui.activities.MapActivity;
 import com.kuelye.notbadcoffee.gui.adapters.CafesAdapter;
 import com.kuelye.notbadcoffee.model.Cafe;
@@ -44,12 +45,15 @@ import com.kuelye.notbadcoffee.model.Cafe;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.support.v4.app.ActivityOptionsCompat.makeSceneTransitionAnimation;
 import static android.view.Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME;
 import static android.view.Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME;
 import static com.kuelye.notbadcoffee.Application.putDrawableToCache;
+import static com.kuelye.notbadcoffee.gui.fragments.CafesFragment.SCROLL_TO_CAFE_PLACE_ID_EXTRA;
 import static com.kuelye.notbadcoffee.gui.fragments.MapFragment.ENTER_CAFE_PLACE_ID_EXTRA;
 
 public final class NavigateHelper {
@@ -117,6 +121,14 @@ public final class NavigateHelper {
     ActivityCompat.startActivity(activityFrom, intent, options);
   }
 
+  public static void launchMainActivity(@NonNull Activity activityFrom, @Nullable Long scrollToCafePlaceId) {
+    final Intent intent = new Intent(activityFrom, MainActivity.class);
+    intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP | FLAG_ACTIVITY_SINGLE_TOP);
+    intent.putExtra(SCROLL_TO_CAFE_PLACE_ID_EXTRA, scrollToCafePlaceId);
+
+    ActivityCompat.startActivity(activityFrom, intent, null);
+  }
+
   public static void setTransitionName(
       @NonNull Context context
       , @Nullable View view
@@ -158,10 +170,6 @@ public final class NavigateHelper {
 
     return makeSceneTransitionAnimation(activityFrom
         , sharedElements.toArray(new Pair[sharedElements.size()]));
-  }
-
-  private void putSourceToCache(@NonNull ImageView imageView) {
-
   }
 
   /* ========================= INNER ================================ */

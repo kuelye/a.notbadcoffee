@@ -28,6 +28,16 @@ import static java.lang.Math.signum;
 
 public class Cafes extends ArrayList<Cafe> {
 
+  public int positionByPlaceId(long placeId) {
+    for (int i = 0; i < this.size(); ++i) {
+      if (get(i).getPlace().getId() == placeId) {
+        return i;
+      }
+    }
+
+    return -1;
+  }
+
   public Cafe byPlaceId(long placeId) {
     for (Cafe cafe : this) {
       for (Place place : cafe.getPlaces()) {

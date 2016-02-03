@@ -167,12 +167,6 @@ public abstract class AbstractBaseFragment extends Fragment
     // stub
   }
 
-  protected void finish() {
-    if (getActivity() != null) {
-      getActivity().finishAfterTransition();
-    }
-  }
-
   protected void onBeforeViewShowed() {
     // stub
   }

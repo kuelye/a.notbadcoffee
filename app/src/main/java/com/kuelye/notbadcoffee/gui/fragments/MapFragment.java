@@ -17,12 +17,14 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.transition.TransitionInflater;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +38,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.kuelye.notbadcoffee.R;
+import com.kuelye.notbadcoffee.gui.activities.MainActivity;
+import com.kuelye.notbadcoffee.gui.helpers.NavigateHelper;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafesAsyncTask;
 import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.model.Cafes;
@@ -48,16 +52,21 @@ import java.util.Map;
 
 import butterknife.Bind;
 
+import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
+import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static butterknife.ButterKnife.bind;
 import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 import static com.kuelye.notbadcoffee.Application.getDrawableFromCache;
 import static com.kuelye.notbadcoffee.Application.getLastLocation;
+import static com.kuelye.notbadcoffee.gui.fragments.CafesFragment.SCROLL_TO_CAFE_PLACE_ID_EXTRA;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillHeaderLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.TRANSITION_CACHED_DRAWABLE_KEY;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchCafeActivity;
+import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchMainActivity;
+import static com.kuelye.notbadcoffee.model.Place.STUB_ID;
 
 public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallback {
 
@@ -74,14 +83,14 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   @Nullable private Map<String, Long> mCafeMarkersMap;
 
   public static MapFragment newInstance(long cafePlaceId) {
-    final MapFragment mapFragment = new MapFragment();
+    final MapFragment fragment = new MapFragment();
 
     final Bundle arguments = new Bundle();
-    putToBundle(arguments, cafePlaceId);
+    fillArguments(arguments, cafePlaceId);
     arguments.putLong(SELECTED_CAFE_PLACE_ID_EXTRA, cafePlaceId);
-    mapFragment.setArguments(arguments);
+    fragment.setArguments(arguments);
 
-    return mapFragment;
+    return fragment;
   }
 
   @Override
@@ -118,6 +127,18 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
       mPhotoImageView.setTransitionName(getString(R.string.cafe_photo_image_view_transition_name));
       mNameAndLinksLayout.setTransitionName(getString(R.string.cafe_name_and_links_layout_transition_name));
       mPlaceLayout.setTransitionName(getString(R.string.cafe_place_layout_transition_name));
+    }
+  }
+
+  @Override
+  public boolean onBackPressed() {
+    if (getEnterCafePlaceId() == getSelectedCafePlaceId()) {
+      return true;
+    } else {
+      launchMainActivity(getActivity(), getSelectedCafePlaceId());
+      getActivity().finish();
+
+      return false;
     }
   }
 
@@ -173,7 +194,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
       mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
         @Override
         public void onMapClick(LatLng latLng) {
-          setSelectedCafePlaceId(CAFE_PLACE_ID_DEFAULT);
+          setSelectedCafePlaceId(STUB_ID);
           mCafe = null;
           fillCafeLayout();
         }
@@ -209,7 +230,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   }
 
   protected long getSelectedCafePlaceId() {
-    return getArguments().getLong(SELECTED_CAFE_PLACE_ID_EXTRA, CAFE_PLACE_ID_DEFAULT);
+    return getArguments().getLong(SELECTED_CAFE_PLACE_ID_EXTRA, STUB_ID);
   }
 
   protected void setSelectedCafePlaceId(long cafePlaceId) {

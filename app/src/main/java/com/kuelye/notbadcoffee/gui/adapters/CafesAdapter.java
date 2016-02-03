@@ -30,6 +30,7 @@ import android.widget.TextView;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.fragments.AbstractBaseFragment;
 import com.kuelye.notbadcoffee.model.Cafe;
+import com.kuelye.notbadcoffee.model.Cafes;
 import com.squareup.otto.Subscribe;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
   @NonNull private final Callback mCallback;
 
   @NonNull private final Object mLock = new Object();
-  @NonNull private List<Cafe> mCafes = new ArrayList<>();
+  @NonNull private Cafes mCafes = new Cafes();
 
   public CafesAdapter(@NonNull final Context context, @NonNull final Callback callback) {
     mContext = context;
@@ -101,12 +102,16 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
     notifyDataSetChanged();
   }
 
-  public void set(@NonNull List<Cafe> cafes) {
+  public void setCafes(@NonNull Cafes cafes) {
     synchronized (mLock) {
       mCafes = cafes;
     }
 
     notifyDataSetChanged();
+  }
+
+  @NonNull public Cafes getCafes() {
+    return mCafes;
   }
 
   /* =========================== HIDDEN ============================= */

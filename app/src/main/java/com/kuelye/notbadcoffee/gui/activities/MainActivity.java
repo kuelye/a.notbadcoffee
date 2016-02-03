@@ -17,12 +17,19 @@ package com.kuelye.notbadcoffee.gui.activities;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.fragments.CafesFragment;
+
+import static com.kuelye.notbadcoffee.gui.fragments.CafesFragment.SCROLL_TO_CAFE_PLACE_ID_EXTRA;
+import static com.kuelye.notbadcoffee.gui.fragments.CafesFragment.fillArguments;
+import static com.kuelye.notbadcoffee.gui.fragments.CafesFragment.newInstance;
+import static com.kuelye.notbadcoffee.model.Place.STUB_ID;
 
 public class MainActivity extends AbstractBaseActivity {
 
@@ -31,12 +38,20 @@ public class MainActivity extends AbstractBaseActivity {
     super.onCreate(savedInstanceState);
 
     if (savedInstanceState == null) {
-      final Fragment fragment = new CafesFragment();
+      final long scrollToCafePlaceId = getIntent().getLongExtra(SCROLL_TO_CAFE_PLACE_ID_EXTRA, STUB_ID);
+      final Fragment fragment = newInstance(scrollToCafePlaceId);
       getSupportFragmentManager()
           .beginTransaction()
           .add(R.id.fragment, fragment)
           .commit();
     }
+  }
+
+  @Override
+  public void onNewIntent(Intent newIntent) {
+    final long scrollToCafePlaceId = newIntent.getLongExtra(SCROLL_TO_CAFE_PLACE_ID_EXTRA, STUB_ID);
+    final Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment);
+    fillArguments(fragment.getArguments(), scrollToCafePlaceId);
   }
 
 }

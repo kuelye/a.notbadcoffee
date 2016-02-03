@@ -26,16 +26,16 @@ import com.kuelye.notbadcoffee.model.Cafe;
 import com.squareup.otto.Subscribe;
 
 import static com.kuelye.notbadcoffee.Application.getBus;
+import static com.kuelye.notbadcoffee.model.Place.STUB_ID;
 
 public abstract class AbstractCafeFragment extends AbstractMapFragment {
 
   public static final String ENTER_CAFE_PLACE_ID_EXTRA = "ENTER_CAFE_PLACE_ID";
-  protected static final long CAFE_PLACE_ID_DEFAULT = -1L;
 
   @Nullable protected Cafe mCafe;
 
-  protected static void putToBundle(@NonNull Bundle bundle, long cafePlaceId) {
-    bundle.putLong(ENTER_CAFE_PLACE_ID_EXTRA, cafePlaceId);
+  protected static void fillArguments(@NonNull Bundle arguments, long cafePlaceId) {
+    arguments.putLong(ENTER_CAFE_PLACE_ID_EXTRA, cafePlaceId);
   }
 
   @Override
@@ -61,7 +61,7 @@ public abstract class AbstractCafeFragment extends AbstractMapFragment {
   }
 
   protected long getEnterCafePlaceId() {
-    return getArguments().getLong(ENTER_CAFE_PLACE_ID_EXTRA, CAFE_PLACE_ID_DEFAULT);
+    return getArguments().getLong(ENTER_CAFE_PLACE_ID_EXTRA, STUB_ID);
   }
 
   protected void update() {

@@ -24,6 +24,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class Place {
 
+  public static final long STUB_ID = -1L;
+
   private final long mId;
   @NonNull private final String mAddress;
   @NonNull private final String mMetro;

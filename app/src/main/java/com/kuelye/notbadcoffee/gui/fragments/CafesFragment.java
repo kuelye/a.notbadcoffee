@@ -17,6 +17,7 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -24,6 +25,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Fade;
 import android.transition.Transition;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,19 +35,40 @@ import com.kuelye.notbadcoffee.gui.adapters.CafesAdapter;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafesAsyncTask;
 import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.model.Cafes;
+import com.kuelye.notbadcoffee.model.Place;
 import com.squareup.otto.Subscribe;
 
+import static android.app.Activity.RESULT_OK;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static com.kuelye.notbadcoffee.Application.getBus;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchCafeActivity;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchMapActivity;
+import static com.kuelye.notbadcoffee.model.Place.STUB_ID;
 
 public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.Callback {
+
+  public static final String SCROLL_TO_CAFE_PLACE_ID_EXTRA = "SCROLL_TO_CAFE_PLACE_ID";
 
   private RecyclerView mRecyclerView;
   private LinearLayoutManager mLayoutManager;
   private CafesAdapter mCafesAdapter;
+
+  public static CafesFragment newInstance(@Nullable Long scrollToCafePlaceId) {
+    final CafesFragment fragment = new CafesFragment();
+
+    if (scrollToCafePlaceId != null) {
+      final Bundle arguments = new Bundle();
+      fillArguments(arguments, scrollToCafePlaceId);
+      fragment.setArguments(arguments);
+    }
+
+    return fragment;
+  }
+
+  public static void fillArguments(@NonNull Bundle arguments, long scrollToCafePlaceId) {
+    arguments.putLong(SCROLL_TO_CAFE_PLACE_ID_EXTRA, scrollToCafePlaceId);
+  }
 
   @Override
   @NonNull protected View inflateView(LayoutInflater inflater, @Nullable ViewGroup container) {
@@ -112,7 +135,15 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
   public void onGetCafesEventGotten(GetCafesAsyncTask.Event getCafesEvent) {
     final Cafes cafes = getCafesEvent.getCafes();
     if (cafes != null) {
-      mCafesAdapter.set(cafes);
+      mCafesAdapter.setCafes(cafes);
+
+      final long scrollToCafePlaceId = getArguments().getLong(SCROLL_TO_CAFE_PLACE_ID_EXTRA, STUB_ID);
+      if (scrollToCafePlaceId >= 0) {
+        int position = mCafesAdapter.getCafes().positionByPlaceId(scrollToCafePlaceId);
+        if (position >= 0) {
+          mRecyclerView.scrollToPosition(position);
+        }
+      }
     }
   }
 
