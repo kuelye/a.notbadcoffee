@@ -170,6 +170,14 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
           return false;
         }
       });
+      mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+        @Override
+        public void onMapClick(LatLng latLng) {
+          setSelectedCafePlaceId(CAFE_PLACE_ID_DEFAULT);
+          mCafe = null;
+          fillCafeLayout();
+        }
+      });
 
       centerCamera(false, markers.toArray(new Marker[markers.size()]));
       if (selectedMarker != null) {
@@ -211,13 +219,16 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   /* ======================== INNER ================================= */
 
   private void fillCafeLayout() {
-    if (mCafe != null) {
+    if (mCafe == null) {
+      mCardView.setVisibility(View.GONE);
+    } else {
       final Drawable cachedPhoto
           = getEnterCafePlaceId() == getSelectedCafePlaceId()
           ? getDrawableFromCache(TRANSITION_CACHED_DRAWABLE_KEY)
           : null;
       fillHeaderLayout(getActivity(), mHeaderLayout, mCafe, cachedPhoto);
       fillLocationLayout(getActivity(), mPlaceLayout, mCafe, getLastLocation());
+      mCardView.setVisibility(View.VISIBLE);
 
       mPhotoClickableImageView.setOnClickListener(new View.OnClickListener() {
         @Override
