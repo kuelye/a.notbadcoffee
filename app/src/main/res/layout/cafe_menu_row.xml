@@ -23,5 +23,6 @@
         android:id="@id/cafe_menu_cost_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         tools:text="150 ₽" />
 </LinearLayout>

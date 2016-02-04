@@ -24,6 +24,8 @@ import com.kuelye.notbadcoffee.R;
 
 import java.util.Calendar;
 
+import static com.kuelye.notbadcoffee.logic.helpers.CalendarHelper.getCalendar;
+
 public class DayRange {
 
   public static final int SUNDAY     = 0x1000000;
@@ -49,6 +51,8 @@ public class DayRange {
         return context.getString(R.string.cafe_timetable_weekdays);
       case WEEKEND:
         return context.getString(R.string.cafe_timetable_weekend);
+      case EVERYDAY:
+        return context.getString(R.string.cafe_timetable_everyday);
       // TODO 0x0100000, 0x0110100, ...
       default:
         return "";
@@ -59,7 +63,7 @@ public class DayRange {
    * @param day As described in Calendar.
    * @see Calendar
    */
-  public boolean isIncludeDay(int day) {
+  public boolean isInclude(int day) {
     int dayMask = 0;
     switch (day) {
       case Calendar.SUNDAY:
@@ -86,6 +90,12 @@ public class DayRange {
     }
 
     return (dayMask & mMask) != 0;
+  }
+
+  public boolean isIncludeToday() {
+    final int day = getCalendar().getDay();
+
+    return isInclude(day);
   }
 
   @Override

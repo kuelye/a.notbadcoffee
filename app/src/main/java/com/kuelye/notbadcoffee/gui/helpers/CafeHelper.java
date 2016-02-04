@@ -119,10 +119,19 @@ public final class CafeHelper {
       for (TimetableRow timetableRow : timetable) {
         final View timetableRowView = inflate(
             context, R.layout.cafe_timetable_row, null);
-        ((TextView) timetableRowView.findViewById(R.id.cafe_timetable_day_range_text_view))
-            .setText(timetableRow.getDayRange().getDisplayString(context));
-        ((TextView) timetableRowView.findViewById(R.id.cafe_timetable_time_range_text_view))
-            .setText(timetableRow.getTimeRange().getDisplayString());
+        final TextView dayRangeTextView =
+            ((TextView) timetableRowView.findViewById(R.id.cafe_timetable_day_range_text_view));
+        dayRangeTextView.setText(timetableRow.getDayRange().getDisplayString(context));
+        final TextView timeRangeTextView =
+            ((TextView) timetableRowView.findViewById(R.id.cafe_timetable_time_range_text_view));
+        timeRangeTextView.setText(timetableRow.getTimeRange().getDisplayString());
+        if (timetableRow.getDayRange().isIncludeToday()) {
+          dayRangeTextView.setTextAppearance(context, R.style.TextAppearance_AppTheme_Body1);
+          timeRangeTextView.setTextAppearance(context, R.style.TextAppearance_AppTheme_Body1);
+        } else {
+          dayRangeTextView.setTextAppearance(context, R.style.TextAppearance_AppTheme_Caption);
+          timeRangeTextView.setTextAppearance(context, R.style.TextAppearance_AppTheme_Caption);
+        }
 
         cafeTimetableContentLayout.addView(timetableRowView);
       }

@@ -7,4 +7,5 @@
     <string name="cafe_open_until_template">Открыто до</string>
     <string name="cafe_time_midnight">полуночи</string>
     <string name="cafe_distance_template">%d м</string>
+    <string name="cafe_timetable_everyday">Ежедневно</string>
 </resources>

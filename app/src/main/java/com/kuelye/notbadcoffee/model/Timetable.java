@@ -56,7 +56,7 @@ public class Timetable extends ArrayList<TimetableRow> {
       final DayRange dayRange = timetableRow.getDayRange();
       final TimeRange todayTimeRange = timetableRow.getTimeRange();
 
-      if (dayRange.isIncludeDay(day)) {
+      if (dayRange.isInclude(day)) {
         final TimeRange actualTimeRange = new TimeRange(todayTimeRange.getTimeFromAsString(), MIDNIGHT_TIME_TO);
         if (actualTimeRange.isIncludeTime(hour, minute)) {
           return todayTimeRange;
@@ -67,7 +67,7 @@ public class Timetable extends ArrayList<TimetableRow> {
       if (yesterday <= 0) {
         yesterday += 7;
       }
-      if (dayRange.isIncludeDay(yesterday)
+      if (dayRange.isInclude(yesterday)
           && todayTimeRange.getTimeFrom() > todayTimeRange.getTimeTo()) {
         final TimeRange actualTimeRange = new TimeRange(MIDNIGHT_TIME_FROM, todayTimeRange.getTimeToAsString());
         if (actualTimeRange.isIncludeTime(hour, minute)) {
