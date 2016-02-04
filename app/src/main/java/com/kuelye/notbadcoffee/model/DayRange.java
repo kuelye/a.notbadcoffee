@@ -35,6 +35,7 @@ public class DayRange {
   public static final int SATURDAY   = 0x0000001;
   public static final int WEEKDAYS   = 0x0111110;
   public static final int WEEKEND    = 0x1000001;
+  public static final int EVERYDAY   = 0x1111111;
 
   private final int mMask;
 

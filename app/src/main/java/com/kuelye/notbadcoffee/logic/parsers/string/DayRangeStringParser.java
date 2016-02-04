@@ -22,6 +22,7 @@ import android.support.annotation.NonNull;
 import com.kuelye.notbadcoffee.model.DayRange;
 import com.kuelye.notbadcoffee.logic.parsers.UnsupportedParseValue;
 
+import static com.kuelye.notbadcoffee.model.DayRange.EVERYDAY;
 import static com.kuelye.notbadcoffee.model.DayRange.WEEKDAYS;
 import static com.kuelye.notbadcoffee.model.DayRange.WEEKEND;
 
@@ -29,6 +30,7 @@ public class DayRangeStringParser extends AbstractStringParser<DayRange> {
 
   private static final String WEEKDAYS_VALUE = "WEEKDAYS";
   private static final String WEEKEND_VALUE = "WEEKEND";
+  private static final String EVERYDAY_VALUE = "EVERYDAY";
 
   @Override
   @NonNull public DayRange parse(@NonNull String dayRangeAsString) throws Exception {
@@ -37,6 +39,8 @@ public class DayRangeStringParser extends AbstractStringParser<DayRange> {
         return new DayRange(WEEKDAYS);
       case WEEKEND_VALUE:
         return new DayRange(WEEKEND);
+      case EVERYDAY_VALUE:
+        return new DayRange(EVERYDAY);
       // TODO "SUN, MON", "MON - SAT", "TUE - THU, WEEKEND"
       default:
         throw new UnsupportedParseValue(dayRangeAsString);

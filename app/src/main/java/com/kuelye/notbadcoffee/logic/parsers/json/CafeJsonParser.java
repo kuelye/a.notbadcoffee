@@ -30,7 +30,6 @@ public class CafeJsonParser extends AbstractJsonObjectParser<Cafe> {
 
   private static final String NAME_KEY_NAME = "name";
   private static final String PLACES_KEY_NAME = "places";
-  private static final String TIMETABLE_KEY_NAME = "timetable";
   private static final String MENU_KEY_NAME = "menu";
 
   @Override
@@ -39,11 +38,6 @@ public class CafeJsonParser extends AbstractJsonObjectParser<Cafe> {
     final String name = cafeJsonObject.getString(NAME_KEY_NAME);
     final Places places = new PlacesJsonParser()
         .parse(cafeJsonObject.getJSONArray(PLACES_KEY_NAME));
-    final Timetable timetable
-        = cafeJsonObject.has(TIMETABLE_KEY_NAME)
-        ? new TimetableJsonParser()
-            .parse(cafeJsonObject.getJSONArray(TIMETABLE_KEY_NAME))
-        : null;
     final Menu menu
         = cafeJsonObject.has(MENU_KEY_NAME)
         ? new MenuJsonParser()
@@ -51,7 +45,6 @@ public class CafeJsonParser extends AbstractJsonObjectParser<Cafe> {
         : null;
 
     return new Cafe.Builder(name, places)
-        .setTimetable(timetable)
         .setMenu(menu)
         .build();
   }

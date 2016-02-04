@@ -38,7 +38,7 @@ public class UpdateCafesOperation implements Callable<Cafes> {
     final String response = getResponse(GET_CAFES_REQUEST);
     final JSONObject responseJsonObject = new JSONObject(response);
     final JSONArray cafesJsonArray = responseJsonObject.getJSONArray(CAFES_KEY_NAME);
-    final Cafes cafes = new CafesJsonParser().parse(cafesJsonArray);
+    final Cafes cafes = new CafesJsonParser().parse(cafesJsonArray).split();
 
     Application.setCafes(cafes);
 

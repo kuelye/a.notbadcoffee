@@ -20,8 +20,6 @@ package com.kuelye.notbadcoffee.model;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.google.android.gms.maps.model.LatLng;
-
 public class Place {
 
   public static final long STUB_ID = -1L;
@@ -30,14 +28,19 @@ public class Place {
   @NonNull private final String mAddress;
   @NonNull private final String mMetro;
   @NonNull private final Location mLocation;
+
+  @Nullable private final String mName;
   @Nullable private final String mPhoto;
+  @Nullable private final Timetable mTimetable;
 
   private Place(Builder builder) {
     mId = builder.mId;
-    mPhoto = builder.mPhoto;
     mAddress = builder.mAddress;
     mMetro = builder.mMetro;
     mLocation = builder.mLocation;
+    mName = builder.mName;
+    mPhoto = builder.mPhoto;
+    mTimetable = builder.mTimetable;
   }
 
   public long getId() {
@@ -56,8 +59,16 @@ public class Place {
     return mLocation;
   }
 
+  @Nullable public String getName() {
+    return mName;
+  }
+
   @Nullable public String getPhoto() {
     return mPhoto;
+  }
+
+  @Nullable public Timetable getTimetable() {
+    return mTimetable;
   }
 
   @Override
@@ -67,7 +78,9 @@ public class Place {
         ", mAddress='" + mAddress + '\'' +
         ", mMetro='" + mMetro + '\'' +
         ", mLocation=" + mLocation +
+        ", mName='" + mName + '\'' +
         ", mPhoto='" + mPhoto + '\'' +
+        ", mTimetable=" + mTimetable +
         '}';
   }
 
@@ -79,7 +92,10 @@ public class Place {
     @NonNull private final String mAddress;
     @NonNull private final String mMetro;
     @NonNull private final Location mLocation;
+
+    @Nullable private String mName;
     @Nullable private String mPhoto;
+    @Nullable private Timetable mTimetable;
 
     public Builder(int id, @NonNull String address, @NonNull String metro, @NonNull Location location) {
       mId = id;
@@ -90,6 +106,18 @@ public class Place {
 
     public Builder setPhoto(@Nullable String photo) {
       mPhoto = photo;
+
+      return this;
+    }
+
+    @NonNull public Builder setTimetable(@Nullable Timetable timetable) {
+      mTimetable = timetable;
+
+      return this;
+    }
+
+    @NonNull public Builder setName(@Nullable String name) {
+      mName = name;
 
       return this;
     }

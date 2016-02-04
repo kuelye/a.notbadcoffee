@@ -24,18 +24,35 @@ public class Cafe {
 
   @NonNull private final String mName;
   @NonNull private final Places mPlaces;
-  @Nullable private final Timetable mTimetable;
   @Nullable private final Menu mMenu;
 
   private Cafe(Builder builder) {
     mName = builder.mName;
     mPlaces = builder.mPlaces;
-    mTimetable = builder.mTimetable;
     mMenu = builder.mMenu;
   }
 
   @NonNull public String getName() {
-    return mName;
+    return getPlace().getName() != null
+        ? getPlace().getName()
+        : mName;
+  }
+
+  @NonNull public Cafes split() {
+    final Cafes cafes = new Cafes();
+    if (mPlaces.size() == 1) {
+      cafes.add(this);
+    } else {
+      for (Place place : mPlaces) {
+        Places places = new Places(place);
+        final Cafe cafe = new Cafe.Builder(mName, places)
+            .setMenu(mMenu)
+            .build();
+        cafes.add(cafe);
+      }
+    }
+
+    return cafes;
   }
 
   @NonNull public Place getPlace() {
@@ -46,12 +63,12 @@ public class Cafe {
     return mPlaces;
   }
 
-  @Nullable public Timetable getTimetable() {
-    return mTimetable;
-  }
-
   @Nullable public Menu getMenu() {
     return mMenu;
+  }
+
+  @Nullable public Timetable getTimetable() {
+    return getPlace().getTimetable();
   }
 
   @Override
@@ -59,7 +76,6 @@ public class Cafe {
     return "Cafe{" +
         "mName='" + mName + '\'' +
         ", mPlaces=" + mPlaces +
-        ", mTimetable=" + mTimetable +
         ", mMenu=" + mMenu +
         '}';
   }
@@ -70,18 +86,11 @@ public class Cafe {
 
     @NonNull private final String mName;
     @NonNull private final Places mPlaces;
-    @Nullable private Timetable mTimetable;
     @Nullable private Menu mMenu;
 
     public Builder(@NonNull String name, @NonNull Places places) {
       mName = name;
       mPlaces = places;
-    }
-
-    @NonNull public Builder setTimetable(@Nullable Timetable timetable) {
-      mTimetable = timetable;
-
-      return this;
     }
 
     @NonNull public Builder setMenu(@Nullable Menu menu) {

@@ -21,6 +21,12 @@ import java.util.ArrayList;
 
 public class Places extends ArrayList<Place> {
 
-  // stub
+  public Places(Place... places) {
+    if (places != null) {
+      for (Place place : places) {
+        add(place);
+      }
+    }
+  }
 
 }
