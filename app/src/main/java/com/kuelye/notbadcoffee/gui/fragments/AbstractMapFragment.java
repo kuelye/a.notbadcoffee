@@ -66,28 +66,44 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
   @Override
   public void onResume() {
     super.onResume();
+
     mMapView.onResume();
+    if (mGoogleMap != null) {
+      mGoogleMap.setMyLocationEnabled(true);
+    }
   }
 
   @Override
   public void onPause() {
-    mMapView.onPause();
     super.onPause();
+
+    mMapView.onPause();
+    if (mGoogleMap != null) {
+      mGoogleMap.setMyLocationEnabled(false);
+    }
   }
 
   @Override
   public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+
     final Bundle mapViewOutState = new Bundle(outState);
     mMapView.onSaveInstanceState(mapViewOutState);
     outState.putBundle(MAP_VIEW_SAVED_STATE_KEY, mapViewOutState);
-
-    super.onSaveInstanceState(outState);
   }
 
   @Override
   public void onLowMemory() {
-    mMapView.onLowMemory();
     super.onLowMemory();
+
+    mMapView.onLowMemory();
+  }
+
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+
+    mMapView.onDestroy();
   }
 
   @Override
