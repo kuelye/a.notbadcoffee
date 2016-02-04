@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.kuelye.notbadcoffee.R;
@@ -104,7 +105,7 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
     fillMap();
   }
 
-  protected void centerCamera(boolean animate, Marker... markers) {
+  protected void centerCamera(final boolean animate, Marker... markers) {
     if (mGoogleMap != null) {
       final LatLngBounds.Builder builder = new LatLngBounds.Builder();
       for (Marker marker : markers) {
@@ -114,18 +115,38 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
         builder.include(locationToLatLng(mLastLocation));
       }
       final LatLngBounds bounds = builder.build();
-      final CameraUpdate cameraUpdate = newLatLngBounds(bounds, MAP_CENTER_PADDING);
 
-      if (animate) {
-        mGoogleMap.animateCamera(cameraUpdate);
+      // workaround for bug with newLatLngBounds() crash when dimensions of the map view
+      // haven't been determined yet (see http://stackoverflow.com/questions/13692579)
+      if (mMapView.getWidth() == 0) {
+        mGoogleMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+          @Override
+          public void onCameraChange(CameraPosition cameraPosition) {
+            postCenterCamera(bounds, animate);
+            mGoogleMap.setOnCameraChangeListener(null);
+          }
+        });
       } else {
-        mGoogleMap.moveCamera(cameraUpdate);
+        postCenterCamera(bounds, animate);
       }
     }
   }
 
   protected void fillMap() {
     // stub
+  }
+
+  /* ================================================================ */
+
+  private void postCenterCamera(@NonNull LatLngBounds bounds, boolean animate) {
+    if (mGoogleMap != null) {
+      final CameraUpdate cameraUpdate = newLatLngBounds(bounds, MAP_CENTER_PADDING);
+      if (animate) {
+        mGoogleMap.animateCamera(cameraUpdate);
+      } else {
+        mGoogleMap.moveCamera(cameraUpdate);
+      }
+    }
   }
 
 }
