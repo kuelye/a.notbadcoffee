@@ -22,7 +22,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -56,8 +56,8 @@ public final class CafeHelper {
           .centerCrop()
           .into(photoImageView);
     }
-    final TextView nameTextView = (TextView) cafeHeaderLayout.findViewById(R.id.cafe_name_text_view);
-    nameTextView.setText(cafe.getName());
+    final Toolbar nameAndLinksToolbar = (Toolbar) cafeHeaderLayout.findViewById(R.id.cafe_name_and_links_toolbar);
+    nameAndLinksToolbar.setTitle(cafe.getName());
   }
 
   public static void fillLocationLayout(@NonNull Context context

@@ -21,6 +21,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,9 +33,6 @@ import com.kuelye.notbadcoffee.gui.fragments.AbstractBaseFragment;
 import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.model.Cafes;
 import com.squareup.otto.Subscribe;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 
@@ -167,8 +165,7 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
 
     public final View rootView;
     @Bind(R.id.cafe_header_layout) public ViewGroup headerLayout;
-    @Bind(R.id.cafe_name_text_view) public TextView nameTextView;
-    @Bind(R.id.cafe_name_and_links_layout) public ViewGroup nameAndLinksLayout;
+    @Bind(R.id.cafe_name_and_links_toolbar) public Toolbar nameAndLinksToolbar;
     @Bind(R.id.cafe_photo_clickable_image_view) public ImageView photoClickableImageView;
     @Bind(R.id.cafe_photo_image_view) public ImageView photoImageView;
     @Bind(R.id.cafe_place_layout) public ViewGroup placeLayout;

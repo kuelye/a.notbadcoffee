@@ -30,6 +30,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.Toolbar;
 import android.transition.TransitionInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -76,8 +77,8 @@ public final class NavigateHelper {
               , R.string.card_view_transition_name)
           , new SharedElementHolder(cafeRowViewHolder.photoImageView
               , R.string.cafe_photo_image_view_transition_name)
-          , new SharedElementHolder(cafeRowViewHolder.nameAndLinksLayout
-              , R.string.cafe_name_and_links_layout_transition_name)
+          , new SharedElementHolder(cafeRowViewHolder.nameAndLinksToolbar
+              , R.string.cafe_name_and_links_toolbar_transition_name)
           , new SharedElementHolder(cafeRowViewHolder.placeLayout
               , R.string.cafe_place_layout_transition_name))
           .toBundle();
@@ -99,7 +100,7 @@ public final class NavigateHelper {
       , long cafePlaceId) {
     Bundle options = null;
     final ImageView photoImageView = (ImageView) cafeHeaderLayout.findViewById(R.id.cafe_photo_image_view);
-    final ViewGroup nameAndLinksLayout = (ViewGroup) cafeHeaderLayout.findViewById(R.id.cafe_name_and_links_layout);
+    final Toolbar nameAndLinksToolbar = (Toolbar) cafeHeaderLayout.findViewById(R.id.cafe_name_and_links_toolbar);
     if (SDK_INT >= LOLLIPOP) {
       options = setTransitionNameAndGetOptions(activityFrom
           // share toolbar & stub view to avoid overlaying
@@ -109,8 +110,8 @@ public final class NavigateHelper {
               , R.string.toolbar_transition_name)
           , new SharedElementHolder(photoImageView
               , R.string.cafe_photo_image_view_transition_name)
-          , new SharedElementHolder(nameAndLinksLayout
-              , R.string.cafe_name_and_links_layout_transition_name))
+          , new SharedElementHolder(nameAndLinksToolbar
+              , R.string.cafe_name_and_links_toolbar_transition_name))
           .toBundle();
     }
 

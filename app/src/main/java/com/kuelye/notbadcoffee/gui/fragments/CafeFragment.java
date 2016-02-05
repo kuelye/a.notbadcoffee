@@ -21,6 +21,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,7 +56,7 @@ public class CafeFragment extends AbstractCafeFragment {
 
   @Bind(R.id.scroll_view) protected ScrollView mScrollView;
   @Bind(R.id.cafe_header_layout) protected ViewGroup mHeaderLayout;
-  @Bind(R.id.cafe_name_and_links_layout) protected ViewGroup mNameAndLinksLayout;
+  @Bind(R.id.cafe_name_and_links_toolbar) protected Toolbar mNameAndLinksToolbar;
   @Bind(R.id.cafe_photo_image_view) protected ImageView mPhotoImageView;
   @Bind(R.id.cafe_info_layout) protected ViewGroup mInfoLayout;
   @Bind(R.id.cafe_place_layout) protected ViewGroup mPlaceLayout;
@@ -129,7 +130,7 @@ public class CafeFragment extends AbstractCafeFragment {
 
     if (SDK_INT >= LOLLIPOP) {
       mPhotoImageView.setTransitionName(getString(R.string.cafe_photo_image_view_transition_name));
-      mNameAndLinksLayout.setTransitionName(getString(R.string.cafe_name_and_links_layout_transition_name));
+      mNameAndLinksToolbar.setTransitionName(getString(R.string.cafe_name_and_links_toolbar_transition_name));
     }
   }
 
