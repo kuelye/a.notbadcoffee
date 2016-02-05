@@ -23,6 +23,8 @@ import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -30,6 +32,7 @@ import android.widget.TextView;
 
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.model.Cafe;
+import com.kuelye.notbadcoffee.model.Link;
 import com.kuelye.notbadcoffee.model.Menu;
 import com.kuelye.notbadcoffee.model.MenuRow;
 import com.kuelye.notbadcoffee.model.Place;
@@ -37,12 +40,18 @@ import com.kuelye.notbadcoffee.model.Timetable;
 import com.kuelye.notbadcoffee.model.TimetableRow;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
+import static android.view.Menu.FIRST;
+import static android.view.Menu.NONE;
+import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
 import static android.view.View.inflate;
+import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchByUrl;
 
 public final class CafeHelper {
 
   public static void fillHeaderLayout(
-      @NonNull Context context
+      final @NonNull Context context
       , @NonNull ViewGroup cafeHeaderLayout
       , @NonNull Cafe cafe
       , @Nullable Drawable cafeCachedPhoto) {
@@ -56,8 +65,29 @@ public final class CafeHelper {
           .centerCrop()
           .into(photoImageView);
     }
+
     final Toolbar nameAndLinksToolbar = (Toolbar) cafeHeaderLayout.findViewById(R.id.cafe_name_and_links_toolbar);
     nameAndLinksToolbar.setTitle(cafe.getName());
+
+    final List<Link> links = cafe.getLinks();
+    final android.view.Menu menu = nameAndLinksToolbar.getMenu();
+    menu.removeGroup(FIRST);
+    if (links != null) {
+      for (int i = 0; i < links.size(); ++i) {
+        final Link link = links.get(i);
+        menu.add(FIRST, FIRST + i, NONE, link.getType().getDisplayStringResource())
+            .setIcon(link.getType().getIconResource())
+            .setShowAsActionFlags(SHOW_AS_ACTION_ALWAYS)
+            .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+              @Override
+              public boolean onMenuItemClick(MenuItem item) {
+                launchByUrl(context, link.getUrl());
+
+                return true;
+              }
+            });
+      }
+    }
   }
 
   public static void fillLocationLayout(@NonNull Context context

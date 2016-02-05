@@ -21,6 +21,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -46,6 +47,7 @@ import com.kuelye.notbadcoffee.model.Cafe;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.Intent.ACTION_VIEW;
 import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 import static android.os.Build.VERSION.SDK_INT;
@@ -128,6 +130,13 @@ public final class NavigateHelper {
     intent.putExtra(SCROLL_TO_CAFE_PLACE_ID_EXTRA, scrollToCafePlaceId);
 
     ActivityCompat.startActivity(activityFrom, intent, null);
+  }
+
+  public static void launchByUrl(@NonNull Context context, @NonNull String url) {
+    final Uri uri = Uri.parse(url);
+    final Intent intent = new Intent(ACTION_VIEW, uri);
+
+    context.startActivity(intent);
   }
 
   public static void setTransitionName(

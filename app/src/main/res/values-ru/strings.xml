@@ -8,4 +8,7 @@
     <string name="cafe_time_midnight">полуночи</string>
     <string name="cafe_distance_template">%d м</string>
     <string name="cafe_timetable_everyday">Ежедневно</string>
+    <string name="link_type_instagram">Instagram</string>
+    <string name="link_type_vk">ВК</string>
+    <string name="link_type_facebook">Facebook</string>
 </resources>

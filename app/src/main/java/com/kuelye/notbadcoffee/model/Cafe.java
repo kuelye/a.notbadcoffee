@@ -20,16 +20,20 @@ package com.kuelye.notbadcoffee.model;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import java.util.List;
+
 public class Cafe {
 
   @NonNull private final String mName;
   @NonNull private final Places mPlaces;
   @Nullable private final Menu mMenu;
+  @Nullable private final List<Link> mLinks;
 
   private Cafe(Builder builder) {
     mName = builder.mName;
     mPlaces = builder.mPlaces;
     mMenu = builder.mMenu;
+    mLinks = builder.mLinks;
   }
 
   @NonNull public String getName() {
@@ -47,6 +51,7 @@ public class Cafe {
         Places places = new Places(place);
         final Cafe cafe = new Cafe.Builder(mName, places)
             .setMenu(mMenu)
+            .setLinks(mLinks)
             .build();
         cafes.add(cafe);
       }
@@ -67,6 +72,10 @@ public class Cafe {
     return mMenu;
   }
 
+  @Nullable public List<Link> getLinks() {
+    return mLinks;
+  }
+
   @Nullable public Timetable getTimetable() {
     return getPlace().getTimetable();
   }
@@ -77,6 +86,7 @@ public class Cafe {
         "mName='" + mName + '\'' +
         ", mPlaces=" + mPlaces +
         ", mMenu=" + mMenu +
+        ", mLinks=" + mLinks +
         '}';
   }
 
@@ -87,6 +97,7 @@ public class Cafe {
     @NonNull private final String mName;
     @NonNull private final Places mPlaces;
     @Nullable private Menu mMenu;
+    @Nullable private List<Link> mLinks;
 
     public Builder(@NonNull String name, @NonNull Places places) {
       mName = name;
@@ -95,6 +106,12 @@ public class Cafe {
 
     @NonNull public Builder setMenu(@Nullable Menu menu) {
       mMenu = menu;
+
+      return this;
+    }
+
+    @NonNull public Builder setLinks(@Nullable List<Link> links) {
+      mLinks = links;
 
       return this;
     }

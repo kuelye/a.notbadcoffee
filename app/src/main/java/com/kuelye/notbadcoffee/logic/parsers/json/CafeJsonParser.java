@@ -20,17 +20,21 @@ package com.kuelye.notbadcoffee.logic.parsers.json;
 import android.support.annotation.NonNull;
 
 import com.kuelye.notbadcoffee.model.Cafe;
+import com.kuelye.notbadcoffee.model.Link;
 import com.kuelye.notbadcoffee.model.Menu;
 import com.kuelye.notbadcoffee.model.Places;
 import com.kuelye.notbadcoffee.model.Timetable;
 
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class CafeJsonParser extends AbstractJsonObjectParser<Cafe> {
 
   private static final String NAME_KEY_NAME = "name";
   private static final String PLACES_KEY_NAME = "places";
   private static final String MENU_KEY_NAME = "menu";
+  private static final String LINKS_KEY_NAME = "links";
 
   @Override
   @NonNull public Cafe parse(@NonNull JSONObject cafeJsonObject)
@@ -43,9 +47,15 @@ public class CafeJsonParser extends AbstractJsonObjectParser<Cafe> {
         ? new MenuJsonParser()
             .parse(cafeJsonObject.getJSONArray(MENU_KEY_NAME))
         : null;
+    final List<Link> links
+        = cafeJsonObject.has(LINKS_KEY_NAME)
+        ? new LinksJsonParser()
+            .parse(cafeJsonObject.getJSONArray(LINKS_KEY_NAME))
+        : null;
 
     return new Cafe.Builder(name, places)
         .setMenu(menu)
+        .setLinks(links)
         .build();
   }
 

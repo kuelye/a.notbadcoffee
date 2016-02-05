@@ -23,4 +23,10 @@
     <string name="cafe_timetable_everyday">Everyday</string>
     <string name="cafe_distance_template">%d m</string>
 
+    <!-- LINK TYPES -->
+
+    <string name="link_type_vk">VK</string>
+    <string name="link_type_instagram">Instagram</string>
+    <string name="link_type_facebook">Facebook</string>
+
 </resources>
