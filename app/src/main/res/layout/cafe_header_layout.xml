@@ -26,6 +26,10 @@
                 android:scaleType="centerCrop"
                 tools:background="#cccccc" />
 
+            <include
+                android:id="@id/cafe_photo_scrim_layout"
+                layout="@layout/scrim" />
+
             <ImageView
                 android:id="@id/cafe_photo_clickable_image_view"
                 android:background="@drawable/selectable_item_background_inverse"

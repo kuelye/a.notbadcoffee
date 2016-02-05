@@ -57,6 +57,7 @@ public class CafeFragment extends AbstractCafeFragment {
   @Bind(R.id.scroll_view) protected ScrollView mScrollView;
   @Bind(R.id.cafe_header_layout) protected ViewGroup mHeaderLayout;
   @Bind(R.id.cafe_name_and_links_toolbar) protected Toolbar mNameAndLinksToolbar;
+  @Bind(R.id.cafe_photo_scrim_layout) protected ViewGroup mPhotoScrimLayout;
   @Bind(R.id.cafe_photo_image_view) protected ImageView mPhotoImageView;
   @Bind(R.id.cafe_info_layout) protected ViewGroup mInfoLayout;
   @Bind(R.id.cafe_place_layout) protected ViewGroup mPlaceLayout;
@@ -129,6 +130,7 @@ public class CafeFragment extends AbstractCafeFragment {
     super.onBeforeViewShowed();
 
     if (SDK_INT >= LOLLIPOP) {
+      mPhotoScrimLayout.setTransitionName(getString(R.string.cafe_photo_scrim_layout_transition_name));
       mPhotoImageView.setTransitionName(getString(R.string.cafe_photo_image_view_transition_name));
       mNameAndLinksToolbar.setTransitionName(getString(R.string.cafe_name_and_links_toolbar_transition_name));
     }

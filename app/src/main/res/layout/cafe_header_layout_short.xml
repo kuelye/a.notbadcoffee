@@ -7,26 +7,37 @@
     android:layout_height="wrap_content"
     >
 
-    <ImageView
-        android:id="@id/cafe_photo_image_view"
+    <RelativeLayout
+        android:id="@id/positioning_cafe_photo_layout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:scaleType="centerCrop"
-        tools:src="#AAA" />
+        >
 
-    <ImageView
-        android:id="@id/cafe_photo_clickable_image_view"
-        android:background="@drawable/selectable_item_background_inverse"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/cafe_photo_image_view"
-        android:layout_alignBottom="@id/cafe_photo_image_view" />
+        <ImageView
+            android:id="@id/cafe_photo_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            tools:src="#AAA" />
+
+        <include
+            android:id="@id/cafe_photo_scrim_layout"
+            layout="@layout/scrim" />
+
+        <ImageView
+            android:id="@id/cafe_photo_clickable_image_view"
+            android:background="@drawable/selectable_item_background_inverse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/cafe_photo_image_view"
+            android:layout_alignBottom="@id/cafe_photo_image_view" />
+    </RelativeLayout>
 
     <android.support.v7.widget.Toolbar
         style="@style/AppTheme.Toolbar"
         android:id="@id/cafe_name_and_links_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/cafe_photo_image_view"
+        android:layout_alignBottom="@id/positioning_cafe_photo_layout"
         tools:title="Централь" />
 </RelativeLayout>

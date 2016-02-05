@@ -167,6 +167,7 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
     @Bind(R.id.cafe_header_layout) public ViewGroup headerLayout;
     @Bind(R.id.cafe_name_and_links_toolbar) public Toolbar nameAndLinksToolbar;
     @Bind(R.id.cafe_photo_clickable_image_view) public ImageView photoClickableImageView;
+    @Bind(R.id.cafe_photo_scrim_layout) public ViewGroup photoScrimLayout;
     @Bind(R.id.cafe_photo_image_view) public ImageView photoImageView;
     @Bind(R.id.cafe_place_layout) public ViewGroup placeLayout;
     @Bind(R.id.cafe_more_info_layout) public ViewGroup moreInfoLayout;

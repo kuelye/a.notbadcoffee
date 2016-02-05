@@ -77,6 +77,8 @@ public final class NavigateHelper {
               , R.string.toolbar_transition_name)
           , new SharedElementHolder(cafeRowViewHolder.rootView
               , R.string.card_view_transition_name)
+          , new SharedElementHolder(cafeRowViewHolder.photoScrimLayout
+              , R.string.cafe_photo_scrim_layout_transition_name)
           , new SharedElementHolder(cafeRowViewHolder.photoImageView
               , R.string.cafe_photo_image_view_transition_name)
           , new SharedElementHolder(cafeRowViewHolder.nameAndLinksToolbar
@@ -101,6 +103,7 @@ public final class NavigateHelper {
       , @NonNull ViewGroup cafeHeaderLayout
       , long cafePlaceId) {
     Bundle options = null;
+    final ViewGroup photoScrimLayout = (ViewGroup) cafeHeaderLayout.findViewById(R.id.cafe_photo_scrim_layout);
     final ImageView photoImageView = (ImageView) cafeHeaderLayout.findViewById(R.id.cafe_photo_image_view);
     final Toolbar nameAndLinksToolbar = (Toolbar) cafeHeaderLayout.findViewById(R.id.cafe_name_and_links_toolbar);
     if (SDK_INT >= LOLLIPOP) {
@@ -110,6 +113,8 @@ public final class NavigateHelper {
               , R.string.toolbar_background_transition_name)
           , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar)
               , R.string.toolbar_transition_name)
+          , new SharedElementHolder(photoScrimLayout
+              , R.string.cafe_photo_scrim_layout_transition_name)
           , new SharedElementHolder(photoImageView
               , R.string.cafe_photo_image_view_transition_name)
           , new SharedElementHolder(nameAndLinksToolbar

@@ -69,6 +69,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   @Bind(R.id.card_view) protected CardView mCardView;
   @Bind(R.id.cafe_header_layout) protected ViewGroup mHeaderLayout;
   @Bind(R.id.cafe_name_and_links_toolbar) protected Toolbar mNameAndLinksToolbar;
+  @Bind(R.id.cafe_photo_scrim_layout) protected ViewGroup mPhotoScrimLayout;
   @Bind(R.id.cafe_photo_image_view) protected ImageView mPhotoImageView;
   @Bind(R.id.cafe_photo_clickable_image_view) protected ImageView mPhotoClickableImageView;
   @Bind(R.id.cafe_place_layout) protected ViewGroup mPlaceLayout;
@@ -118,6 +119,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
 
     if (SDK_INT >= LOLLIPOP) {
       mCardView.setTransitionName(getString(R.string.card_view_transition_name));
+      mPhotoScrimLayout.setTransitionName(getString(R.string.cafe_photo_scrim_layout_transition_name));
       mPhotoImageView.setTransitionName(getString(R.string.cafe_photo_image_view_transition_name));
       mNameAndLinksToolbar.setTransitionName(getString(R.string.cafe_name_and_links_toolbar_transition_name));
       mPlaceLayout.setTransitionName(getString(R.string.cafe_place_layout_transition_name));
