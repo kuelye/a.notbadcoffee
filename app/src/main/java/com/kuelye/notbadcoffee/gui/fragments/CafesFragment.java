@@ -21,16 +21,20 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.transition.Transition;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 
+import com.kuelye.components.utils.AndroidUtils;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.adapters.CafesAdapter;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafesAsyncTask;
@@ -38,9 +42,15 @@ import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.model.Cafes;
 import com.squareup.otto.Subscribe;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 import static android.app.Activity.RESULT_OK;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static butterknife.ButterKnife.bind;
+import static com.kuelye.components.utils.AndroidUtils.getActionBarHeight;
+import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 import static com.kuelye.notbadcoffee.Application.getBus;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.SELECT_CAFE_REQUEST_CODE;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchCafeActivity;
@@ -51,7 +61,9 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
 
   public static final String SCROLL_TO_CAFE_PLACE_ID_EXTRA = "SCROLL_TO_CAFE_PLACE_ID";
 
-  private RecyclerView mRecyclerView;
+  @Bind(R.id.recycler_view) protected RecyclerView mRecyclerView;
+  @Bind(R.id.swipe_refresh_layout) protected SwipeRefreshLayout mSwipeRefreshLayout;
+
   private LinearLayoutManager mLayoutManager;
   private CafesAdapter mCafesAdapter;
 
@@ -91,7 +103,8 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
       Bundle savedInstanceState) {
     final View view = super.onCreateView(inflater, container, savedInstanceState);
 
-    mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+    bind(this, view);
+
     mLayoutManager = new LinearLayoutManager(getContext());
     mRecyclerView.setLayoutManager(mLayoutManager);
     mRecyclerView.addItemDecoration(new CafesAdapter.HeaderDecoration(getActivity()));
@@ -112,6 +125,17 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
       }
     });
 
+    mSwipeRefreshLayout.setProgressViewOffset(true
+        , getStatusBarHeight(getActivity())
+        , getStatusBarHeight(getActivity()) + getActionBarHeight(getActivity())
+            + AndroidUtils.getDimensitonInDps(getActivity(), R.dimen.padding_standard));
+    mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+      @Override
+      public void onRefresh() {
+        update(false);
+      }
+    });
+
     return view;
   }
 
@@ -129,7 +153,7 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
     super.onResume();
 
     getBus().register(this);
-    update();
+    update(true);
   }
 
   @Override
@@ -170,17 +194,19 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
         }
       }
     }
+
+    mSwipeRefreshLayout.setRefreshing(false);
   }
 
   @Subscribe
   public void onLocationGotten(OnLocationGottenEvent event) {
-    update();
+    update(true);
   }
 
   /* =========================== HIDDEN ============================= */
 
-  private void update() {
-    new GetCafesAsyncTask().execute();
+  private void update(boolean useCache) {
+    new GetCafesAsyncTask().execute(useCache);
   }
 
   private void setScrollToCafePlaceId(long scrollToCafePlaceId) {

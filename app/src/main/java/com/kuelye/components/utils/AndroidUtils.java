@@ -19,12 +19,15 @@ package com.kuelye.components.utils;
 
 import android.animation.Animator;
 import android.content.Context;
+import android.content.res.Resources;
 import android.location.Location;
+import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
 import android.util.TypedValue;
 import android.view.View;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.kuelye.notbadcoffee.R;
 
 import static android.util.TypedValue.complexToDimensionPixelSize;
 
@@ -60,6 +63,12 @@ public final class AndroidUtils {
 
   public static LatLng locationToLatLng(@NonNull Location location) {
     return new LatLng(location.getLatitude(), location.getLongitude());
+  }
+
+  public static int getDimensitonInDps(@NonNull Context context, @DimenRes int dimensionResource) {
+    final Resources resources = context.getResources();
+
+    return (int) (resources.getDimension(dimensionResource) / resources.getDisplayMetrics().density);
   }
 
   /* ========================== INNER =============================== */

@@ -25,9 +25,18 @@ import static com.kuelye.notbadcoffee.Application.getCafes;
 
 public class GetCafesOperation implements Callable<Cafes> {
 
+  private boolean mUseCache;
+
+  public GetCafesOperation(boolean useCache) {
+    mUseCache = useCache;
+  }
+
   @Override
   public Cafes call() throws Exception {
-    Cafes cafes = getCafes();
+    Cafes cafes = null;
+    if (mUseCache) {
+      cafes = getCafes();
+    }
     if (cafes == null) {
       cafes = new UpdateCafesOperation().call();
     }

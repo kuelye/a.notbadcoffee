@@ -26,14 +26,15 @@ import com.kuelye.notbadcoffee.model.Cafes;
 
 import static com.kuelye.notbadcoffee.Application.getBus;
 
-public class GetCafesAsyncTask extends AsyncTask<Void, Void, Cafes> {
+public class GetCafesAsyncTask extends AsyncTask<Boolean, Void, Cafes> {
 
   public static final String TAG = "GetCafesAsyncTask";
 
   @Override
-  protected Cafes doInBackground(Void... params) {
+  protected Cafes doInBackground(Boolean... params) {
+    boolean useCache = params[0];
     try {
-      return new GetCafesOperation().call();
+      return new GetCafesOperation(useCache).call();
     } catch (Exception e) {
       Log.e(TAG, "", e);
     }
