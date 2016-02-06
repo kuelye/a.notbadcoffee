@@ -21,7 +21,6 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -163,12 +162,9 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
 
   public static class RowViewHolder extends RecyclerView.ViewHolder {
 
-    public final View rootView;
+    public final ViewGroup rootView;
     @Bind(R.id.cafe_header_layout) public ViewGroup headerLayout;
-    @Bind(R.id.cafe_name_and_links_toolbar) public Toolbar nameAndLinksToolbar;
     @Bind(R.id.cafe_photo_clickable_image_view) public ImageView photoClickableImageView;
-    @Bind(R.id.cafe_photo_scrim_layout) public ViewGroup photoScrimLayout;
-    @Bind(R.id.cafe_photo_image_view) public ImageView photoImageView;
     @Bind(R.id.cafe_place_layout) public ViewGroup placeLayout;
     @Bind(R.id.cafe_more_info_layout) public ViewGroup moreInfoLayout;
     @Bind(R.id.cafe_more_info_header_layout) public ViewGroup moreInfoHeaderLayout;
@@ -180,7 +176,7 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
     public RowViewHolder(@NonNull View view) {
       super(view);
 
-      rootView = view;
+      rootView = (ViewGroup) view;
       bind(this, view);
     }
 

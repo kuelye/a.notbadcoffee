@@ -19,6 +19,11 @@
 
     <item name="positioning_cafe_photo_layout" type="id" />
 
+    <!-- MENU ACTIONS -->
+
+    <item name="view_cafes_list_action" type="id" />
+    <item name="view_cafes_map_action" type="id" />
+
     <!-- CAFE -->
 
     <item name="cafe_header_layout" type="id" />

@@ -23,9 +23,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.transition.Transition;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -96,6 +98,20 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
     mCafesAdapter = new CafesAdapter(getActivity(), this);
     mRecyclerView.setAdapter(mCafesAdapter);
 
+    mToolbar.inflateMenu(R.menu.main_activity_menu);
+    mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+      @Override
+      public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+          case R.id.view_cafes_map_action:
+            launchMapActivity(getActivity(), null, null);
+            return true;
+          default:
+            return false;
+        }
+      }
+    });
+
     return view;
   }
 
@@ -127,7 +143,7 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
   public void onLocationClicked(
       @NonNull CafesAdapter.RowViewHolder cafeRowViewHolder
       , @NonNull Cafe cafe) {
-    launchMapActivity(getActivity(), cafeRowViewHolder, cafe);
+    launchMapActivity(getActivity(), cafeRowViewHolder.rootView, cafe);
   }
 
   @Override

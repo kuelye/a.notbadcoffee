@@ -24,10 +24,12 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.Toolbar;
 import android.transition.Slide;
 import android.transition.TransitionInflater;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -64,6 +66,7 @@ import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillHeaderLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.TRANSITION_CACHED_DRAWABLE_KEY;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchCafeActivity;
+import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchMainActivity;
 import static com.kuelye.notbadcoffee.model.Place.STUB_ID;
 
 public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallback {
@@ -111,6 +114,20 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
     final View view = super.onCreateView(inflater, container, savedInstanceState);
 
     bind(this, view);
+
+    mToolbar.inflateMenu(R.menu.map_activity_menu);
+    mToolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+      @Override
+      public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+          case R.id.view_cafes_list_action:
+            launchMainActivity(getActivity(), getSelectedCafePlaceId());
+            return true;
+          default:
+            return false;
+        }
+      }
+    });
 
     return view;
   }

@@ -27,11 +27,11 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
 import android.transition.Slide;
 import android.transition.TransitionInflater;
 import android.view.Gravity;
@@ -43,7 +43,6 @@ import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.activities.CafeActivity;
 import com.kuelye.notbadcoffee.gui.activities.MainActivity;
 import com.kuelye.notbadcoffee.gui.activities.MapActivity;
-import com.kuelye.notbadcoffee.gui.adapters.CafesAdapter;
 import com.kuelye.notbadcoffee.model.Cafe;
 
 import java.util.ArrayList;
@@ -70,8 +69,8 @@ public final class NavigateHelper {
 
   public static void launchMapActivity(
       @NonNull Activity activityFrom
-      , @NonNull CafesAdapter.RowViewHolder cafeRowViewHolder
-      , @NonNull Cafe cafe) {
+      , @Nullable ViewGroup cafeLayout
+      , @Nullable Cafe cafe) {
     Bundle options = null;
     if (SDK_INT >= LOLLIPOP) {
       options = setTransitionNameAndGetOptions(activityFrom
@@ -82,14 +81,18 @@ public final class NavigateHelper {
               , R.string.toolbar_transition_name))
           .toBundle();
 
-      activityFrom.getWindow().setSharedElementExitTransition(
-          TransitionInflater.from(activityFrom).inflateTransition(R.transition.shared_element_transition_default));
       activityFrom.getWindow().setExitTransition(new Slide(Gravity.START));
     }
 
     final Intent intent = new Intent(activityFrom, MapActivity.class);
-    intent.putExtra(ENTER_CAFE_PLACE_ID_EXTRA, cafe.getPlace().getId());
-    putDrawableToCache(TRANSITION_CACHED_DRAWABLE_KEY, cafeRowViewHolder.photoImageView.getDrawable());
+    intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP | FLAG_ACTIVITY_SINGLE_TOP);
+    if (cafe != null) {
+      intent.putExtra(ENTER_CAFE_PLACE_ID_EXTRA, cafe.getPlace().getId());
+    }
+    if (cafeLayout != null) {
+      final ImageView photoImageView = (ImageView) cafeLayout.findViewById(R.id.cafe_photo_image_view);
+      putDrawableToCache(TRANSITION_CACHED_DRAWABLE_KEY, photoImageView.getDrawable());
+    }
 
     startActivityForResult(activityFrom, intent, SELECT_CAFE_REQUEST_CODE, options);
   }
@@ -116,9 +119,12 @@ public final class NavigateHelper {
           , new SharedElementHolder(nameAndLinksToolbar
               , R.string.cafe_name_and_links_toolbar_transition_name))
           .toBundle();
+
+      activityFrom.getWindow().setExitTransition(new Fade());
     }
 
     final Intent intent = new Intent(activityFrom, CafeActivity.class);
+    intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP | FLAG_ACTIVITY_SINGLE_TOP);
     intent.putExtra(ENTER_CAFE_PLACE_ID_EXTRA, cafePlaceId);
     putDrawableToCache(TRANSITION_CACHED_DRAWABLE_KEY, photoImageView.getDrawable());
 
@@ -126,11 +132,24 @@ public final class NavigateHelper {
   }
 
   public static void launchMainActivity(@NonNull Activity activityFrom, @Nullable Long scrollToCafePlaceId) {
+    Bundle options = null;
+    if (SDK_INT >= LOLLIPOP) {
+      options = setTransitionNameAndGetOptions(activityFrom
+          // share toolbar & stub view to avoid overlaying
+          , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar_background)
+          , R.string.toolbar_background_transition_name)
+          , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar)
+          , R.string.toolbar_transition_name))
+          .toBundle();
+
+      activityFrom.getWindow().setExitTransition(new Slide(Gravity.START));
+    }
+
     final Intent intent = new Intent(activityFrom, MainActivity.class);
     intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP | FLAG_ACTIVITY_SINGLE_TOP);
     intent.putExtra(SCROLL_TO_CAFE_PLACE_ID_EXTRA, scrollToCafePlaceId);
 
-    startActivity(activityFrom, intent, null);
+    startActivity(activityFrom, intent, options);
   }
 
   public static void launchByUrl(@NonNull Context context, @NonNull String url) {

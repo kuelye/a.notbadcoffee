@@ -31,4 +31,9 @@
     <string name="link_type_instagram">Instagram</string>
     <string name="link_type_facebook">Facebook</string>
 
+    <!-- MENU ACTIONS -->
+
+    <string name="view_cafes_list_action_title">Cafe list</string>
+    <string name="view_cafes_map_action_title">Cafe map</string>
+
 </resources>
