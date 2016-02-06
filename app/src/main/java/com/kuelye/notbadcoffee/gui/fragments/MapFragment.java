@@ -17,13 +17,16 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
 import android.transition.TransitionInflater;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,17 +52,18 @@ import java.util.Map;
 
 import butterknife.Bind;
 
+import static android.app.Activity.RESULT_OK;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static butterknife.ButterKnife.bind;
 import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 import static com.kuelye.notbadcoffee.Application.getDrawableFromCache;
 import static com.kuelye.notbadcoffee.Application.getLastLocation;
+import static com.kuelye.notbadcoffee.gui.fragments.CafesFragment.SCROLL_TO_CAFE_PLACE_ID_EXTRA;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillHeaderLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.TRANSITION_CACHED_DRAWABLE_KEY;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchCafeActivity;
-import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchMainActivity;
 import static com.kuelye.notbadcoffee.model.Place.STUB_ID;
 
 public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallback {
@@ -68,9 +72,6 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
 
   @Bind(R.id.card_view) protected CardView mCardView;
   @Bind(R.id.cafe_header_layout) protected ViewGroup mHeaderLayout;
-  @Bind(R.id.cafe_name_and_links_toolbar) protected Toolbar mNameAndLinksToolbar;
-  @Bind(R.id.cafe_photo_scrim_layout) protected ViewGroup mPhotoScrimLayout;
-  @Bind(R.id.cafe_photo_image_view) protected ImageView mPhotoImageView;
   @Bind(R.id.cafe_photo_clickable_image_view) protected ImageView mPhotoClickableImageView;
   @Bind(R.id.cafe_place_layout) protected ViewGroup mPlaceLayout;
 
@@ -94,7 +95,8 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
 
     if (SDK_INT >= LOLLIPOP) {
       getActivity().getWindow().setSharedElementEnterTransition(
-          TransitionInflater.from(getActivity()).inflateTransition(R.transition.test));
+          TransitionInflater.from(getActivity()).inflateTransition(R.transition.shared_element_transition_default));
+      getActivity().getWindow().setEnterTransition(new Slide(Gravity.END));
     }
   }
 
@@ -114,28 +116,14 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   }
 
   @Override
-  protected void onBeforeViewShowed() {
-    super.onBeforeViewShowed();
-
-    if (SDK_INT >= LOLLIPOP) {
-      mCardView.setTransitionName(getString(R.string.card_view_transition_name));
-      mPhotoScrimLayout.setTransitionName(getString(R.string.cafe_photo_scrim_layout_transition_name));
-      mPhotoImageView.setTransitionName(getString(R.string.cafe_photo_image_view_transition_name));
-      mNameAndLinksToolbar.setTransitionName(getString(R.string.cafe_name_and_links_toolbar_transition_name));
-      mPlaceLayout.setTransitionName(getString(R.string.cafe_place_layout_transition_name));
-    }
-  }
-
-  @Override
   public boolean onBackPressed() {
-    if (getEnterCafePlaceId() == getSelectedCafePlaceId()) {
-      return true;
-    } else {
-      launchMainActivity(getActivity(), getSelectedCafePlaceId());
-      getActivity().finish();
-
-      return false;
+    if (getEnterCafePlaceId() != getSelectedCafePlaceId()) {
+      final Intent data = new Intent();
+      data.putExtra(SCROLL_TO_CAFE_PLACE_ID_EXTRA, getSelectedCafePlaceId());
+      getActivity().setResult(RESULT_OK, data);
     }
+
+    return true;
   }
 
   @Override

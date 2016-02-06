@@ -32,7 +32,9 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
 import android.transition.TransitionInflater;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -52,6 +54,8 @@ import static android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP;
 import static android.content.Intent.FLAG_ACTIVITY_SINGLE_TOP;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static android.support.v4.app.ActivityCompat.startActivity;
+import static android.support.v4.app.ActivityCompat.startActivityForResult;
 import static android.support.v4.app.ActivityOptionsCompat.makeSceneTransitionAnimation;
 import static android.view.Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME;
 import static android.view.Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME;
@@ -62,6 +66,7 @@ import static com.kuelye.notbadcoffee.gui.fragments.MapFragment.ENTER_CAFE_PLACE
 public final class NavigateHelper {
 
   public static final String TRANSITION_CACHED_DRAWABLE_KEY = "TRANSITION_CACHED_DRAWABLE";
+  public static final int SELECT_CAFE_REQUEST_CODE = 1;
 
   public static void launchMapActivity(
       @NonNull Activity activityFrom
@@ -74,28 +79,19 @@ public final class NavigateHelper {
           , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar_background)
               , R.string.toolbar_background_transition_name)
           , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar)
-              , R.string.toolbar_transition_name)
-          , new SharedElementHolder(cafeRowViewHolder.rootView
-              , R.string.card_view_transition_name)
-          , new SharedElementHolder(cafeRowViewHolder.photoScrimLayout
-              , R.string.cafe_photo_scrim_layout_transition_name)
-          , new SharedElementHolder(cafeRowViewHolder.photoImageView
-              , R.string.cafe_photo_image_view_transition_name)
-          , new SharedElementHolder(cafeRowViewHolder.nameAndLinksToolbar
-              , R.string.cafe_name_and_links_toolbar_transition_name)
-          , new SharedElementHolder(cafeRowViewHolder.placeLayout
-              , R.string.cafe_place_layout_transition_name))
+              , R.string.toolbar_transition_name))
           .toBundle();
 
       activityFrom.getWindow().setSharedElementExitTransition(
-          TransitionInflater.from(activityFrom).inflateTransition(R.transition.test));
+          TransitionInflater.from(activityFrom).inflateTransition(R.transition.shared_element_transition_default));
+      activityFrom.getWindow().setExitTransition(new Slide(Gravity.START));
     }
 
     final Intent intent = new Intent(activityFrom, MapActivity.class);
     intent.putExtra(ENTER_CAFE_PLACE_ID_EXTRA, cafe.getPlace().getId());
     putDrawableToCache(TRANSITION_CACHED_DRAWABLE_KEY, cafeRowViewHolder.photoImageView.getDrawable());
 
-    ActivityCompat.startActivity(activityFrom, intent, options);
+    startActivityForResult(activityFrom, intent, SELECT_CAFE_REQUEST_CODE, options);
   }
 
   public static void launchCafeActivity(
@@ -126,7 +122,7 @@ public final class NavigateHelper {
     intent.putExtra(ENTER_CAFE_PLACE_ID_EXTRA, cafePlaceId);
     putDrawableToCache(TRANSITION_CACHED_DRAWABLE_KEY, photoImageView.getDrawable());
 
-    ActivityCompat.startActivity(activityFrom, intent, options);
+    startActivity(activityFrom, intent, options);
   }
 
   public static void launchMainActivity(@NonNull Activity activityFrom, @Nullable Long scrollToCafePlaceId) {
@@ -134,7 +130,7 @@ public final class NavigateHelper {
     intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP | FLAG_ACTIVITY_SINGLE_TOP);
     intent.putExtra(SCROLL_TO_CAFE_PLACE_ID_EXTRA, scrollToCafePlaceId);
 
-    ActivityCompat.startActivity(activityFrom, intent, null);
+    startActivity(activityFrom, intent, null);
   }
 
   public static void launchByUrl(@NonNull Context context, @NonNull String url) {

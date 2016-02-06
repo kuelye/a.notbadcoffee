@@ -25,7 +25,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Fade;
 import android.transition.Transition;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,13 +34,13 @@ import com.kuelye.notbadcoffee.gui.adapters.CafesAdapter;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafesAsyncTask;
 import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.model.Cafes;
-import com.kuelye.notbadcoffee.model.Place;
 import com.squareup.otto.Subscribe;
 
 import static android.app.Activity.RESULT_OK;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static com.kuelye.notbadcoffee.Application.getBus;
+import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.SELECT_CAFE_REQUEST_CODE;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchCafeActivity;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchMapActivity;
 import static com.kuelye.notbadcoffee.model.Place.STUB_ID;
@@ -101,6 +100,15 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
   }
 
   @Override
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    if (requestCode == SELECT_CAFE_REQUEST_CODE
+        && resultCode == RESULT_OK) {
+      final long scrollToCafePlaceId = data.getLongExtra(SCROLL_TO_CAFE_PLACE_ID_EXTRA, STUB_ID);
+      setScrollToCafePlaceId(scrollToCafePlaceId);
+    }
+  }
+
+  @Override
   public void onResume() {
     super.onResume();
 
@@ -137,11 +145,12 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
     if (cafes != null) {
       mCafesAdapter.setCafes(cafes);
 
-      final long scrollToCafePlaceId = getArguments().getLong(SCROLL_TO_CAFE_PLACE_ID_EXTRA, STUB_ID);
+      final long scrollToCafePlaceId = getScrollToCafePlaceId();
       if (scrollToCafePlaceId >= 0) {
         int position = mCafesAdapter.getCafes().positionByPlaceId(scrollToCafePlaceId);
         if (position >= 0) {
           mRecyclerView.scrollToPosition(position);
+          setScrollToCafePlaceId(STUB_ID);
         }
       }
     }
@@ -156,6 +165,14 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
 
   private void update() {
     new GetCafesAsyncTask().execute();
+  }
+
+  private void setScrollToCafePlaceId(long scrollToCafePlaceId) {
+    getArguments().putLong(SCROLL_TO_CAFE_PLACE_ID_EXTRA, scrollToCafePlaceId);
+  }
+
+  private long getScrollToCafePlaceId() {
+    return getArguments().getLong(SCROLL_TO_CAFE_PLACE_ID_EXTRA, STUB_ID);
   }
 
 }
