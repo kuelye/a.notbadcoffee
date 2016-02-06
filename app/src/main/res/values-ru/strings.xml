@@ -6,9 +6,10 @@
     <string name="cafe_closed">Закрыто</string>
     <string name="cafe_open_until_template">Открыто до</string>
     <string name="cafe_time_midnight">полуночи</string>
-    <string name="cafe_distance_template">%d м</string>
+    <string name="cafe_distance_m_template">%.0f м</string>
     <string name="cafe_timetable_everyday">Ежедневно</string>
     <string name="link_type_instagram">Instagram</string>
     <string name="link_type_vk">ВК</string>
     <string name="link_type_facebook">Facebook</string>
+    <string name="cafe_distance_km_template">%.1f км</string>
 </resources>

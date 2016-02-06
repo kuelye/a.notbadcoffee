@@ -23,7 +23,6 @@ import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +48,8 @@ import static android.view.View.inflate;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchByUrl;
 
 public final class CafeHelper {
+
+  private static final int METRES_IN_KILOMETER = 1000;
 
   public static void fillHeaderLayout(
       final @NonNull Context context
@@ -104,9 +105,13 @@ public final class CafeHelper {
     final TextView placeDistanceTextView
         = (TextView) cafeLocationLayout.findViewById(R.id.cafe_place_distance_text_view);
     if (location != null) {
-      final double distance = location.distanceTo(cafe.getPlace().getLocation().toLocation());
-      final String distanceTemplate = context.getString(R.string.cafe_distance_template);
-      placeDistanceTextView.setText(String.format(distanceTemplate, (int) distance));
+      double distance = location.distanceTo(cafe.getPlace().getLocation().toLocation());
+      String distanceTemplate = context.getString(R.string.cafe_distance_m_template);
+      if (distance >= METRES_IN_KILOMETER) {
+        distanceTemplate = context.getString(R.string.cafe_distance_km_template);
+        distance /= METRES_IN_KILOMETER;
+      }
+      placeDistanceTextView.setText(String.format(distanceTemplate, distance));
     } else {
       placeDistanceTextView.setText(null);
     }

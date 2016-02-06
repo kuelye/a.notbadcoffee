@@ -22,7 +22,8 @@
     <string name="cafe_timetable_weekdays">Weekdays</string>
     <string name="cafe_timetable_weekend">Weekend</string>
     <string name="cafe_timetable_everyday">Everyday</string>
-    <string name="cafe_distance_template">%d m</string>
+    <string name="cafe_distance_m_template">%.0f m</string>
+    <string name="cafe_distance_km_template">%.1f km</string>
 
     <!-- LINK TYPES -->
 
