@@ -125,6 +125,7 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
       }
     });
 
+    mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
     mSwipeRefreshLayout.setProgressViewOffset(true
         , getStatusBarHeight(getActivity())
         , getStatusBarHeight(getActivity()) + getActionBarHeight(getActivity())
