@@ -17,7 +17,6 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -145,7 +144,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
 
   @Override
   protected void update() {
-    new GetCafesAsyncTask().execute();
+    new GetCafesAsyncTask().execute(true);
   }
 
   @Override
