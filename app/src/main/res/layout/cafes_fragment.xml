@@ -2,9 +2,10 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:background="@color/grey300"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     >
 
     <android.support.v4.widget.SwipeRefreshLayout
@@ -18,6 +19,8 @@
             android:scrollbars="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:paddingTop="@dimen/padding_standard_quarter"
+            android:paddingBottom="@dimen/padding_standard_quarter"
             tools:listitem="@layout/cafe_row" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
