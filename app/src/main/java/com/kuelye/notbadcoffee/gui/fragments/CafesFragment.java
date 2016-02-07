@@ -187,7 +187,8 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
       if (scrollToCafePlaceId >= 0) {
         int position = mCafesAdapter.getCafes().positionByPlaceId(scrollToCafePlaceId);
         if (position >= 0) {
-          mRecyclerView.scrollToPosition(position);
+          // TODO smooth scrolling
+          // mRecyclerView.scrollToPosition(position);
           setScrollToCafePlaceId(STUB_ID);
         }
       }
