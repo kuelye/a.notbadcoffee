@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/padding_standard_half"
         android:layout_alignParentBottom="true"
+        android:visibility="gone"
         tools:ignore="UnusedAttribute"
         tools:showIn="@layout/cafes_fragment"
         >

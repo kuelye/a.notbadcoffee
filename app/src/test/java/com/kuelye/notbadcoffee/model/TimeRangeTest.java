@@ -17,7 +17,6 @@ package com.kuelye.notbadcoffee.model;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -37,13 +36,13 @@ public class TimeRangeTest {
   }
 
   @Test public void isIncludeTime() {
-    assertFalse(mTimeRangeA.isIncludeTime(8, 59));
-    assertTrue(mTimeRangeA.isIncludeTime(9, 0));
-    assertFalse(mTimeRangeA.isIncludeTime(23, 0));
-    assertTrue(mTimeRangeB.isIncludeTime(0, 0));
-    assertTrue(mTimeRangeC.isIncludeTime(0, 59));
-    assertFalse(mTimeRangeC.isIncludeTime(1, 0));
-    assertTrue(mTimeRangeC.isIncludeTime(11, 0));
+    assertFalse(mTimeRangeA.isInclude(8, 59));
+    assertTrue(mTimeRangeA.isInclude(9, 0));
+    assertFalse(mTimeRangeA.isInclude(23, 0));
+    assertTrue(mTimeRangeB.isInclude(0, 0));
+    assertTrue(mTimeRangeC.isInclude(0, 59));
+    assertFalse(mTimeRangeC.isInclude(1, 0));
+    assertTrue(mTimeRangeC.isInclude(11, 0));
   }
 
 }

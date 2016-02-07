@@ -58,8 +58,8 @@ import static android.app.Activity.RESULT_OK;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static butterknife.ButterKnife.bind;
-import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 import static com.kuelye.notbadcoffee.Application.getDrawableFromCache;
 import static com.kuelye.notbadcoffee.Application.getLastLocation;
 import static com.kuelye.notbadcoffee.gui.fragments.CafesFragment.SCROLL_TO_CAFE_PLACE_ID_EXTRA;
@@ -129,6 +129,12 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
         }
       }
     });
+
+    if (getSelectedCafePlaceId() == STUB_ID) {
+      mCardView.setVisibility(GONE);
+    } else {
+      mCardView.setVisibility(VISIBLE);
+    }
 
     return view;
   }
@@ -276,7 +282,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
           : null;
       fillHeaderLayout(getActivity(), mHeaderLayout, mCafe, cachedPhoto);
       fillLocationLayout(getActivity(), mPlaceLayout, mCafe, getLastLocation());
-      mCardView.setVisibility(View.VISIBLE);
+      mCardView.setVisibility(VISIBLE);
 
       mPhotoClickableImageView.setOnClickListener(new View.OnClickListener() {
         @Override

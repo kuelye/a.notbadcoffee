@@ -102,6 +102,9 @@ public class CafeFragment extends AbstractCafeFragment {
       }
     });
 
+    mMoreInfoHeaderLayout.setVisibility(View.GONE);
+    mMoreInfoLayout.setVisibility(View.VISIBLE);
+
     if (savedInstanceState == null) {
       if (SDK_INT < LOLLIPOP) {
         view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -117,8 +120,6 @@ public class CafeFragment extends AbstractCafeFragment {
         mPostEnterAnimationPended = true;
       }
 
-      mMoreInfoHeaderLayout.setVisibility(View.GONE);
-      mMoreInfoLayout.setVisibility(View.VISIBLE);
       mInfoLayout.setAlpha(0);
       mMapView.setAlpha(0);
 
@@ -164,11 +165,6 @@ public class CafeFragment extends AbstractCafeFragment {
       postEnterAnimate();
       mPostEnterAnimationPended = false;
     }
-  }
-
-  @Override
-  public void onResume() {
-    super.onResume();
   }
 
   @Override
