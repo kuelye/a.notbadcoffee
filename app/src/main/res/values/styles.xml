@@ -41,4 +41,9 @@
         <item name="android:layout_height">@dimen/avatar_size</item>
     </style>
 
+    <style name="AppTheme.ProgressBar.Inverse" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminate">true</item>
+        <item name="android:indeterminateDrawable">@drawable/progress_bar_drawable_inverse</item>
+    </style>
+
 </resources>

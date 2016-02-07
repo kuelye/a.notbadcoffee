@@ -11,4 +11,11 @@
         <item name="android:windowExitTransition">@android:transition/fade</item>
     </style>
 
+    <style name="AppTheme.ProgressBar.Inverse" parent="Widget.AppCompat.ProgressBar">
+        <item name="android:indeterminate">true</item>
+        <item name="android:indeterminateTint">@color/white</item>
+        <item name="android:indeterminateTintMode">src_in</item>
+    </style>
+
+
 </resources>

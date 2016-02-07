@@ -174,7 +174,7 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
       , @NonNull Cafe cafe) {
     launchCafeActivity(getActivity()
         , cafeRowViewHolder.headerLayout
-        , cafe.getPlace().getId());
+        , cafe);
   }
 
   @Subscribe

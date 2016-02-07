@@ -23,10 +23,12 @@ import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.ActionMenuView;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.kuelye.notbadcoffee.R;
@@ -37,6 +39,7 @@ import com.kuelye.notbadcoffee.model.MenuRow;
 import com.kuelye.notbadcoffee.model.Place;
 import com.kuelye.notbadcoffee.model.Timetable;
 import com.kuelye.notbadcoffee.model.TimetableRow;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -44,6 +47,9 @@ import java.util.List;
 import static android.view.Menu.FIRST;
 import static android.view.Menu.NONE;
 import static android.view.MenuItem.SHOW_AS_ACTION_ALWAYS;
+import static android.view.View.GONE;
+import static android.view.View.INVISIBLE;
+import static android.view.View.VISIBLE;
 import static android.view.View.inflate;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchByUrl;
 
@@ -57,14 +63,42 @@ public final class CafeHelper {
       , @NonNull Cafe cafe
       , @Nullable Drawable cafeCachedPhoto) {
     final ImageView photoImageView = (ImageView) cafeHeaderLayout.findViewById(R.id.cafe_photo_image_view);
+    final ProgressBar photoProgressBar = (ProgressBar) cafeHeaderLayout.findViewById(R.id.cafe_photo_progress_bar);
+    final ViewGroup scrimLayout = (ViewGroup) cafeHeaderLayout.findViewById(R.id.cafe_photo_scrim_layout);
     if (cafeCachedPhoto != null) {
+      photoProgressBar.setVisibility(INVISIBLE);
+      scrimLayout.setVisibility(VISIBLE);
       photoImageView.setImageDrawable(cafeCachedPhoto);
     } else {
-      Picasso.with(context)
-          .load(cafe.getPlace().getPhoto())
-          .fit()
-          .centerCrop()
-          .into(photoImageView);
+      final String photo = cafe.getPlace().getPhoto();
+      if (photo == null) {
+        photoProgressBar.setVisibility(INVISIBLE);
+        scrimLayout.setVisibility(INVISIBLE);
+        photoImageView.setImageResource(R.drawable.photo_placeholder);
+      } else {
+        photoProgressBar.setVisibility(VISIBLE);
+        scrimLayout.setVisibility(INVISIBLE);
+        Picasso.with(context)
+            .load(cafe.getPlace().getPhoto())
+            .fit()
+            .centerCrop()
+            .placeholder(R.drawable.photo_placeholder)
+            .into(photoImageView, new Callback() {
+
+              @Override
+              public void onSuccess() {
+                photoProgressBar.setVisibility(INVISIBLE);
+                scrimLayout.setVisibility(VISIBLE);
+              }
+
+              @Override
+              public void onError() {
+                photoProgressBar.setVisibility(INVISIBLE);
+                scrimLayout.setVisibility(INVISIBLE);
+              }
+
+            });
+      }
     }
 
     final TextView nameTextView = (TextView) cafeHeaderLayout.findViewById(R.id.cafe_name_text_view);
@@ -122,7 +156,7 @@ public final class CafeHelper {
       , @NonNull Cafe cafe) {
     final Menu menu = cafe.getMenu();
     if (menu == null) {
-      cafeMenuLayout.setVisibility(View.GONE);
+      cafeMenuLayout.setVisibility(GONE);
     } else {
       final ViewGroup cafeMenuContentLayout
           = (ViewGroup) cafeMenuLayout.findViewById(R.id.cafe_menu_content_layout);
@@ -137,7 +171,7 @@ public final class CafeHelper {
         cafeMenuContentLayout.addView(menuRowView);
       }
 
-      cafeMenuLayout.setVisibility(View.VISIBLE);
+      cafeMenuLayout.setVisibility(VISIBLE);
     }
   }
 
@@ -146,7 +180,7 @@ public final class CafeHelper {
       , @NonNull Cafe cafe) {
     final Timetable timetable = cafe.getTimetable();
     if (timetable == null) {
-      cafeTimetableLayout.setVisibility(View.GONE);
+      cafeTimetableLayout.setVisibility(GONE);
     } else {
       final ViewGroup cafeTimetableContentLayout
           = (ViewGroup) cafeTimetableLayout.findViewById(R.id.cafe_timetable_content_layout);
@@ -171,7 +205,7 @@ public final class CafeHelper {
         cafeTimetableContentLayout.addView(timetableRowView);
       }
 
-      cafeTimetableLayout.setVisibility(View.VISIBLE);
+      cafeTimetableLayout.setVisibility(VISIBLE);
     }
   }
 

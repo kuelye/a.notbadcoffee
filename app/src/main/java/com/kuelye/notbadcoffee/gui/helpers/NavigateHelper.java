@@ -100,12 +100,13 @@ public final class NavigateHelper {
   public static void launchCafeActivity(
       @NonNull Activity activityFrom
       , @NonNull ViewGroup cafeHeaderLayout
-      , long cafePlaceId) {
+      , @NonNull Cafe cafe) {
     Bundle options = null;
     final ViewGroup photoScrimLayout = (ViewGroup) cafeHeaderLayout.findViewById(R.id.cafe_photo_scrim_layout);
     final ImageView photoImageView = (ImageView) cafeHeaderLayout.findViewById(R.id.cafe_photo_image_view);
     final TextView nameTextView = (TextView) cafeHeaderLayout.findViewById(R.id.cafe_name_text_view);
     final ActionMenuView linksActionMenuView = (ActionMenuView) cafeHeaderLayout.findViewById(R.id.cafe_links_action_menu_view);
+    final String photo = cafe.getPlace().getPhoto();
     if (SDK_INT >= LOLLIPOP) {
       options = setTransitionNameAndGetOptions(activityFrom
           // share toolbar & stub view to avoid overlaying
@@ -113,7 +114,7 @@ public final class NavigateHelper {
               , R.string.toolbar_background_transition_name)
           , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar)
               , R.string.toolbar_transition_name)
-          , new SharedElementHolder(photoScrimLayout
+          , photo == null ? null : new SharedElementHolder(photoScrimLayout
               , R.string.cafe_photo_scrim_layout_transition_name)
           , new SharedElementHolder(photoImageView
               , R.string.cafe_photo_image_view_transition_name)
@@ -128,8 +129,10 @@ public final class NavigateHelper {
 
     final Intent intent = new Intent(activityFrom, CafeActivity.class);
     intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP | FLAG_ACTIVITY_SINGLE_TOP);
-    intent.putExtra(ENTER_CAFE_PLACE_ID_EXTRA, cafePlaceId);
-    putDrawableToCache(TRANSITION_CACHED_DRAWABLE_KEY, photoImageView.getDrawable());
+    intent.putExtra(ENTER_CAFE_PLACE_ID_EXTRA, cafe.getPlace().getId());
+    putDrawableToCache(TRANSITION_CACHED_DRAWABLE_KEY,
+        photo == null ? null : photoImageView.getDrawable());
+
 
     startActivity(activityFrom, intent, options);
   }
@@ -182,7 +185,7 @@ public final class NavigateHelper {
     List<Pair<View, String>> sharedElements = new ArrayList<>();
     if (sharedElementHolders != null) {
       for (SharedElementHolder sharedElementHolder : sharedElementHolders) {
-        if (sharedElementHolder.view != null) {
+        if (sharedElementHolder != null && sharedElementHolder.view != null) {
           final String transitionName = activityFrom.getString(sharedElementHolder.transitionNameResource);
           ViewCompat.setTransitionName(sharedElementHolder.view, transitionName);
           sharedElements.add(Pair.create(sharedElementHolder.view, transitionName));

@@ -2,7 +2,6 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@id/cafe_header_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -14,29 +13,10 @@
         android:layout_height="wrap_content"
         >
 
-        <RelativeLayout
+        <include
+            layout="@layout/cafe_header_photo_layout"
             app:layout_widthPercent="100%"
-            app:layout_aspectRatio="@fraction/cafe_photo_image_view_aspect_ratio"
-            >
-
-            <ImageView
-                android:id="@id/cafe_photo_image_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                tools:background="#cccccc" />
-
-            <include
-                android:id="@id/cafe_photo_scrim_layout"
-                layout="@layout/scrim" />
-
-            <ImageView
-                android:id="@id/cafe_photo_clickable_image_view"
-                android:background="@drawable/selectable_item_background_inverse"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
-        </RelativeLayout>
+            app:layout_aspectRatio="@fraction/cafe_photo_image_view_aspect_ratio" />
     </android.support.percent.PercentFrameLayout>
 
     <include

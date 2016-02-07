@@ -7,31 +7,11 @@
     android:layout_height="wrap_content"
     >
 
-    <RelativeLayout
+    <include
+        layout="@layout/cafe_header_photo_layout"
         android:id="@id/positioning_cafe_photo_layout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        >
-
-        <ImageView
-            android:id="@id/cafe_photo_image_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            tools:src="#AAA" />
-
-        <include
-            android:id="@id/cafe_photo_scrim_layout"
-            layout="@layout/scrim" />
-
-        <ImageView
-            android:id="@id/cafe_photo_clickable_image_view"
-            android:background="@drawable/selectable_item_background_inverse"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/cafe_photo_image_view"
-            android:layout_alignBottom="@id/cafe_photo_image_view" />
-    </RelativeLayout>
+        android:layout_height="?attr/actionBarSize" />
 
     <include
         android:layout_alignBottom="@id/positioning_cafe_photo_layout"
