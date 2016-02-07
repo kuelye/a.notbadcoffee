@@ -41,6 +41,7 @@ public final class CalendarHelper {
     int getDay();
     int getHour();
     int getMinute();
+    long getTimeInMillis();
   }
 
   private static class CalendarDefault implements Calendar {
@@ -58,6 +59,11 @@ public final class CalendarHelper {
     @Override
     public int getMinute() {
       return java.util.Calendar.getInstance().get(MINUTE);
+    }
+
+    @Override
+    public long getTimeInMillis() {
+      return java.util.Calendar.getInstance().getTimeInMillis();
     }
 
   }

@@ -17,15 +17,24 @@ package com.kuelye.components.utils;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+
+import static java.io.File.createTempFile;
 
 public final class IOUtils {
+
+  public static final String TAG = "IOUtils";
 
   private static final int BUFFER_SIZE = 1024;
 
@@ -40,6 +49,24 @@ public final class IOUtils {
     }
   }
 
+  public static void saveAsTempFileSilently(
+      @NonNull Context context
+      , @NonNull String fileName
+      , @NonNull String data) {
+    OutputStream os = null;
+    try {
+      final File file = new File(context.getCacheDir() + "/" + fileName);
+      if (file.exists() || file.createNewFile()) {
+        os = new FileOutputStream(file);
+        os.write(data.getBytes());
+      }
+    } catch (IOException e) {
+      Log.e(TAG, "", e);
+    } finally {
+      closeSilently(os);
+    }
+  }
+
   public static void closeSilently(
       @Nullable final Closeable c) {
     if (c == null) {
@@ -49,7 +76,7 @@ public final class IOUtils {
     try {
       c.close();
     } catch (IOException e) {
-      // ignore
+      Log.e(TAG, "", e);
     }
   }
 

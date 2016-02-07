@@ -17,29 +17,33 @@ package com.kuelye.notbadcoffee.logic.operations;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.content.Context;
+import android.support.annotation.NonNull;
+
 import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.model.Cafes;
 
+import java.lang.ref.WeakReference;
 import java.util.concurrent.Callable;
-
-import static com.kuelye.notbadcoffee.Application.getCafes;
 
 public class GetCafeOperation implements Callable<Cafe> {
 
+  @NonNull private final WeakReference<Context> mContextReference;
   private final long mPlaceId;
 
-  public GetCafeOperation(long placeId) {
+  public GetCafeOperation(@NonNull WeakReference<Context> contextReference, long placeId) {
+    mContextReference = contextReference;
     mPlaceId = placeId;
   }
 
   @Override
   public Cafe call() throws Exception {
-    Cafes cafes = getCafes();
-    if (cafes == null) {
-      cafes = new UpdateCafesOperation().call();
+    final Cafes cafes = new GetCafesOperation(mContextReference, false).call();
+    if (cafes != null) {
+      return cafes.byPlaceId(mPlaceId);
+    } else {
+      return null;
     }
-
-    return cafes.byPlaceId(mPlaceId);
   }
 
 }
