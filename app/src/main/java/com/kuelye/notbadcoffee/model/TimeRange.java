@@ -60,11 +60,11 @@ public class TimeRange {
     return toString(mTimeTo);
   }
 
-  public boolean isIncludeTime(int hour, int minutes) {
-    return isIncludeTime(hour * MINUTES_IN_HOUR + minutes);
+  public boolean isInclude(int hour, int minutes) {
+    return isInclude(hour * MINUTES_IN_HOUR + minutes);
   }
   
-  public boolean isIncludeTime(int time) {
+  public boolean isInclude(int time) {
     if (mTimeTo == mTimeFrom) {
       return true;
     } else if (mTimeTo < mTimeFrom) {

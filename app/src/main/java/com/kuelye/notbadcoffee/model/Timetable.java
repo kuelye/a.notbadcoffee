@@ -54,24 +54,20 @@ public class Timetable extends ArrayList<TimetableRow> {
     final int minute = getCalendar().getMinute();
     for (TimetableRow timetableRow : this) {
       final DayRange dayRange = timetableRow.getDayRange();
-      final TimeRange todayTimeRange = timetableRow.getTimeRange();
+      final TimeRange timeRange = timetableRow.getTimeRange();
 
-      if (dayRange.isInclude(day)) {
-        final TimeRange actualTimeRange = new TimeRange(todayTimeRange.getTimeFromAsString(), MIDNIGHT_TIME_TO);
-        if (actualTimeRange.isIncludeTime(hour, minute)) {
-          return todayTimeRange;
-        }
+      if (dayRange.isInclude(day) && timeRange.isInclude(hour, minute)) {
+        return timeRange;
       }
 
       int yesterday = day - 1;
       if (yesterday <= 0) {
         yesterday += 7;
       }
-      if (dayRange.isInclude(yesterday)
-          && todayTimeRange.getTimeFrom() > todayTimeRange.getTimeTo()) {
-        final TimeRange actualTimeRange = new TimeRange(MIDNIGHT_TIME_FROM, todayTimeRange.getTimeToAsString());
-        if (actualTimeRange.isIncludeTime(hour, minute)) {
-          return todayTimeRange;
+      if (dayRange.isInclude(yesterday) && timeRange.getTimeFrom() > timeRange.getTimeTo()) {
+        final TimeRange actualTimeRange = new TimeRange(MIDNIGHT_TIME_FROM, timeRange.getTimeToAsString());
+        if (actualTimeRange.isInclude(hour, minute)) {
+          return timeRange;
         }
       }
     }
