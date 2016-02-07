@@ -29,15 +29,19 @@
 
         <TextView
             android:id="@id/cafe_place_address_text_view"
+            android:ellipsize="end"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             tools:text="ул. Чарльза Дарвина, 42" />
 
         <TextView
             android:id="@id/cafe_place_metro_text_view"
+            android:ellipsize="end"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
             tools:text="м. Невский Проспект" />
     </LinearLayout>
