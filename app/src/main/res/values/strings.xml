@@ -11,7 +11,8 @@
     <string name="card_view_transition_name" translatable="false">card_view</string>
     <string name="cafe_photo_scrim_layout_transition_name" translatable="false">cafe_photo_scrim_layout</string>
     <string name="cafe_photo_image_view_transition_name" translatable="false">cafe_photo_image_view</string>
-    <string name="cafe_name_and_links_toolbar_transition_name" translatable="false">cafe_name_and_links_toolbar</string>
+    <string name="cafe_name_text_view_transition_name" translatable="false">cafe_name_text_view</string>
+    <string name="cafe_links_action_menu_view_transition_name" translatable="false">cafe_links_action_menu_view</string>
     <string name="cafe_place_layout_transition_name" translatable="false">cafe_place_layout</string>
 
     <!-- CAFE -->

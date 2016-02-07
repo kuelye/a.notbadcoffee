@@ -21,7 +21,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.ActionMenuView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,6 +29,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -57,7 +58,8 @@ public class CafeFragment extends AbstractCafeFragment {
 
   @Bind(R.id.scroll_view) protected ScrollView mScrollView;
   @Bind(R.id.cafe_header_layout) protected ViewGroup mHeaderLayout;
-  @Bind(R.id.cafe_name_and_links_toolbar) protected Toolbar mNameAndLinksToolbar;
+  @Bind(R.id.cafe_name_text_view) protected TextView mNameTextView;
+  @Bind(R.id.cafe_links_action_menu_view) protected ActionMenuView mLinksActionMenuView;
   @Bind(R.id.cafe_photo_scrim_layout) protected ViewGroup mPhotoScrimLayout;
   @Bind(R.id.cafe_photo_image_view) protected ImageView mPhotoImageView;
   @Bind(R.id.cafe_info_layout) protected ViewGroup mInfoLayout;
@@ -149,7 +151,8 @@ public class CafeFragment extends AbstractCafeFragment {
     if (SDK_INT >= LOLLIPOP) {
       mPhotoScrimLayout.setTransitionName(getString(R.string.cafe_photo_scrim_layout_transition_name));
       mPhotoImageView.setTransitionName(getString(R.string.cafe_photo_image_view_transition_name));
-      mNameAndLinksToolbar.setTransitionName(getString(R.string.cafe_name_and_links_toolbar_transition_name));
+      mNameTextView.setTransitionName(getString(R.string.cafe_name_text_view_transition_name));
+      mLinksActionMenuView.setTransitionName(getString(R.string.cafe_links_action_menu_view_transition_name));
     }
   }
 

@@ -30,14 +30,14 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.ActionMenuView;
 import android.transition.Fade;
 import android.transition.Slide;
-import android.transition.TransitionInflater;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.activities.CafeActivity;
@@ -104,7 +104,8 @@ public final class NavigateHelper {
     Bundle options = null;
     final ViewGroup photoScrimLayout = (ViewGroup) cafeHeaderLayout.findViewById(R.id.cafe_photo_scrim_layout);
     final ImageView photoImageView = (ImageView) cafeHeaderLayout.findViewById(R.id.cafe_photo_image_view);
-    final Toolbar nameAndLinksToolbar = (Toolbar) cafeHeaderLayout.findViewById(R.id.cafe_name_and_links_toolbar);
+    final TextView nameTextView = (TextView) cafeHeaderLayout.findViewById(R.id.cafe_name_text_view);
+    final ActionMenuView linksActionMenuView = (ActionMenuView) cafeHeaderLayout.findViewById(R.id.cafe_links_action_menu_view);
     if (SDK_INT >= LOLLIPOP) {
       options = setTransitionNameAndGetOptions(activityFrom
           // share toolbar & stub view to avoid overlaying
@@ -116,8 +117,10 @@ public final class NavigateHelper {
               , R.string.cafe_photo_scrim_layout_transition_name)
           , new SharedElementHolder(photoImageView
               , R.string.cafe_photo_image_view_transition_name)
-          , new SharedElementHolder(nameAndLinksToolbar
-              , R.string.cafe_name_and_links_toolbar_transition_name))
+          , new SharedElementHolder(nameTextView
+              , R.string.cafe_name_text_view_transition_name)
+          , new SharedElementHolder(linksActionMenuView
+              , R.string.cafe_links_action_menu_view_transition_name))
           .toBundle();
 
       activityFrom.getWindow().setExitTransition(new Fade());

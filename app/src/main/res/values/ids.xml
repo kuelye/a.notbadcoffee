@@ -31,7 +31,8 @@
     <item name="cafe_photo_scrim_layout" type="id" />
     <item name="cafe_photo_image_view" type="id" />
     <item name="cafe_photo_clickable_image_view" type="id" />
-    <item name="cafe_name_and_links_toolbar" type="id" />
+    <item name="cafe_name_text_view" type="id" />
+    <item name="cafe_links_action_menu_view" type="id" />
     <item name="cafe_place_layout" type="id" />
     <item name="cafe_place_address_text_view" type="id" />
     <item name="cafe_place_metro_text_view" type="id" />

@@ -22,7 +22,7 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.ActionMenuView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,11 +67,11 @@ public final class CafeHelper {
           .into(photoImageView);
     }
 
-    final Toolbar nameAndLinksToolbar = (Toolbar) cafeHeaderLayout.findViewById(R.id.cafe_name_and_links_toolbar);
-    nameAndLinksToolbar.setTitle(cafe.getName());
-
+    final TextView nameTextView = (TextView) cafeHeaderLayout.findViewById(R.id.cafe_name_text_view);
+    nameTextView.setText(cafe.getName());
+    final ActionMenuView linksActionMenuView = (ActionMenuView) cafeHeaderLayout.findViewById(R.id.cafe_links_action_menu_view);
     final List<Link> links = cafe.getLinks();
-    final android.view.Menu menu = nameAndLinksToolbar.getMenu();
+    final android.view.Menu menu = linksActionMenuView.getMenu();
     menu.removeGroup(FIRST);
     if (links != null) {
       for (int i = 0; i < links.size(); ++i) {

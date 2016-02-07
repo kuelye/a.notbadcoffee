@@ -33,11 +33,9 @@
             android:layout_alignBottom="@id/cafe_photo_image_view" />
     </RelativeLayout>
 
-    <android.support.v7.widget.Toolbar
-        style="@style/AppTheme.Toolbar"
-        android:id="@id/cafe_name_and_links_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+    <include
         android:layout_alignBottom="@id/positioning_cafe_photo_layout"
-        tools:title="Централь" />
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        layout="@layout/cafe_header_name_and_links_layout" />
 </RelativeLayout>

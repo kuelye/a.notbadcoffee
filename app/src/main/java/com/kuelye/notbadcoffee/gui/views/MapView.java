@@ -28,7 +28,7 @@ import com.google.android.gms.maps.GoogleMapOptions;
 
 public class MapView extends com.google.android.gms.maps.MapView {
 
-  private OnInterceptTouchListener mOnInterceptTouchListener;
+  @Nullable private OnInterceptTouchListener mOnInterceptTouchListener;
 
   public MapView(Context context) {
     super(context);
