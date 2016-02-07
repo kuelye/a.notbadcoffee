@@ -146,7 +146,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
 
   @Override
   protected void update() {
-    new GetCafesAsyncTask().execute(true);
+    new GetCafesAsyncTask(getActivity()).execute(true);
   }
 
   @Override

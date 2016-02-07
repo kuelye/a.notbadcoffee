@@ -47,7 +47,6 @@ import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static butterknife.ButterKnife.bind;
 import static com.kuelye.components.utils.AndroidUtils.getActionBarHeight;
 import static com.kuelye.components.utils.AndroidUtils.getDimensitonInDps;
-import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 import static com.kuelye.notbadcoffee.Application.getBus;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.SELECT_CAFE_REQUEST_CODE;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchCafeActivity;
@@ -130,7 +129,7 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
     mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override
       public void onRefresh() {
-        update(false);
+        update(true);
       }
     });
 
@@ -151,7 +150,7 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
     super.onResume();
 
     getBus().register(this);
-    update(true);
+    update(false);
   }
 
   @Override
@@ -199,13 +198,13 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
 
   @Subscribe
   public void onLocationGotten(OnLocationGottenEvent event) {
-    update(true);
+    update(false);
   }
 
   /* =========================== HIDDEN ============================= */
 
-  private void update(boolean useCache) {
-    new GetCafesAsyncTask().execute(useCache);
+  private void update(boolean networkForced) {
+    new GetCafesAsyncTask(getActivity()).execute(networkForced);
   }
 
   private void setScrollToCafePlaceId(long scrollToCafePlaceId) {

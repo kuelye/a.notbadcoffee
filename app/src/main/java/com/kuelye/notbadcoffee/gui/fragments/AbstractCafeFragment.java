@@ -65,7 +65,7 @@ public abstract class AbstractCafeFragment extends AbstractMapFragment {
   }
 
   protected void update() {
-    new GetCafeAsyncTask().execute(getEnterCafePlaceId());
+    new GetCafeAsyncTask(getActivity()).execute(getEnterCafePlaceId());
   }
 
 }
