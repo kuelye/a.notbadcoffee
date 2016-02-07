@@ -19,6 +19,7 @@ package com.kuelye.notbadcoffee.model;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kuelye.notbadcoffee.R;
 
@@ -48,7 +49,11 @@ public class Timetable extends ArrayList<TimetableRow> {
     }
   }
 
-  TimeRange getTodayTimeRangeIfOpened() {
+  public boolean isOpened() {
+    return getTodayTimeRangeIfOpened() != null;
+  }
+
+  @Nullable TimeRange getTodayTimeRangeIfOpened() {
     final int day = getCalendar().getDay();
     final int hour = getCalendar().getHour();
     final int minute = getCalendar().getMinute();

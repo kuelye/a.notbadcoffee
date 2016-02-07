@@ -78,7 +78,7 @@ public class GetCafesOperation implements Callable<Cafes> {
 
     final Cafes cafes = getCafes(sources);
     if (cafes != null) {
-      cafes.sortByDistanceAscending();
+      cafes.sort();
     }
 
     return cafes;
