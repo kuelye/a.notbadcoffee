@@ -27,14 +27,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.transition.Transition;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
 
-import com.kuelye.components.utils.AndroidUtils;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.adapters.CafesAdapter;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafesAsyncTask;
@@ -43,7 +40,6 @@ import com.kuelye.notbadcoffee.model.Cafes;
 import com.squareup.otto.Subscribe;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 
 import static android.app.Activity.RESULT_OK;
 import static android.os.Build.VERSION.SDK_INT;
@@ -127,11 +123,7 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
     });
 
     mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-    int offsetByStatusBar = 0;
-    if (SDK_INT >= LOLLIPOP) {
-      // status bar is translucent for 5.0+
-      offsetByStatusBar = getStatusBarHeight(getActivity());
-    }
+    final int offsetByStatusBar = getOffsetByStatusBar(getActivity());
     mSwipeRefreshLayout.setProgressViewOffset(true
         , offsetByStatusBar
         , offsetByStatusBar + getActionBarHeight(getActivity()) + getDimensitonInDps(getActivity(), R.dimen.padding_standard));

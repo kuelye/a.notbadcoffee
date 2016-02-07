@@ -17,6 +17,7 @@ package com.kuelye.notbadcoffee.gui.fragments;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -57,6 +58,15 @@ public abstract class AbstractBaseFragment extends Fragment
   private GoogleApiClient mGoogleApiClient;
   protected Location mLastLocation;
 
+  public static int getOffsetByStatusBar(@NonNull Context context) {
+    if (SDK_INT >= LOLLIPOP) {
+      // translucent status bar has 0dp height
+      return getStatusBarHeight(context);
+    } else {
+      return 0;
+    }
+  }
+
   @NonNull protected abstract View inflateView(LayoutInflater inflater, @Nullable ViewGroup container);
 
   @Override
@@ -68,11 +78,8 @@ public abstract class AbstractBaseFragment extends Fragment
 
     mToolbar.setTitle(R.string.application_name);
 
-    if (SDK_INT >= LOLLIPOP) {
-      // status bar is translucent for 5.0+
-      ((RelativeLayout.LayoutParams) mToolbar.getLayoutParams())
-          .setMargins(0, getStatusBarHeight(getActivity()), 0, 0);
-    }
+    ((RelativeLayout.LayoutParams) mToolbar.getLayoutParams())
+        .setMargins(0, getOffsetByStatusBar(getActivity()), 0, 0);
 
     if (mGoogleApiClient == null) {
       mGoogleApiClient = new GoogleApiClient.Builder(getActivity())

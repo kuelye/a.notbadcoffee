@@ -35,12 +35,10 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.Bind;
 
-import static android.os.Build.VERSION.SDK_INT;
-import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static butterknife.ButterKnife.bind;
 import static com.kuelye.components.utils.AndroidUtils.getActionBarHeight;
-import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 import static com.kuelye.notbadcoffee.Application.getLastLocation;
+import static com.kuelye.notbadcoffee.gui.fragments.AbstractBaseFragment.getOffsetByStatusBar;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillHeaderLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillLocationLayout;
 import static com.kuelye.notbadcoffee.gui.helpers.CafeHelper.fillMenuLayout;
@@ -147,12 +145,7 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
     private final int mHeight;
 
     public HeaderDecoration(@NonNull Context context) {
-      int height = getActionBarHeight(context);
-      if (SDK_INT >= LOLLIPOP) {
-        // status bar is translucent for 5.0+
-        height += getStatusBarHeight(context);
-      }
-      mHeight = height;
+      mHeight = getActionBarHeight(context) + getOffsetByStatusBar(context);
     }
 
     @Override

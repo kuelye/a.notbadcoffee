@@ -31,6 +31,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -151,8 +152,18 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   public void onMapReady(GoogleMap googleMap) {
     super.onMapReady(googleMap);
 
-    googleMap.setPadding(0, mToolbar.getHeight() + getStatusBarHeight(getActivity())
-        , 0, mCardView.getHeight());
+    mCardView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+      @Override
+      public boolean onPreDraw() {
+        mCardView.getViewTreeObserver().removeOnPreDrawListener(this);
+        if (mGoogleMap != null) {
+          mGoogleMap.setPadding(0, mToolbar.getHeight() + getOffsetByStatusBar(getActivity())
+              , 0, mCardView.getHeight());
+        }
+
+        return true;
+      }
+    });
   }
 
   @Override
