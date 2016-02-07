@@ -57,6 +57,7 @@ import butterknife.Bind;
 import static android.app.Activity.RESULT_OK;
 import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
+import static android.view.View.GONE;
 import static butterknife.ButterKnife.bind;
 import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 import static com.kuelye.notbadcoffee.Application.getDrawableFromCache;
@@ -151,19 +152,6 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   @Override
   public void onMapReady(GoogleMap googleMap) {
     super.onMapReady(googleMap);
-
-    mCardView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-      @Override
-      public boolean onPreDraw() {
-        mCardView.getViewTreeObserver().removeOnPreDrawListener(this);
-        if (mGoogleMap != null) {
-          mGoogleMap.setPadding(0, mToolbar.getHeight() + getOffsetByStatusBar(getActivity())
-              , 0, mCardView.getHeight());
-        }
-
-        return true;
-      }
-    });
   }
 
   @Override
@@ -248,11 +236,39 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
     getArguments().putLong(SELECTED_CAFE_PLACE_ID_EXTRA, cafePlaceId);
   }
 
-  /* ======================== INNER ================================= */
+  /* ======================== HIDDEN ================================ */
+
+  private void updateGoogleMapPadding() {
+    if (mCardView.getHeight() == 0) {
+      mCardView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+        @Override
+        public boolean onPreDraw() {
+          mCardView.getViewTreeObserver().removeOnPreDrawListener(this);
+          postUpdateGoogleMapPadding();
+
+          return true;
+        }
+      });
+    } else {
+      postUpdateGoogleMapPadding();
+    }
+  }
+
+  private void postUpdateGoogleMapPadding() {
+    if (mGoogleMap != null) {
+      int paddingBottom = 0;
+      if (mCardView.getVisibility() != GONE) {
+        paddingBottom = mCardView.getHeight();
+      }
+
+      mGoogleMap.setPadding(0, mToolbar.getHeight() + getOffsetByStatusBar(getActivity())
+          , 0, paddingBottom);
+    }
+  }
 
   private void fillCafeLayout() {
     if (mCafe == null) {
-      mCardView.setVisibility(View.GONE);
+      mCardView.setVisibility(GONE);
     } else {
       final Drawable cachedPhoto
           = getEnterCafePlaceId() == getSelectedCafePlaceId()
@@ -279,6 +295,8 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
         }
       });
     }
+
+    updateGoogleMapPadding();
   }
 
 }
