@@ -68,9 +68,11 @@ public abstract class AbstractBaseFragment extends Fragment
 
     mToolbar.setTitle(R.string.application_name);
 
-    // translucent status bar bug fix (it height didn't included, so it is considered as 0dp)
-    ((RelativeLayout.LayoutParams) mToolbar.getLayoutParams())
-        .setMargins(0, getStatusBarHeight(getActivity()), 0, 0);
+    if (SDK_INT >= LOLLIPOP) {
+      // status bar is translucent for 5.0+
+      ((RelativeLayout.LayoutParams) mToolbar.getLayoutParams())
+          .setMargins(0, getStatusBarHeight(getActivity()), 0, 0);
+    }
 
     if (mGoogleApiClient == null) {
       mGoogleApiClient = new GoogleApiClient.Builder(getActivity())

@@ -50,6 +50,7 @@ import static android.os.Build.VERSION.SDK_INT;
 import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static butterknife.ButterKnife.bind;
 import static com.kuelye.components.utils.AndroidUtils.getActionBarHeight;
+import static com.kuelye.components.utils.AndroidUtils.getDimensitonInDps;
 import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
 import static com.kuelye.notbadcoffee.Application.getBus;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.SELECT_CAFE_REQUEST_CODE;
@@ -126,10 +127,14 @@ public class CafesFragment extends AbstractBaseFragment implements CafesAdapter.
     });
 
     mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+    int offsetByStatusBar = 0;
+    if (SDK_INT >= LOLLIPOP) {
+      // status bar is translucent for 5.0+
+      offsetByStatusBar = getStatusBarHeight(getActivity());
+    }
     mSwipeRefreshLayout.setProgressViewOffset(true
-        , getStatusBarHeight(getActivity())
-        , getStatusBarHeight(getActivity()) + getActionBarHeight(getActivity())
-            + AndroidUtils.getDimensitonInDps(getActivity(), R.dimen.padding_standard));
+        , offsetByStatusBar
+        , offsetByStatusBar + getActionBarHeight(getActivity()) + getDimensitonInDps(getActivity(), R.dimen.padding_standard));
     mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
       @Override
       public void onRefresh() {

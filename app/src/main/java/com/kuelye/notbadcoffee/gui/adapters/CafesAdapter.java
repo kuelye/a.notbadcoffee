@@ -35,6 +35,8 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.Bind;
 
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 import static butterknife.ButterKnife.bind;
 import static com.kuelye.components.utils.AndroidUtils.getActionBarHeight;
 import static com.kuelye.components.utils.AndroidUtils.getStatusBarHeight;
@@ -145,7 +147,12 @@ public class CafesAdapter extends RecyclerView.Adapter<CafesAdapter.RowViewHolde
     private final int mHeight;
 
     public HeaderDecoration(@NonNull Context context) {
-      mHeight = getStatusBarHeight(context) + getActionBarHeight(context);
+      int height = getActionBarHeight(context);
+      if (SDK_INT >= LOLLIPOP) {
+        // status bar is translucent for 5.0+
+        height += getStatusBarHeight(context);
+      }
+      mHeight = height;
     }
 
     @Override
