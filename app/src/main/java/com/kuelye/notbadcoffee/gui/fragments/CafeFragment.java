@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 
@@ -66,6 +67,8 @@ public class CafeFragment extends AbstractCafeFragment {
   @Bind(R.id.cafe_menu_layout) protected ViewGroup mMenuLayout;
   @Bind(R.id.cafe_timetable_layout) protected ViewGroup mTimetableLayout;
 
+  private boolean mPostEnterAnimationPended = false;
+
   public static CafeFragment newInstance(long cafePlaceId) {
     final CafeFragment fragment = new CafeFragment();
 
@@ -88,15 +91,29 @@ public class CafeFragment extends AbstractCafeFragment {
 
     bind(this, view);
 
+    mToolbar.setTitle(null);
+    mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+    mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        getActivity().onBackPressed();
+      }
+    });
+
     if (savedInstanceState == null) {
-      mToolbar.setTitle(null);
-      mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
-      mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          getActivity().onBackPressed();
-        }
-      });
+      if (SDK_INT < LOLLIPOP) {
+        view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+          @Override
+          public boolean onPreDraw() {
+            view.getViewTreeObserver().removeOnPreDrawListener(this);
+            postEnterAnimate();
+
+            return true;
+          }
+        });
+      } else {
+        mPostEnterAnimationPended = true;
+      }
 
       mMoreInfoHeaderLayout.setVisibility(View.GONE);
       mMoreInfoLayout.setVisibility(View.VISIBLE);
@@ -140,24 +157,15 @@ public class CafeFragment extends AbstractCafeFragment {
   protected void onEnterTransitionEnd() {
     super.onEnterTransitionEnd();
 
-    mToolbar.setAlpha(0);
-    mMapView.setTranslationY(-mMapView.getHeight());
-    mInfoLayout.setTranslationY(-mInfoLayout.getHeight());
+    if (mPostEnterAnimationPended && SDK_INT >= LOLLIPOP) {
+      postEnterAnimate();
+      mPostEnterAnimationPended = false;
+    }
+  }
 
-    mToolbar.animate()
-        .alpha(1)
-        .setDuration(ANIMATION_DURATION_DEFAULT)
-        .setStartDelay(ANIMATION_DELAY_DEFAULT);
-    mMapView.animate()
-        .alpha(1)
-        .translationY(0)
-        .setDuration(ANIMATION_DURATION_DEFAULT)
-        .setStartDelay(2 * ANIMATION_DELAY_DEFAULT);
-    mInfoLayout.animate()
-        .alpha(1)
-        .translationY(0)
-        .setDuration(ANIMATION_DURATION_DEFAULT)
-        .setStartDelay(3 * ANIMATION_DELAY_DEFAULT);
+  @Override
+  public void onResume() {
+    super.onResume();
   }
 
   @Override
@@ -200,6 +208,29 @@ public class CafeFragment extends AbstractCafeFragment {
     if (mCafe != null) {
       fillLocationLayout(getActivity(), mPlaceLayout, mCafe, event.getLocation());
     }
+  }
+
+  /* ========================== INNER =============================== */
+
+  private void postEnterAnimate() {
+    mToolbar.setAlpha(0);
+    mMapView.setTranslationY(-mMapView.getHeight());
+    mInfoLayout.setTranslationY(-mInfoLayout.getHeight());
+
+    mToolbar.animate()
+        .alpha(1)
+        .setDuration(ANIMATION_DURATION_DEFAULT)
+        .setStartDelay(ANIMATION_DELAY_DEFAULT);
+    mMapView.animate()
+        .alpha(1)
+        .translationY(0)
+        .setDuration(ANIMATION_DURATION_DEFAULT)
+        .setStartDelay(2 * ANIMATION_DELAY_DEFAULT);
+    mInfoLayout.animate()
+        .alpha(1)
+        .translationY(0)
+        .setDuration(ANIMATION_DURATION_DEFAULT)
+        .setStartDelay(3 * ANIMATION_DELAY_DEFAULT);
   }
 
 }
