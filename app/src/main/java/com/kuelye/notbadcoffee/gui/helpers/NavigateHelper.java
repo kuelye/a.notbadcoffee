@@ -91,7 +91,12 @@ public final class NavigateHelper {
     }
     if (cafeLayout != null) {
       final ImageView photoImageView = (ImageView) cafeLayout.findViewById(R.id.cafe_photo_image_view);
-      putDrawableToCache(TRANSITION_CACHED_DRAWABLE_KEY, photoImageView.getDrawable());
+      final Object photoImageViewLoadedTag
+          = photoImageView.getTag(R.id.cafe_photo_image_view_loaded_tag);
+      final boolean photoImageViewLoaded
+          = photoImageViewLoadedTag != null && (boolean) photoImageViewLoadedTag;
+      putDrawableToCache(TRANSITION_CACHED_DRAWABLE_KEY
+          , photoImageViewLoaded ? photoImageView.getDrawable() : null);
     }
 
     startActivityForResult(activityFrom, intent, SELECT_CAFE_REQUEST_CODE, options);
