@@ -120,6 +120,7 @@ public class CafeFragment extends AbstractCafeFragment {
         mPostEnterAnimationPended = true;
       }
 
+      // will be animated
       mInfoLayout.setAlpha(0);
       mMapView.setAlpha(0);
 
@@ -172,9 +173,9 @@ public class CafeFragment extends AbstractCafeFragment {
   public void onCafeGotten(GetCafeAsyncTask.Event getCafeEvent) {
     super.onCafeGotten(getCafeEvent);
 
+    final Drawable cachedPhoto = getDrawableFromCache(TRANSITION_CACHED_DRAWABLE_KEY);
+    fillHeaderLayout(getActivity(), mHeaderLayout, mCafe, cachedPhoto);
     if (mCafe != null) {
-      final Drawable cachedPhoto = getDrawableFromCache(TRANSITION_CACHED_DRAWABLE_KEY);
-      fillHeaderLayout(getActivity(), mHeaderLayout, mCafe, cachedPhoto);
       fillLocationLayout(getActivity(), mPlaceLayout, mCafe, getLastLocation());
       fillMenuLayout(getActivity(), mMenuLayout, mCafe);
       fillTimetableLayout(getActivity(), mTimetableLayout, mCafe);

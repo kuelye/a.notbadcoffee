@@ -89,6 +89,37 @@ public abstract class AbstractBaseFragment extends Fragment
           .build();
     }
 
+    if (SDK_INT >= LOLLIPOP && savedInstanceState == null) {
+      getActivity().getWindow().getSharedElementEnterTransition().addListener(new Transition.TransitionListener() {
+
+        @Override
+        public void onTransitionStart(Transition transition) {
+          AbstractBaseFragment.this.onEnterTransitionStart();
+        }
+
+        @Override
+        public void onTransitionEnd(Transition transition) {
+          AbstractBaseFragment.this.onEnterTransitionEnd();
+        }
+
+        @Override
+        public void onTransitionCancel(Transition transition) {
+          // stub
+        }
+
+        @Override
+        public void onTransitionPause(Transition transition) {
+          // stub
+        }
+
+        @Override
+        public void onTransitionResume(Transition transition) {
+          // stub
+        }
+
+      });
+    }
+
     return view;
   }
 
@@ -98,37 +129,6 @@ public abstract class AbstractBaseFragment extends Fragment
       mOnViewCreatedCalled = true;
 
       onBeforeViewShowed();
-
-      if (SDK_INT >= LOLLIPOP) {
-        getActivity().getWindow().getSharedElementEnterTransition().addListener(new Transition.TransitionListener() {
-
-          @Override
-          public void onTransitionStart(Transition transition) {
-            AbstractBaseFragment.this.onEnterTransitionStart();
-          }
-
-          @Override
-          public void onTransitionEnd(Transition transition) {
-            AbstractBaseFragment.this.onEnterTransitionEnd();
-          }
-
-          @Override
-          public void onTransitionCancel(Transition transition) {
-            // stub
-          }
-
-          @Override
-          public void onTransitionPause(Transition transition) {
-            // stub
-          }
-
-          @Override
-          public void onTransitionResume(Transition transition) {
-            // stub
-          }
-
-        });
-      }
     }
 
     super.onViewCreated(view, savedInstanceState);
@@ -156,12 +156,12 @@ public abstract class AbstractBaseFragment extends Fragment
 
   @Override
   public void onConnectionSuspended(int cause) {
-    // TODO
+    // TODO show warning?
   }
 
   @Override
   public void onConnectionFailed(@NonNull ConnectionResult result) {
-    // TODO
+    // TODO show warning?
   }
 
   public boolean onBackPressed() {

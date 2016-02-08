@@ -25,6 +25,10 @@
     <item name="view_cafes_list_action" type="id" />
     <item name="view_cafes_map_action" type="id" />
 
+    <!-- TAG -->
+
+    <item name="cafe_photo_image_view_loaded_tag" type="id" />
+
     <!-- CAFE -->
 
     <item name="cafe_header_layout" type="id" />

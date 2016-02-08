@@ -106,7 +106,10 @@ public final class NavigateHelper {
     final ImageView photoImageView = (ImageView) cafeHeaderLayout.findViewById(R.id.cafe_photo_image_view);
     final TextView nameTextView = (TextView) cafeHeaderLayout.findViewById(R.id.cafe_name_text_view);
     final ActionMenuView linksActionMenuView = (ActionMenuView) cafeHeaderLayout.findViewById(R.id.cafe_links_action_menu_view);
-    final String photo = cafe.getPlace().getPhoto();
+    final Object photoImageViewLoadedTag
+        = photoImageView.getTag(R.id.cafe_photo_image_view_loaded_tag);
+    final boolean photoImageViewLoaded
+        = photoImageViewLoadedTag != null && (boolean) photoImageViewLoadedTag;
     if (SDK_INT >= LOLLIPOP) {
       options = setTransitionNameAndGetOptions(activityFrom
           // share toolbar & stub view to avoid overlaying
@@ -114,8 +117,9 @@ public final class NavigateHelper {
               , R.string.toolbar_background_transition_name)
           , new SharedElementHolder(activityFrom.findViewById(R.id.toolbar)
               , R.string.toolbar_transition_name)
-          , photo == null ? null : new SharedElementHolder(photoScrimLayout
-              , R.string.cafe_photo_scrim_layout_transition_name)
+          , photoImageViewLoaded
+              ? new SharedElementHolder(photoScrimLayout, R.string.cafe_photo_scrim_layout_transition_name)
+              : null
           , new SharedElementHolder(photoImageView
               , R.string.cafe_photo_image_view_transition_name)
           , new SharedElementHolder(nameTextView
@@ -131,8 +135,7 @@ public final class NavigateHelper {
     intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP | FLAG_ACTIVITY_SINGLE_TOP);
     intent.putExtra(ENTER_CAFE_PLACE_ID_EXTRA, cafe.getPlace().getId());
     putDrawableToCache(TRANSITION_CACHED_DRAWABLE_KEY,
-        photo == null ? null : photoImageView.getDrawable());
-
+        photoImageViewLoaded ? photoImageView.getDrawable() : null);
 
     startActivity(activityFrom, intent, options);
   }

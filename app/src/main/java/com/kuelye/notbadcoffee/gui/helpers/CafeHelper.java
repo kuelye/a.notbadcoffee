@@ -60,22 +60,17 @@ public final class CafeHelper {
   public static void fillHeaderLayout(
       final @NonNull Context context
       , @NonNull ViewGroup cafeHeaderLayout
-      , @NonNull Cafe cafe
+      , @Nullable Cafe cafe
       , @Nullable Drawable cafeCachedPhoto) {
     final ImageView photoImageView = (ImageView) cafeHeaderLayout.findViewById(R.id.cafe_photo_image_view);
     final ProgressBar photoProgressBar = (ProgressBar) cafeHeaderLayout.findViewById(R.id.cafe_photo_progress_bar);
     final ViewGroup scrimLayout = (ViewGroup) cafeHeaderLayout.findViewById(R.id.cafe_photo_scrim_layout);
-    if (cafeCachedPhoto != null) {
+    if (cafe == null || cafe.getPlace().getPhoto() == null) {
       photoProgressBar.setVisibility(INVISIBLE);
-      scrimLayout.setVisibility(VISIBLE);
-      photoImageView.setImageDrawable(cafeCachedPhoto);
+      scrimLayout.setVisibility(INVISIBLE);
+      photoImageView.setImageResource(R.drawable.photo_placeholder);
     } else {
-      final String photo = cafe.getPlace().getPhoto();
-      if (photo == null) {
-        photoProgressBar.setVisibility(INVISIBLE);
-        scrimLayout.setVisibility(INVISIBLE);
-        photoImageView.setImageResource(R.drawable.photo_placeholder);
-      } else {
+      if (cafeCachedPhoto == null) {
         photoProgressBar.setVisibility(VISIBLE);
         scrimLayout.setVisibility(INVISIBLE);
         Picasso.with(context)
@@ -89,38 +84,47 @@ public final class CafeHelper {
               public void onSuccess() {
                 photoProgressBar.setVisibility(INVISIBLE);
                 scrimLayout.setVisibility(VISIBLE);
+                photoImageView.setTag(R.id.cafe_photo_image_view_loaded_tag, true);
               }
 
               @Override
               public void onError() {
                 photoProgressBar.setVisibility(INVISIBLE);
                 scrimLayout.setVisibility(INVISIBLE);
+                photoImageView.setTag(R.id.cafe_photo_image_view_loaded_tag, false);
               }
 
             });
+      } else {
+        photoProgressBar.setVisibility(INVISIBLE);
+        scrimLayout.setVisibility(VISIBLE);
+        photoImageView.setImageDrawable(cafeCachedPhoto);
+        photoImageView.setTag(R.id.cafe_photo_image_view_loaded_tag, true);
       }
     }
 
     final TextView nameTextView = (TextView) cafeHeaderLayout.findViewById(R.id.cafe_name_text_view);
-    nameTextView.setText(cafe.getName());
     final ActionMenuView linksActionMenuView = (ActionMenuView) cafeHeaderLayout.findViewById(R.id.cafe_links_action_menu_view);
-    final List<Link> links = cafe.getLinks();
     final android.view.Menu menu = linksActionMenuView.getMenu();
     menu.removeGroup(FIRST);
-    if (links != null) {
-      for (int i = 0; i < links.size(); ++i) {
-        final Link link = links.get(i);
-        menu.add(FIRST, FIRST + i, NONE, link.getType().getDisplayStringResource())
-            .setIcon(link.getType().getIconResource())
-            .setShowAsActionFlags(SHOW_AS_ACTION_ALWAYS)
-            .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-              @Override
-              public boolean onMenuItemClick(MenuItem item) {
-                launchByUrl(context, link.getUrl());
+    if (cafe != null) {
+      nameTextView.setText(cafe.getName());
+      final List<Link> links = cafe.getLinks();
+      if (links != null) {
+        for (int i = 0; i < links.size(); ++i) {
+          final Link link = links.get(i);
+          menu.add(FIRST, FIRST + i, NONE, link.getType().getDisplayStringResource())
+              .setIcon(link.getType().getIconResource())
+              .setShowAsActionFlags(SHOW_AS_ACTION_ALWAYS)
+              .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                  launchByUrl(context, link.getUrl());
 
-                return true;
-              }
-            });
+                  return true;
+                }
+              });
+        }
       }
     }
   }

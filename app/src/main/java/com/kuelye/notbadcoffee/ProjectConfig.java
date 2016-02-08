@@ -17,6 +17,11 @@ package com.kuelye.notbadcoffee;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
+import android.annotation.TargetApi;
+
+import static android.os.Build.VERSION.SDK_INT;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
+
 public final class ProjectConfig {
 
   public static final String GET_CAFES_REQUEST = "http://kuelye.github.io/cafes.json";

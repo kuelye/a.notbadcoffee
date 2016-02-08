@@ -18,6 +18,7 @@ package com.kuelye.components.utils;
  */
 
 import android.animation.Animator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.location.Location;
@@ -69,6 +70,11 @@ public final class AndroidUtils {
     final Resources resources = context.getResources();
 
     return (int) (resources.getDimension(dimensionResource) / resources.getDisplayMetrics().density);
+  }
+
+  @TargetApi(21)
+  public static boolean areActivityTransitionsUsed() {
+    return SDK_INT >= LOLLIPOP;
   }
 
   /* ========================== INNER =============================== */
