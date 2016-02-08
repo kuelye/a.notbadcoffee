@@ -8,22 +8,24 @@
 
     <ScrollView
         android:id="@id/scroll_view"
+        android:fillViewport="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             >
 
             <include
                 layout="@layout/cafe_info_layout"
+                android:layout_alignParentBottom="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/map_view"
-                android:layout_marginBottom="@dimen/padding_standard_half"
-                android:layout_marginTop="@dimen/padding_standard_half" />
+                android:paddingBottom="@dimen/padding_standard_half"
+                android:paddingTop="@dimen/padding_standard_half" />
 
             <com.kuelye.notbadcoffee.gui.views.MapView
                 android:id="@id/map_view"
