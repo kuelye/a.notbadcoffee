@@ -3,7 +3,7 @@ Not Bad Coffee for Android
 
 An prototype Anroid application for the [Not Bad Coffee][1].
 
-![Main Activity](screenshots/s0_main_activity.png)        ![Map Activity](screenshots/s1_map_activity.png)        ![Cafe Activity](screenshots/s2_cafe_activity.png)
+![Main Activity](screenshots/s0_main_activity.png) ![Map Activity](screenshots/s1_map_activity.png) ![Cafe Activity](screenshots/s2_cafe_activity.png)
 
 License
 --------
