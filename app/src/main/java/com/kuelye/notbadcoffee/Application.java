@@ -17,7 +17,6 @@ package com.kuelye.notbadcoffee;
  * along with this program. If not, see http://www.gnu.org/licenses/.
  */
 
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -27,17 +26,24 @@ import android.support.v4.util.LruCache;
 import com.kuelye.notbadcoffee.model.Cafes;
 import com.squareup.otto.Bus;
 
+import okhttp3.OkHttpClient;
+
 public class Application extends android.app.Application {
 
   @NonNull private static final Bus sBus = new Bus();
   private static LruCache<String, Drawable> sDrawableCache
       = new LruCache<>((int) (Runtime.getRuntime().maxMemory() / 1024) / 8);
+  @NonNull private static final OkHttpClient sOkHttpClient = new OkHttpClient();
 
   @Nullable private static Cafes sCafes;
   @Nullable private static Location sLastLocation;
 
   @NonNull public static Bus getBus() {
     return sBus;
+  }
+
+  @NonNull public static OkHttpClient getOkHttpClient() {
+    return sOkHttpClient;
   }
 
   public static void putDrawableToCache(@NonNull String key, @Nullable Drawable drawable) {
@@ -50,13 +56,6 @@ public class Application extends android.app.Application {
 
   @Nullable public static Drawable getDrawableFromCache(@NonNull String key) {
     return sDrawableCache.get(key);
-  }
-
-  @Nullable public static Drawable popDrawableFromCache(@NonNull String key) {
-    final Drawable drawable = sDrawableCache.get(key);
-    sDrawableCache.remove(key);
-
-    return drawable;
   }
 
   @Nullable public static Cafes getCafes() {

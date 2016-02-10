@@ -36,9 +36,12 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.concurrent.Callable;
 
+import okhttp3.Request;
+import okhttp3.Response;
+
 import static com.kuelye.components.utils.IOUtils.saveAsTempFileSilently;
-import static com.kuelye.components.utils.NetworkUtils.getResponse;
 import static com.kuelye.components.utils.StringUtils.ENCODING_DEFAULT;
+import static com.kuelye.notbadcoffee.Application.getOkHttpClient;
 import static com.kuelye.notbadcoffee.Application.setCafes;
 import static com.kuelye.notbadcoffee.ProjectConfig.GET_CAFES_REQUEST;
 import static com.kuelye.notbadcoffee.logic.helpers.CalendarHelper.getCalendar;
@@ -112,12 +115,16 @@ public class GetCafesOperation implements Callable<Cafes> {
 
   @Nullable private Cafes getCafesFromNetwork() {
     try {
-      final String response = getResponse(GET_CAFES_REQUEST);
-      final Cafes cafes = parse(response);
+      final Request request = new Request.Builder()
+          .url(GET_CAFES_REQUEST)
+          .build();
+      final Response response = getOkHttpClient().newCall(request).execute();
+      final String responseAsString = response.body().string();
+      final Cafes cafes = parse(responseAsString);
       setCafes(cafes);
       if (mContextReference.get() != null) {
         setLastUpdateCafesTime(mContextReference.get(), getCalendar().getTimeInMillis());
-        saveAsTempFileSilently(mContextReference.get(), FILE_NAME, response);
+        saveAsTempFileSilently(mContextReference.get(), FILE_NAME, responseAsString);
       }
 
       return cafes;
