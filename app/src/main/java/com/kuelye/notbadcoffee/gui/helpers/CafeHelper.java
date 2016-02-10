@@ -31,6 +31,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.kuelye.components.utils.AndroidUtils;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.model.Cafe;
 import com.kuelye.notbadcoffee.model.Link;
@@ -51,6 +52,7 @@ import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
 import static android.view.View.inflate;
+import static com.kuelye.components.utils.AndroidUtils.getWidthInPxs;
 import static com.kuelye.notbadcoffee.gui.helpers.NavigateHelper.launchByUrl;
 
 public final class CafeHelper {
@@ -73,9 +75,12 @@ public final class CafeHelper {
       if (cafeCachedPhoto == null) {
         photoProgressBar.setVisibility(VISIBLE);
         scrimLayout.setVisibility(INVISIBLE);
+        final int width = getWidthInPxs(context);
+        final int height = (int) (width
+            / context.getResources().getFraction(R.fraction.cafe_photo_image_view_aspect_ratio, 1, 1));
         Picasso.with(context)
             .load(cafe.getPlace().getPhoto())
-            .fit()
+            .resize(width, height)
             .centerCrop()
             .placeholder(R.drawable.photo_placeholder)
             .into(photoImageView, new Callback() {

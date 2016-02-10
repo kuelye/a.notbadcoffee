@@ -24,12 +24,15 @@ import android.content.res.Resources;
 import android.location.Location;
 import android.support.annotation.DimenRes;
 import android.support.annotation.NonNull;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.kuelye.notbadcoffee.R;
 
+import static android.content.Context.WINDOW_SERVICE;
 import static android.util.TypedValue.complexToDimensionPixelSize;
 
 import static android.os.Build.VERSION.SDK_INT;
@@ -75,6 +78,14 @@ public final class AndroidUtils {
   @TargetApi(21)
   public static boolean areActivityTransitionsUsed() {
     return SDK_INT >= LOLLIPOP;
+  }
+
+  public static int getWidthInPxs(@NonNull Context context) {
+    final DisplayMetrics metrics = new DisplayMetrics();
+    final WindowManager windowManager = (WindowManager) context.getSystemService(WINDOW_SERVICE);
+    windowManager.getDefaultDisplay().getMetrics(metrics);
+
+    return metrics.widthPixels;
   }
 
   /* ========================== INNER =============================== */
