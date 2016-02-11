@@ -154,6 +154,8 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   @Override
   public void onMapReady(GoogleMap googleMap) {
     super.onMapReady(googleMap);
+
+    postUpdateGoogleMapPadding();
   }
 
   @Override
@@ -251,9 +253,9 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
           return true;
         }
       });
-    } else {
-      postUpdateGoogleMapPadding();
     }
+
+    postUpdateGoogleMapPadding();
   }
 
   private void postUpdateGoogleMapPadding() {
