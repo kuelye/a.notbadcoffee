@@ -201,7 +201,10 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
         }
       });
 
-      centerCamera(false, markers.toArray(new Marker[markers.size()]));
+      if (getCameraShouldBeCentered()) {
+        final boolean cameraCentered = centerCamera(false, markers.toArray(new Marker[markers.size()]));
+        setCameraShouldBeCentered(!cameraCentered);
+      }
       if (selectedMarker != null) {
         selectedMarker.showInfoWindow();
       }
@@ -227,6 +230,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   public void onLocationGotten(OnLocationGottenEvent event) {
     if (mCafe != null) {
       fillLocationLayout(getActivity(), mPlaceLayout, mCafe, event.getLocation());
+      fillMap();
     }
   }
 

@@ -195,9 +195,13 @@ public class CafeFragment extends AbstractCafeFragment {
   @Override
   protected void fillMap() {
     if (mGoogleMap != null && mCafe != null) {
+      mGoogleMap.clear();
       final Marker marker = mGoogleMap.addMarker(mCafe.getPlace().buildMarkerOptions());
 
-      centerCamera(false, marker);
+      if (getCameraShouldBeCentered()) {
+        final boolean cameraCentered = centerCamera(false, marker);
+        setCameraShouldBeCentered(!cameraCentered);
+      }
     }
   }
 
@@ -205,6 +209,7 @@ public class CafeFragment extends AbstractCafeFragment {
   public void onLocationGotten(OnLocationGottenEvent event) {
     if (mCafe != null) {
       fillLocationLayout(getActivity(), mPlaceLayout, mCafe, event.getLocation());
+      fillMap();
     }
   }
 
