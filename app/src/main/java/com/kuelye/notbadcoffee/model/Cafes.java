@@ -69,9 +69,11 @@ public class Cafes extends ArrayList<Cafe> {
       Collections.sort(this, new Comparator<Cafe>() {
         @Override
         public int compare(Cafe lhs, Cafe rhs) {
-          if (lhs.getTimetable() != null && !lhs.getTimetable().isOpened()) {
+          final boolean isLhsClosed = lhs.getTimetable() != null && !lhs.getTimetable().isOpened();
+          final boolean isRhsClosed = rhs.getTimetable() != null && !rhs.getTimetable().isOpened();
+          if (isLhsClosed && !isRhsClosed) {
             return 1;
-          } else if (rhs.getTimetable() != null && !rhs.getTimetable().isOpened()) {
+          } else if (!isLhsClosed && isRhsClosed) {
             return -1;
           } else {
             final Location lhsLocation = lhs.getPlace().getLocation().toLocation();
