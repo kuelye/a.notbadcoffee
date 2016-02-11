@@ -69,7 +69,11 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
 
     mMapView.onResume();
     if (mGoogleMap != null) {
-      mGoogleMap.setMyLocationEnabled(true);
+      try {
+        mGoogleMap.setMyLocationEnabled(true);
+      } catch (SecurityException e) {
+        // ignore, location won't used
+      }
     }
   }
 
@@ -79,7 +83,11 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
 
     mMapView.onPause();
     if (mGoogleMap != null) {
-      mGoogleMap.setMyLocationEnabled(false);
+      try {
+        mGoogleMap.setMyLocationEnabled(false);
+      } catch (SecurityException e) {
+        // ignore, location wasn't enabled
+      }
     }
   }
 
@@ -109,7 +117,11 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
   @Override
   public void onMapReady(GoogleMap googleMap) {
     mGoogleMap = googleMap;
-    googleMap.setMyLocationEnabled(true);
+    try {
+      googleMap.setMyLocationEnabled(true);
+    } catch (SecurityException e) {
+      // ignore, location won't used
+    }
 
     fillMap();
   }
