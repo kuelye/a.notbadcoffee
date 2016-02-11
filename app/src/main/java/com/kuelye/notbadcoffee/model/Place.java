@@ -20,6 +20,14 @@ package com.kuelye.notbadcoffee.model;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_AZURE;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_GREEN;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_RED;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.defaultMarker;
+
 public class Place {
 
   public static final long STUB_ID = -1L;
@@ -41,6 +49,12 @@ public class Place {
     mName = builder.mName;
     mPhoto = builder.mPhoto;
     mTimetable = builder.mTimetable;
+  }
+
+  public MarkerOptions buildMarkerOptions() {
+    return new MarkerOptions()
+        .position(mLocation.toLatLng())
+        .icon(defaultMarker(mTimetable == null || mTimetable.isOpened() ? HUE_AZURE : HUE_RED));
   }
 
   public long getId() {
