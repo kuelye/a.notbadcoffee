@@ -257,7 +257,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   }
 
   private void postUpdateGoogleMapPadding() {
-    if (mGoogleMap != null) {
+    if (mGoogleMap != null && getActivity() != null) {
       int paddingBottom = 0;
       if (mCardView.getVisibility() != GONE) {
         paddingBottom = mCardView.getHeight();
