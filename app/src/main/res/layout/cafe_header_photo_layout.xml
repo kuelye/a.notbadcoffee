@@ -21,8 +21,7 @@
 
     <include
         layout="@layout/scrim"
-        android:id="@id/cafe_photo_scrim_layout"
-        android:visibility="invisible" />
+        android:id="@id/cafe_photo_scrim_layout" />
 
     <ImageView
         android:id="@id/cafe_photo_clickable_image_view"
