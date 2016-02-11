@@ -148,10 +148,14 @@ public abstract class AbstractBaseFragment extends Fragment
 
   @Override
   public void onConnected(@Nullable Bundle connectionHint) {
-    mLastLocation = FusedLocationApi.getLastLocation(mGoogleApiClient);
-    setLastLocation(mLastLocation);
+    try {
+      mLastLocation = FusedLocationApi.getLastLocation(mGoogleApiClient);
+      setLastLocation(mLastLocation);
 
-    getBus().post(new OnLocationGottenEvent(mLastLocation));
+      getBus().post(new OnLocationGottenEvent(mLastLocation));
+    } catch (SecurityException e) {
+      // ignore, location won't used
+    }
   }
 
   @Override

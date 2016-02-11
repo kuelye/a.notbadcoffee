@@ -35,7 +35,6 @@ import com.kuelye.notbadcoffee.gui.views.MapView;
 
 import butterknife.Bind;
 
-import static butterknife.ButterKnife.bind;
 import static com.google.android.gms.maps.CameraUpdateFactory.newLatLngBounds;
 import static com.kuelye.components.utils.AndroidUtils.locationToLatLng;
 
@@ -45,6 +44,7 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
 
   // used to fix MapView onCreate() crash when orientation changes
   private static final String MAP_VIEW_SAVED_STATE_KEY = "MAP_VIEW_SAVED_STATE";
+  private static final String CAMERA_SHOULD_BE_CENTERED_KEY = "CAMERA_SHOULD_BE_CENTERED";
 
   @Bind(R.id.map_view) protected MapView mMapView;
   @Nullable protected GoogleMap mGoogleMap;
@@ -69,7 +69,11 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
 
     mMapView.onResume();
     if (mGoogleMap != null) {
-      mGoogleMap.setMyLocationEnabled(true);
+      try {
+        mGoogleMap.setMyLocationEnabled(true);
+      } catch (SecurityException e) {
+        // ignore, location won't used
+      }
     }
   }
 
@@ -79,7 +83,11 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
 
     mMapView.onPause();
     if (mGoogleMap != null) {
-      mGoogleMap.setMyLocationEnabled(false);
+      try {
+        mGoogleMap.setMyLocationEnabled(false);
+      } catch (SecurityException e) {
+        // ignore, location wasn't enabled
+      }
     }
   }
 
@@ -109,7 +117,11 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
   @Override
   public void onMapReady(GoogleMap googleMap) {
     mGoogleMap = googleMap;
-    googleMap.setMyLocationEnabled(true);
+    try {
+      googleMap.setMyLocationEnabled(true);
+    } catch (SecurityException e) {
+      // ignore, location won't used
+    }
 
     fillMap();
   }
@@ -121,13 +133,18 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
     fillMap();
   }
 
-  protected void centerCamera(final boolean animate, Marker... markers) {
+  /**
+   * @return Returns true if camera was centered successfully.
+   */
+  protected boolean centerCamera(final boolean animate, Marker... markers) {
+    boolean result = false;
     if (mGoogleMap != null) {
       final LatLngBounds.Builder builder = new LatLngBounds.Builder();
       for (Marker marker : markers) {
         builder.include(marker.getPosition());
       }
       if (mLastLocation != null) {
+        result = true;
         builder.include(locationToLatLng(mLastLocation));
       }
       final LatLngBounds bounds = builder.build();
@@ -146,10 +163,20 @@ public abstract class AbstractMapFragment extends AbstractBaseFragment implement
         postCenterCamera(bounds, animate);
       }
     }
+
+    return result;
   }
 
   protected void fillMap() {
     // stub
+  }
+
+  protected boolean getCameraShouldBeCentered() {
+    return getArguments().getBoolean(CAMERA_SHOULD_BE_CENTERED_KEY, true);
+  }
+
+  protected void setCameraShouldBeCentered(boolean cameraShouldBeCentered) {
+    getArguments().putBoolean(CAMERA_SHOULD_BE_CENTERED_KEY, cameraShouldBeCentered);
   }
 
   /* ================================================================ */
