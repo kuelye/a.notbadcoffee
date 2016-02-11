@@ -130,11 +130,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
       }
     });
 
-    if (getSelectedCafePlaceId() == STUB_ID) {
-      mCardView.setVisibility(GONE);
-    } else {
-      mCardView.setVisibility(VISIBLE);
-    }
+    fillCafeLayout();
 
     return view;
   }
@@ -261,7 +257,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   }
 
   private void postUpdateGoogleMapPadding() {
-    if (mGoogleMap != null) {
+    if (mGoogleMap != null && getActivity() != null) {
       int paddingBottom = 0;
       if (mCardView.getVisibility() != GONE) {
         paddingBottom = mCardView.getHeight();
@@ -273,33 +269,36 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
   }
 
   private void fillCafeLayout() {
-    if (mCafe == null) {
+    final Drawable cachedPhoto
+        = getEnterCafePlaceId() == getSelectedCafePlaceId()
+        ? getDrawableFromCache(TRANSITION_CACHED_DRAWABLE_KEY)
+        : null;
+    fillHeaderLayout(getActivity(), mHeaderLayout, mCafe, cachedPhoto);
+    if (getSelectedCafePlaceId() == STUB_ID) {
       mCardView.setVisibility(GONE);
     } else {
-      final Drawable cachedPhoto
-          = getEnterCafePlaceId() == getSelectedCafePlaceId()
-          ? getDrawableFromCache(TRANSITION_CACHED_DRAWABLE_KEY)
-          : null;
-      fillHeaderLayout(getActivity(), mHeaderLayout, mCafe, cachedPhoto);
-      fillLocationLayout(getActivity(), mPlaceLayout, mCafe, getLastLocation());
       mCardView.setVisibility(VISIBLE);
+      if (mCafe != null) {
+        fillLocationLayout(getActivity(), mPlaceLayout, mCafe, getLastLocation());
+        mCardView.setVisibility(VISIBLE);
 
-      mPhotoClickableImageView.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          launchCafeActivity(getActivity(), mHeaderLayout, mCafe);
-        }
-      });
-      mPlaceLayout.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-          if (mGoogleMap != null) {
-            final LatLng placeLatLng = mCafe.getPlace().getLocation().toLatLng();
-            final CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(placeLatLng);
-            mGoogleMap.animateCamera(cameraUpdate);
+        mPhotoClickableImageView.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            launchCafeActivity(getActivity(), mHeaderLayout, mCafe);
           }
-        }
-      });
+        });
+        mPlaceLayout.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+            if (mGoogleMap != null) {
+              final LatLng placeLatLng = mCafe.getPlace().getLocation().toLatLng();
+              final CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLng(placeLatLng);
+              mGoogleMap.animateCamera(cameraUpdate);
+            }
+          }
+        });
+      }
     }
 
     updateGoogleMapPadding();
