@@ -35,7 +35,6 @@ import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.gui.views.MapView;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafeAsyncTask;
@@ -196,8 +195,7 @@ public class CafeFragment extends AbstractCafeFragment {
   @Override
   protected void fillMap() {
     if (mGoogleMap != null && mCafe != null) {
-      final Marker marker = mGoogleMap.addMarker(new MarkerOptions()
-          .position(mCafe.getPlace().getLocation().toLatLng()));
+      final Marker marker = mGoogleMap.addMarker(mCafe.getPlace().buildMarkerOptions());
 
       centerCamera(false, marker);
     }

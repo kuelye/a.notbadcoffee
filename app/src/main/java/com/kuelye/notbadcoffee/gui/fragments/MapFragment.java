@@ -40,7 +40,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.kuelye.notbadcoffee.R;
 import com.kuelye.notbadcoffee.logic.tasks.GetCafesAsyncTask;
 import com.kuelye.notbadcoffee.model.Cafe;
@@ -167,8 +166,7 @@ public class MapFragment extends AbstractCafeFragment implements OnMapReadyCallb
       mCafeMarkersMap = new HashMap<>();
       Marker selectedMarker = null;
       for (Cafe cafe : mCafes) {
-        final Marker marker = mGoogleMap.addMarker(new MarkerOptions()
-            .position(cafe.getPlace().getLocation().toLatLng()));
+        final Marker marker = mGoogleMap.addMarker(cafe.getPlace().buildMarkerOptions());
         marker.setTitle(cafe.getName());
         marker.setSnippet(cafe.getPlace().getAddress());
 
